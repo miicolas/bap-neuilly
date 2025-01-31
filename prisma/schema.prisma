@@ -13,7 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Event {
+model Event_Attendee {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -26,17 +26,13 @@ model Event {
 
 }
 
-enum Gender {
-  MALE
-  FEMALE
-  OTHER
-}
 
 model User {
   id            String    @id
   name          String    @db.Text
   email         String
   emailVerified Boolean
+  role          Role      @default(USER)
   image         String?   @db.Text
   createdAt     DateTime
   updatedAt     DateTime
@@ -90,4 +86,16 @@ model Verification {
   updatedAt  DateTime?
 
   @@map("verification")
+}
+
+enum Role {
+  USER
+  SELLER
+  ADMIN
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
 }
