@@ -23,7 +23,6 @@ model Event_Attendee {
   gender    Gender
   age       Int
   city      String
-
 }
 
 

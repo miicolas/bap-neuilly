@@ -1,4 +1,5 @@
 import Image from "next/image";
+import  FormSignUp  from "@/components/forms/form-signup";
 
 export default function Home() {
   return (
@@ -96,6 +97,9 @@ export default function Home() {
           Go to nextjs.org →
         </a>
       </footer>
+      <FormSignUp />
     </div>
+
+    
   );
 }
