@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -14,7 +14,6 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -60,13 +59,15 @@ export default function EventForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
+
+        {/* Premier groupe - Prénom/Nom */}
         <div className="grid grid-cols-2 gap-4">
           <FormField
             control={form.control}
             name="firstName"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full">
                 <FormLabel>Prénom</FormLabel>
                 <FormControl>
                   <Input placeholder="Jean" {...field} />
@@ -79,7 +80,7 @@ export default function EventForm() {
             control={form.control}
             name="lastName"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full">
                 <FormLabel>Nom</FormLabel>
                 <FormControl>
                   <Input placeholder="Dupont" {...field} />
@@ -90,6 +91,7 @@ export default function EventForm() {
           />
         </div>
 
+        {/* Email */}
         <FormField
           control={form.control}
           name="email"
@@ -104,16 +106,17 @@ export default function EventForm() {
           )}
         />
 
+        {/* Deuxième groupe - Genre/Âge */}
         <div className="grid grid-cols-2 gap-4">
           <FormField
             control={form.control}
             name="gender"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full">
                 <FormLabel>Genre</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="w-full">
                       <SelectValue placeholder="Sélectionnez un genre" />
                     </SelectTrigger>
                   </FormControl>
@@ -132,13 +135,13 @@ export default function EventForm() {
             control={form.control}
             name="age"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full">
                 <FormLabel>Âge</FormLabel>
                 <FormControl>
-                  <Input 
-                    type="number" 
-                    placeholder="30" 
-                    {...field} 
+                  <Input
+                    type="number"
+                    placeholder="30"
+                    {...field}
                     onChange={(e) => field.onChange(parseInt(e.target.value))}
                   />
                 </FormControl>
@@ -148,6 +151,7 @@ export default function EventForm() {
           />
         </div>
 
+        {/* Ville */}
         <FormField
           control={form.control}
           name="city"
@@ -162,7 +166,7 @@ export default function EventForm() {
           )}
         />
 
-        <Button type="submit">Soumettre</Button>
+        <Button type="submit" className="w-full">Soumettre</Button>
       </form>
     </Form>
   )
