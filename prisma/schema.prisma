@@ -20,10 +20,10 @@ model Event_Attendee {
   firstName String
   lastName  String
   email     String   @unique
+  person    Int      @default(1)
   gender    Gender
   age       Int
   city      String
-
 }
 
 
