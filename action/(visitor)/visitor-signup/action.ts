@@ -1,14 +1,16 @@
-'use server'
-import { z } from "zod";
-import { PrismaClient } from "@prisma/client";
+'use server';
 
-const prisma = new PrismaClient();
+import { db } from "@/db";
+import { EventAttendee } from "@/db/schema";
+import { z } from "zod";
+import { revalidatePath } from "next/cache";
+import { eq } from "drizzle-orm/expressions";
 
 const bodySchema = z.object({
-    firstName: z.string().min(2, {
+    firstname: z.string().min(2, {
         message: "Le prénom doit contenir au moins 2 caractères",
     }),
-    lastName: z.string().min(2, {
+    lastname: z.string().min(2, {
         message: "Le nom doit contenir au moins 2 caractères",
     }),
     email: z.string().email({
@@ -24,34 +26,49 @@ const bodySchema = z.object({
     person: z.number().min(1, {
         message: "Le nombre de personnes doit être un nombre positif",
     }),
+
 });
 
 export async function VisitorSignupAction(body: z.infer<typeof bodySchema>) {
     try {
-        const validateBody = bodySchema.safeParse(body);
+        const validatedBody = bodySchema.parse(body);
 
-        if (!validateBody.success) {
-            console.error(validateBody.error);
-            return { error: validateBody.error.format(), status: 400 };
+        if (!validatedBody.firstname || !validatedBody.lastname || !validatedBody.email || !validatedBody.gender || !validatedBody.age || !validatedBody.city || !validatedBody.person) {
+            return { status: "error", message: "Missing required fields" };
         }
 
-        const { firstName, lastName, email, gender, age, city, person } = validateBody.data;
+        const checkEmail = await db
+            .select()
+            .from(EventAttendee)
+            .where(eq(EventAttendee.email, validatedBody.email))
+            .execute();
 
-        const visitor = await prisma.event_Attendee.create({
-            data: {
-                firstName,
-                lastName,
-                email,
-                gender,
-                age,
-                city,
-                person,
-            },
-        });
+        if (checkEmail.length > 0) {
+            return { status: "error", message: "Email already exists" };
+        }
 
-        return { content: visitor, status: 201 };
+        const event_attendee = await db.insert(EventAttendee)
+            .values({
+                firstName: validatedBody.firstname,
+                lastName: validatedBody.lastname,
+                email: validatedBody.email,
+                gender: validatedBody.gender,
+                age: validatedBody.age,
+                city: validatedBody.city,
+                person: validatedBody.person
+            }).$returningId()
+            .execute();
+
+        revalidatePath("/dashboard/projects");
+        revalidatePath("/projects");
+        revalidatePath("/");
+
+        return { status: "success", event_attendee };
     } catch (error) {
-        console.error(error);
-        return { error: "Une erreur interne est survenue", status: 500 };
+        if (error instanceof z.ZodError) {
+            return { status: "error", message: "Invalid data format" };
+        }
+        console.error("Database error:", error);
+        return { status: "error", message: "Failed to create project" };
     }
 }
