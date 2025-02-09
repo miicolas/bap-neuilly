@@ -13,18 +13,7 @@ import {
     Tailwind,
     Text,
 } from '@react-email/components';
-import * as React from 'react';
-
-interface SalonInvitationEmailProps {
-    firstName?: string;
-    lastName?: string;
-    eventDate?: string;
-    eventName?: string;
-    numberOfGuests?: number;
-    eventLocation?: string;
-    ticketNumber?: string;
-    pdfLink?: string;
-}
+import { SalonInvitationEmailProps } from '@/lib/type';
 
 const baseUrl = process.env.BETTER_AUTH
     ? `https://${process.env.BETTER_AUTH}`
