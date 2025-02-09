@@ -1,10 +1,9 @@
 import { betterAuth } from "better-auth";
-import { prismaAdapter } from "better-auth/adapters/prisma";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { db } from "@/db";
+ 
 export const auth = betterAuth({
-    database: prismaAdapter(prisma, {
+    database: drizzleAdapter(db, {
         provider: "mysql",
     }),
     socialProviders: {

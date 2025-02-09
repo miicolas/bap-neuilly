@@ -1,14 +1,17 @@
-'use server'
-import { z } from "zod";
-import { PrismaClient } from "@prisma/client";
+'use server';
 
-const prisma = new PrismaClient();
+import { db } from "@/db";
+import { EventAttendee } from "@/db/schema";
+import { z } from "zod";
+import { revalidatePath } from "next/cache";
+import { eq } from "drizzle-orm/expressions";
+import { generateTicketId } from "@/lib/utils";
 
 const bodySchema = z.object({
-    firstName: z.string().min(2, {
+    firstname: z.string().min(2, {
         message: "Le prénom doit contenir au moins 2 caractères",
     }),
-    lastName: z.string().min(2, {
+    lastname: z.string().min(2, {
         message: "Le nom doit contenir au moins 2 caractères",
     }),
     email: z.string().email({
@@ -28,30 +31,55 @@ const bodySchema = z.object({
 
 export async function VisitorSignupAction(body: z.infer<typeof bodySchema>) {
     try {
-        const validateBody = bodySchema.safeParse(body);
+        const validatedBody = bodySchema.parse(body);
 
-        if (!validateBody.success) {
-            console.error(validateBody.error);
-            return { error: validateBody.error.format(), status: 400 };
+        const checkEmail = await db
+            .select()
+            .from(EventAttendee)
+            .where(eq(EventAttendee.email, validatedBody.email))
+            .execute();
+
+        if (checkEmail.length > 0) {
+            return { status: "error", message: "Email already exists" };
         }
 
-        const { firstName, lastName, email, gender, age, city, person } = validateBody.data;
+        const event_attendee = await db.insert(EventAttendee)
+            .values({
+                firstName: validatedBody.firstname,
+                lastName: validatedBody.lastname,
+                email: validatedBody.email,
+                gender: validatedBody.gender,
+                age: validatedBody.age,
+                city: validatedBody.city,
+                person: validatedBody.person
+            }).$returningId().execute();
 
-        const visitor = await prisma.event_Attendee.create({
-            data: {
-                firstName,
-                lastName,
-                email,
-                gender,
-                age,
-                city,
-                person,
-            },
-        });
+        revalidatePath("/");
 
-        return { content: visitor, status: 201 };
+        const event_attendee_id = await db.select({ id: EventAttendee.id }).from(EventAttendee).where(eq(EventAttendee.email, validatedBody.email)).execute();
+
+        const ticketNumber = generateTicketId(event_attendee_id[0].id);
+
+        if (!ticketNumber) {
+            return { status: "error", message: "Failed to generate ticket number" };
+        }
+
+        const updateTicketNumber = await db
+            .update(EventAttendee)
+            .set({ ticketNumber })
+            .where(eq(EventAttendee.id, event_attendee_id[0].id))
+            .execute();
+
+        if (!updateTicketNumber) {
+            return { status: "error", message: "Failed to update ticket number" };
+        }
+
+        return { status: "success", ticketNumber };
     } catch (error) {
-        console.error(error);
-        return { error: "Une erreur interne est survenue", status: 500 };
+        if (error instanceof z.ZodError) {
+            return { status: "error", message: "Invalid data format" };
+        }
+        console.error("Database error:", error);
+        return { status: "error", message: "Failed to create event attendee" };
     }
 }
