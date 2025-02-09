@@ -81,8 +81,9 @@ export default function EventForm() {
         toast.error(response.message);
       } else {
         toast.success("Formulaire soumis avec succès");
+        
         try {
-          const response = await fetch('/api/send', {
+          const sendMail = await fetch(`/api/send/visitor-signup`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -91,10 +92,11 @@ export default function EventForm() {
               firstName,
               lastName,
               email,
+              person: person,
+              ticketNumber: response.ticketNumber,
             }),
-
           });
-          const data = await response.json();
+          const data = await sendMail.json();
           if (data.status === "error") {
             toast.error(data.message);
           } else {
