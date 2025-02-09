@@ -3,7 +3,7 @@ import { mysqlTable, varchar, text, datetime, int, boolean, primaryKey,timestamp
 import { sql } from "drizzle-orm";
 
 export const EventAttendee = mysqlTable("event_attendee", {
-  id: varchar("id", { length: 191 }).primaryKey().default(sql`(uuid())`),
+  id: varchar("id", { length: 191 }).primaryKey().$defaultFn(() => sql`(uuid())`),
   createdAt: datetime("createdAt").default(sql`CURRENT_TIMESTAMP`),
   updatedAt: datetime("updatedAt").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
   firstName: varchar("firstName", { length: 255 }).notNull(),
@@ -13,6 +13,7 @@ export const EventAttendee = mysqlTable("event_attendee", {
   gender: text("gender", { enum: ["MALE", "FEMALE", "OTHER"] }).notNull(),
   age: int("age").notNull(),
   city: varchar("city", { length: 255 }).notNull(),
+  ticketNumber: varchar("ticketNumber", { length: 255 }),
 });
 
 export const user = mysqlTable("user", {

@@ -5,6 +5,7 @@ import { EventAttendee } from "@/db/schema";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { eq } from "drizzle-orm/expressions";
+import { generateTicketId } from "@/lib/utils";
 
 const bodySchema = z.object({
     firstname: z.string().min(2, {
@@ -26,16 +27,11 @@ const bodySchema = z.object({
     person: z.number().min(1, {
         message: "Le nombre de personnes doit être un nombre positif",
     }),
-
 });
 
 export async function VisitorSignupAction(body: z.infer<typeof bodySchema>) {
     try {
         const validatedBody = bodySchema.parse(body);
-
-        if (!validatedBody.firstname || !validatedBody.lastname || !validatedBody.email || !validatedBody.gender || !validatedBody.age || !validatedBody.city || !validatedBody.person) {
-            return { status: "error", message: "Missing required fields" };
-        }
 
         const checkEmail = await db
             .select()
@@ -56,19 +52,34 @@ export async function VisitorSignupAction(body: z.infer<typeof bodySchema>) {
                 age: validatedBody.age,
                 city: validatedBody.city,
                 person: validatedBody.person
-            }).$returningId()
-            .execute();
+            }).$returningId().execute();
 
-        revalidatePath("/dashboard/projects");
-        revalidatePath("/projects");
         revalidatePath("/");
 
-        return { status: "success", event_attendee };
+        const event_attendee_id = await db.select({ id: EventAttendee.id }).from(EventAttendee).where(eq(EventAttendee.email, validatedBody.email)).execute();
+
+        const ticketNumber = generateTicketId(event_attendee_id[0].id);
+
+        if (!ticketNumber) {
+            return { status: "error", message: "Failed to generate ticket number" };
+        }
+
+        const updateTicketNumber = await db
+            .update(EventAttendee)
+            .set({ ticketNumber })
+            .where(eq(EventAttendee.id, event_attendee_id[0].id))
+            .execute();
+
+        if (!updateTicketNumber) {
+            return { status: "error", message: "Failed to update ticket number" };
+        }
+
+        return { status: "success", ticketNumber };
     } catch (error) {
         if (error instanceof z.ZodError) {
             return { status: "error", message: "Invalid data format" };
         }
         console.error("Database error:", error);
-        return { status: "error", message: "Failed to create project" };
+        return { status: "error", message: "Failed to create event attendee" };
     }
 }
