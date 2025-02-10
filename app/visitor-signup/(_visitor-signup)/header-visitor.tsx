@@ -6,7 +6,7 @@ export default function VisitorSignupHeader() {
             </h1>
             <p className="text-gray-600 dark:text-gray-400 text-center text-balance">
                 Inscrivez-vous pour particier à la prochaine édition du
-                <span className="font-bold"> Salon des créateurs d'objects et artisans de Neuilly</span>
+                <span className="font-bold"> Salon des créateurs d&apos;objects et artisans de Neuilly</span>
             </p>
         </div>
     )

@@ -32,7 +32,7 @@ export default function SalonInvitationEmail({
     firstName = firstName
     lastName = lastName
     eventDate = "15 mars 2025"
-    eventName = "Salon des créateurs d'objects et artisans de Neuilly"
+    eventName = "Salon des créateurs d&apos;objects et artisans de Neuilly"
     numberOfGuests = numberOfGuests
     eventLocation = "Paris Expo Porte de Versailles"
     ticketNumber = ticketNumber
@@ -57,7 +57,7 @@ export default function SalonInvitationEmail({
                             />
                         </Section>
                         <Heading className="text-black text-[24px] font-normal text-center p-0 my-[30px] mx-0">
-                            Confirmation d'inscription au <strong>{eventName}</strong>
+                            Confirmation d&apos;inscription au <strong>{eventName}</strong>
                         </Heading>
                         <Text className="text-black text-[14px] leading-[24px]">
                             Bonjour {firstName} {lastName},
@@ -95,9 +95,9 @@ export default function SalonInvitationEmail({
                         <Text className="text-[#666666] text-[12px] leading-[24px]">
                             Ce billet est nominatif et a été émis pour{' '}
                             <span className="text-black">{firstName} {lastName}</span>.
-                            Veuillez le présenter avec une pièce d'identité le jour de l'événement.
-                            Pour toute question, n'hésitez pas à contacter notre service client
-                            à l'adresse support@{(eventName || 'événement').toLowerCase().replace(/ /g, '-')}.fr
+                            Veuillez le présenter avec une pièce d&apos;identité le jour de l&apos;événement.
+                            Pour toute question, n&apos;hésitez pas à contacter notre service client
+                            à l&apos;adresse support@{(eventName || 'événement').toLowerCase().replace(/ /g, '-')}.fr
                         </Text>
                     </Container>
                 </Body>
