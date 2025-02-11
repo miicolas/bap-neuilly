@@ -20,7 +20,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { VisitorSignupAction } from "@/action/(visitor)/visitor-signup/action";
+import { VisitorSignupAction } from "@/action/(visitor)/visitor-signup/action"
+import { CreateNotificationAction } from "@/action/(admin)/(notifications)/create/action";
 import { toast } from 'sonner';
 
 const GenderEnum = z.enum(["MALE", "FEMALE", "OTHER"]);
@@ -81,7 +82,20 @@ export default function EventForm() {
         toast.error(response.message);
       } else {
         toast.success("Formulaire soumis avec succès");
-        
+        try {
+          const sendNotification = await CreateNotificationAction({
+            title: "Nouvelle inscription",
+            description: "Nouvelle inscription pour le salon des créateurs d'objets et artisans de Neuilly",
+            url: `/dashboard/attendees/${response.ticketNumber}`,
+          });
+          if (sendNotification.status === "error") {
+            toast.error(sendNotification.message);
+          } else {
+            toast.success("Notification envoyée avec succès");
+          }
+        } catch (error) {
+          console.error("Notification creation error:", error);
+        }
         try {
           const sendMail = await fetch(`/api/send/visitor-signup`, {
             method: 'POST',
