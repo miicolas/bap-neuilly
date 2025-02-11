@@ -31,12 +31,16 @@ const bodySchema = z.object({
 
 export async function VisitorSignupAction(body: z.infer<typeof bodySchema>) {
     try {
-        const validatedBody = bodySchema.parse(body);
+        const validatedBody = bodySchema.safeParse(body);
+
+        if (!validatedBody.success) {
+            return { status: "error", message: validatedBody.error.message };
+        }
 
         const checkEmail = await db
             .select()
             .from(EventAttendee)
-            .where(eq(EventAttendee.email, validatedBody.email))
+            .where(eq(EventAttendee.email, validatedBody.data.email))
             .execute();
 
         if (checkEmail.length > 0) {
@@ -45,18 +49,18 @@ export async function VisitorSignupAction(body: z.infer<typeof bodySchema>) {
 
         const event_attendee = await db.insert(EventAttendee)
             .values({
-                firstName: validatedBody.firstname,
-                lastName: validatedBody.lastname,
-                email: validatedBody.email,
-                gender: validatedBody.gender,
-                age: validatedBody.age,
-                city: validatedBody.city,
-                person: validatedBody.person
+                firstName: validatedBody.data.firstname,
+                lastName: validatedBody.data.lastname,
+                email: validatedBody.data.email,
+                gender: validatedBody.data.gender,
+                age: validatedBody.data.age,
+                city: validatedBody.data.city,
+                person: validatedBody.data.person
             }).$returningId().execute();
 
         revalidatePath("/");
 
-        const event_attendee_id = await db.select({ id: EventAttendee.id }).from(EventAttendee).where(eq(EventAttendee.email, validatedBody.email)).execute();
+        const event_attendee_id = await db.select({ id: EventAttendee.id }).from(EventAttendee).where(eq(EventAttendee.email, validatedBody.data.email)).execute();
 
         const ticketNumber = generateTicketId(event_attendee_id[0].id);
 
