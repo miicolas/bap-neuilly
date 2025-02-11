@@ -62,3 +62,14 @@ export const verification = mysqlTable("verification", {
     createdAt: timestamp('created_at'),
     updatedAt: timestamp('updated_at')
 });
+
+
+export const notification = mysqlTable("notification", {
+    id: varchar("id", { length: 36 }).primaryKey(),
+    title: varchar('title', { length: 255 }).notNull(),
+    description: text('description').notNull(),
+    url: text('url').notNull(),
+    read: boolean('read').notNull(),
+    createdAt: timestamp('created_at').notNull(),
+    updatedAt: timestamp('updated_at').notNull()
+});
