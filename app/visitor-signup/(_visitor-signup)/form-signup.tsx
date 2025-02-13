@@ -86,7 +86,7 @@ export default function EventForm() {
           const sendNotification = await CreateNotificationAction({
             title: "Nouvelle inscription",
             description: "Nouvelle inscription pour le salon des créateurs d'objets et artisans de Neuilly",
-            url: `/dashboard/attendees/${response.ticketNumber}`,
+            url: `/dashboard/attendees/${response.content}`,
           });
           if (sendNotification.status === "error") {
             toast.error(sendNotification.message);
@@ -107,7 +107,7 @@ export default function EventForm() {
               lastName,
               email,
               person: person,
-              ticketNumber: response.ticketNumber,
+              ticketNumber: response.content,
             }),
           });
           const data = await sendMail.json();
@@ -136,7 +136,6 @@ export default function EventForm() {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
 
-        {/* Premier groupe - Prénom/Nom */}
         <div className="grid grid-cols-2 gap-4">
           <FormField
             control={form.control}
@@ -166,7 +165,6 @@ export default function EventForm() {
           />
         </div>
 
-        {/* Email */}
         <FormField
           control={form.control}
           name="email"
@@ -181,7 +179,6 @@ export default function EventForm() {
           )}
         />
 
-        {/* Deuxième groupe - Genre/Âge/Nombre de personnes */}
         <div className="grid grid-cols-2 gap-4">
           <FormField
             control={form.control}
@@ -225,7 +222,6 @@ export default function EventForm() {
             )}
           />
 
-
         </div>
         <FormField
           control={form.control}
@@ -246,7 +242,6 @@ export default function EventForm() {
           )}
         />
 
-        {/* Ville */}
         <FormField
           control={form.control}
           name="city"
@@ -261,9 +256,6 @@ export default function EventForm() {
           )}
         />
 
-
-
-        {/* Bouton de soumission */}
         <Button type="submit" className="w-full" >
           Soumettre
         </Button>

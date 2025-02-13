@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import AppSidebar from "./(_dashboard)/sidebar"
+import HeaderDashbaord from "./(_dashboard)/header"
 
 export const metadata: Metadata = {
     title: "Admin",
@@ -12,7 +13,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <SidebarProvider>
             <AppSidebar />
             <main className="w-full">
-                <SidebarTrigger />
+                <HeaderDashbaord />
                 {children}
             </main>
         </SidebarProvider>

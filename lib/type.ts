@@ -12,6 +12,7 @@ export interface SalonInvitationEmailProps {
 }
 
 export interface NotificationItem {
+    id?: string;
     title: string;
     description: string;
     url: string;
@@ -20,7 +21,7 @@ export interface NotificationItem {
 }
 
 export interface NotificationProps {
-    index: number;
+    key: number;
     item: NotificationItem;
 }
 
