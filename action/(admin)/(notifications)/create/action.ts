@@ -1,9 +1,9 @@
 'use server';
 
-import { db } from "@/db";
-import { notification } from "@/db/schema";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
+import { Notification } from "@/models/notification";
+import { FormResponse } from "@/lib/type";
 
 const bodySchema = z.object({
     title: z.string().min(2, {
@@ -18,29 +18,31 @@ const bodySchema = z.object({
 });
 
 
-export async function CreateNotificationAction(body: z.infer<typeof bodySchema>) {
+export async function CreateNotificationAction(body: z.infer<typeof bodySchema>): Promise<FormResponse> {
     try {
-        const validatedBody = bodySchema.parse(body);
+        const validatedBody = bodySchema.safeParse(body);
+
+        if (!validatedBody.success) {
+            return {
+                status: "error",
+                message: "Invalid data format",
+                errors: validatedBody.error.issues
+            };
+        }
 
 
-        const create_notification = await db.insert(notification)
-            .values({
-                id: crypto.randomUUID() as string, 
-                title: validatedBody.title as string, 
-                description: validatedBody.description as string, 
-                url: validatedBody.url as string,
-                read: false as boolean, 
-                createdAt: new Date() as Date, 
-                updatedAt: new Date() as Date, 
-            }).$returningId().execute();
+        const { title, description, url } = validatedBody.data;
+
+        const create_notification = new Notification(title, description, url);
+
 
         revalidatePath("/dashboard/");
 
 
-        return { status: "success", create_notification };
+        return { status: "success", content: create_notification, message: "Notification created" };
     } catch (error) {
         if (error instanceof z.ZodError) {
-            return { status: "error", message: "Invalid data format" };
+            return { status: "error", message: "Invalid data format", errors: error.issues };
         }
         console.error("Database error:", error);
         return { status: "error", message: "Failed to create n" };
