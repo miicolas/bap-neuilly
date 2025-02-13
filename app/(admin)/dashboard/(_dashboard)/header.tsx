@@ -1,4 +1,4 @@
-import NotificationButton from "./notification";
+import NotificationButton from "./(notifications)/notifications";
 
 export default function DashboardHeader() {
     return (
