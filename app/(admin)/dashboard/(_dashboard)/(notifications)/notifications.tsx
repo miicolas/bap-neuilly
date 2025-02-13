@@ -1,13 +1,10 @@
 import { Bell } from "lucide-react";
-import Link from "next/link";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Notification from "./notification"
-import { cn } from "@/lib/utils";
 import { ListNotificationAction } from "@/action/(admin)/(notifications)/list/action";
 import { NotificationItem } from "@/lib/type";
 

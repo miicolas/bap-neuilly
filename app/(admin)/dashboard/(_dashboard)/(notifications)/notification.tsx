@@ -4,7 +4,7 @@
 import Link from "next/link";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
-import { NotificationProps, NotificationItem } from "@/lib/type";
+import { NotificationProps } from "@/lib/type";
 import { ReadNotificationAction } from "@/action/(admin)/(notifications)/read/action";
 import { toast } from "sonner";
 

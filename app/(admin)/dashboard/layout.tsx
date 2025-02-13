@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { SidebarProvider } from "@/components/ui/sidebar"
 import AppSidebar from "./(_dashboard)/sidebar"
 import HeaderDashbaord from "./(_dashboard)/header"
 
