@@ -20,7 +20,6 @@ import {
 
 import { User2, ChevronUp } from "lucide-react"
 
-// Menu items.
 const items = [
   {
     title: "Accueil",

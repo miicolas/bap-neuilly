@@ -18,7 +18,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import HeaderDashboard from "@/app/(admin)/dashboard/(_dashboard)/header"
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -267,7 +266,7 @@ const SidebarTrigger = React.forwardRef<
   const { toggleSidebar } = useSidebar()
 
   return (
-    <div className="flex items-center justify-start gap-4  border-b border-solid border-[#eaeaea] py-4 w-full">
+    <div className="flex items-center justify-start gap-4">
       <Button
         ref={ref}
         data-sidebar="trigger"
@@ -283,7 +282,7 @@ const SidebarTrigger = React.forwardRef<
         <PanelLeft />
         <span className="sr-only">Toggle Sidebar</span>
       </Button>
-      <HeaderDashboard />
+   
     </div>
   )
 })
