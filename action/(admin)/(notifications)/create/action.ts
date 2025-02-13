@@ -30,16 +30,19 @@ export async function CreateNotificationAction(body: z.infer<typeof bodySchema>)
             };
         }
 
-
         const { title, description, url } = validatedBody.data;
 
-        const create_notification = new Notification(title, description, url);
+        const notification = new Notification(title, description, url);
 
+        const create = await notification.create();
+
+        if (!create) {
+            return { status: "error", message: "Failed to create notification" };
+        } 
 
         revalidatePath("/dashboard/");
 
-
-        return { status: "success", content: create_notification, message: "Notification created" };
+        return { status: "success", message: "Notification created" };
     } catch (error) {
         if (error instanceof z.ZodError) {
             return { status: "error", message: "Invalid data format", errors: error.issues };
