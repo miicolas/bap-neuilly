@@ -74,4 +74,17 @@ export class Visitor {
 
     return updateTicketNumber;
   }
+
+  static async list() {
+    const event_attendee = await db
+      .select({
+        ticketNumber: EventAttendee.ticketNumber,
+        lastName: EventAttendee.lastName,
+        person: EventAttendee.person
+      })
+      .from(EventAttendee)
+      .execute();
+
+    return event_attendee;
+  }
 }
