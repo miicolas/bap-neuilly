@@ -1,7 +1,7 @@
 import { columns } from "./(_visitors)/columns"
 import { DataTable } from "./(_visitors)/data-table"
 import { Visitor } from "@/lib/type"
-import { ListVisitorsAction } from "@/action/(visitor)/list/action"
+import { ListVisitorsAction } from "@/action/(admin)/(visitor)/list/action"
 import { Suspense } from "react"
 
 export default async function VisitorsDashboardPage() {

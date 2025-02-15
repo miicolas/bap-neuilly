@@ -39,6 +39,7 @@ export interface DataTableProps<TData extends { ticketNumber: string; lastName: 
 }
 
 export type Visitor = {
+    id?: string
     ticketNumber: string
     lastName: string
     person: number
