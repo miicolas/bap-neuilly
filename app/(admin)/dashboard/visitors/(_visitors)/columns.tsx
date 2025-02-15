@@ -2,6 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { MoreHorizontal } from "lucide-react"
+import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -11,7 +12,7 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-
+import { DeleteVisitorAction } from "@/action/(admin)/(visitor)/delete/action"
 import { Visitor } from "@/lib/type"
 
 export const columns: ColumnDef<Visitor>[] = [
@@ -33,6 +34,21 @@ export const columns: ColumnDef<Visitor>[] = [
         cell: ({ row }) => {
             const visitor = row.original
 
+            const handleDeleteVisitor = async () => {
+                console.log("delete visitor", visitor.id)
+
+                if (visitor.id) {
+                    const deleteVisitor = await DeleteVisitorAction({ id: visitor.id })
+                    if (deleteVisitor.status === "success") {
+                        toast.success(deleteVisitor.message)
+                    } else {
+                        toast.error(deleteVisitor.message)
+                    }
+                } else {
+                    toast.error("Visitor ID is undefined")
+                }
+            }
+
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -47,6 +63,11 @@ export const columns: ColumnDef<Visitor>[] = [
                             onClick={() => navigator.clipboard.writeText(visitor.ticketNumber)}
                         >
                             Copie le numéro de ticket
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            onClick={handleDeleteVisitor}
+                        >
+                            Supprimer le visiteur
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
