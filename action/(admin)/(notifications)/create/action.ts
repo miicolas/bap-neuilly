@@ -17,7 +17,6 @@ const bodySchema = z.object({
     }),
 });
 
-
 export async function CreateNotificationAction(body: z.infer<typeof bodySchema>): Promise<FormResponse> {
     try {
         const validatedBody = bodySchema.safeParse(body);

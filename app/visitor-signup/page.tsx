@@ -1,5 +1,5 @@
-import VisitorSignupForm from "./(_visitor-signup)/form-signup";
-import VisitorSignupHeader from "./(_visitor-signup)/header-visitor";
+import VisitorSignupForm from "./(_visitor-signup)/form-signup-visitor"
+import VisitorSignupHeader from "./(_visitor-signup)/header-signup-visitor"
 
 export default function VisitorSignup() {
 
