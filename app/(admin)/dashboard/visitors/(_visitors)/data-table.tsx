@@ -60,7 +60,7 @@ export function DataTable<TData extends { ticketNumber: string; lastName: string
     };
 
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div>...</div>}>
             <div>
                 <div className="flex justify-between items-center py-4">
                     <Input
