@@ -33,7 +33,7 @@ const RichTextEditor = ({
         editorProps: {
             attributes: {
                 class:
-                    "h-[20vh] lg:h-[40vh] w-full rounded-md rounded-br-none rounded-bl-none border border-input bg-transparent px-3 py-2 border-b-0 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 overflow-auto",
+                    "h-[20vh] lg:h-[40vh] w-full rounded-md rounded-br-none rounded-bl-none border border-input bg-transparent px-3 py-2 border-b-0 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 overflow-auto",
             },
         },
         extensions: [
@@ -98,7 +98,7 @@ const RichTextEditorToolbar = ({
                 pressed={editor.isActive("italic")}
                 onPressedChange={() => editor.chain().focus().toggleItalic().run()}
             >
-                <Italic className="h-4 w-4" />
+                <Italic className="size-4" />
             </Toggle>
             
             <Separator orientation="vertical" className="w-[1px] h-8" />
@@ -107,14 +107,14 @@ const RichTextEditorToolbar = ({
                 pressed={editor.isActive("bulletList")}
                 onPressedChange={() => editor.chain().focus().toggleBulletList().run()}
             >
-                <List className="h-4 w-4" />
+                <List className="size-4" />
             </Toggle>
             <Toggle
                 size="sm"
                 pressed={editor.isActive("orderedList")}
                 onPressedChange={() => editor.chain().focus().toggleOrderedList().run()}
             >
-                <ListOrdered className="h-4 w-4" />
+                <ListOrdered className="size-4" />
             </Toggle>
             <Toggle
                 size="sm"
@@ -122,21 +122,21 @@ const RichTextEditorToolbar = ({
                 onPressedChange={() => editor.chain().focus().toggleBlockquote().run()}
                 className={editor.isActive('blockquote') ? 'is-active' : ''}
             >
-                <TextQuote className="h-4 w-4" />
+                <TextQuote className="size-4" />
             </Toggle>
             <Toggle
                 size="sm"
                 pressed={editor.isActive("hardBreak")}
                 onPressedChange={() => editor.chain().focus().setHardBreak().run()}
             >
-                <ArrowBigLeft className="h-4 w-4" />
+                <ArrowBigLeft className="size-4" />
             </Toggle>
             <Toggle
                 size="sm"
                 pressed={editor.isActive("paragraph")}
                 onPressedChange={() => editor.chain().focus().setParagraph().run()}
             >
-                <Text className="h-4 w-4" />
+                <Text className="size-4" />
             </Toggle>
             
         </div>

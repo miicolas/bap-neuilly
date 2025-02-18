@@ -74,7 +74,7 @@ export default function ResumeSignup({ form }: { form: FormProps }) {
                                         return (
                                             <div key={field.key}>
                                                 <div className="flex items-center space-x-3">
-                                                    <Icon className="h-5 w-5 text-gray-400" />
+                                                    <Icon className="size-6 text-gray-400" />
                                                     <div className="flex-1">
                                                         <div className="text-sm font-medium text-gray-500">
                                                             {field.label}

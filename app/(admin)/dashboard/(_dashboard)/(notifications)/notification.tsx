@@ -37,7 +37,7 @@ export default function Notifications({
                 <div className="flex items-center justify-between gap-2">
                     <h4 className="font-medium">{item.title}</h4>
                     {!item.read && (
-                        <span className="h-2 w-2 rounded-full bg-primary" />
+                        <span className="size-2 rounded-full bg-primary" />
                     )}
                 </div>
                 <p className="line-clamp-2 text-sm text-muted-foreground">

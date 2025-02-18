@@ -19,11 +19,11 @@ const Notifications = async () => {
   const unreadCount = data.filter((item) => !item.read).length;
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger className="relative">
-        <Bell className="h-6 w-6 text-muted-foreground transition hover:text-foreground" />
+        <Bell className="size-6 text-muted-foreground transition hover:text-foreground" />
         {unreadCount > 0 && (
-          <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-[10px] text-destructive-foreground">
+          <span className="absolute -right-1 -top-1 flex size-4 items-center justify-center rounded-full bg-destructive text-[10px] text-destructive-foreground">
             {unreadCount}
           </span>
         )}
