@@ -3,10 +3,6 @@
 import { Separator } from "@/components/ui/separator";
 import { Toggle } from "@/components/ui/toggle";
 import CharacterCount from "@tiptap/extension-character-count";
-import Highlight from '@tiptap/extension-highlight';
-import Link from "@tiptap/extension-link";
-
-import Underline from '@tiptap/extension-underline';
 import {
     EditorContent,
     useEditor,
@@ -16,27 +12,13 @@ import StarterKit from "@tiptap/starter-kit";
 
 import {
     ArrowBigLeft,
-    Bold,
-    Code,
-    Code2,
-    Heading1,
-    Heading2,
-    Heading3,
-    Highlighter,
     Italic,
-    Link as LinkIcon,
     List,
     ListOrdered,
-    Strikethrough,
     Text,
     TextQuote,
-    UnderlineIcon
 } from "lucide-react";
 import { useEffect } from "react";
-
-
-
-import { useCallback } from "react";
 
 
 const RichTextEditor = ({
@@ -57,7 +39,6 @@ const RichTextEditor = ({
         extensions: [
             StarterKit.configure({
                 history: false,
-                // Configure an included extension
                 heading: {
                     levels: [1, 2],
                 },

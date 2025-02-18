@@ -29,7 +29,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { UserPlus } from "lucide-react"
-import Tiptap from "@/components/tiptap"
+import Tiptap from "@/components/rich-editor"
 import StepBar from "@/components/ui/steps-bar";
 import ResumeSignup from "./resume-signup-exposant";
 

@@ -16,7 +16,7 @@ import {
 import HtmlConvertorMdx from '@/components/ui/html-convertor-mdx';
 
 interface FormProps {
-    getValues: () => { [key: string]: any };
+    getValues: () => Record<string, string>;
 }
 
 export default function ResumeSignup({ form }: { form: FormProps }) {
@@ -60,7 +60,7 @@ export default function ResumeSignup({ form }: { form: FormProps }) {
 
             <ScrollArea className="h-[460px] pr-4">
                 <div className="space-y-8">
-                    {sections.map((section, sectionIndex) => (
+                    {sections.map((section) => (
                         <Card key={section.title}>
                             <CardContent className="p-6">
                                 <h3 className="text-lg font-semibold mb-4 text-gray-700">
@@ -82,7 +82,7 @@ export default function ResumeSignup({ form }: { form: FormProps }) {
                                                         <div className="text-sm font-medium text-gray-900">
                                                             {field.key === 'type'
                                                                 ? value === 'EXPOSANT' ? 'Exposant' : 'Visiteur'
-                                                                : <HtmlConvertorMdx children={value} />}
+                                                                : <HtmlConvertorMdx>{String(value)}</HtmlConvertorMdx>}
                                                         </div>
                                                     </div>
                                                 </div>
