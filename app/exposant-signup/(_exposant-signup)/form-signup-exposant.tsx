@@ -28,6 +28,9 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { UserPlus } from "lucide-react"
+import { ExposantSignupAction } from "@/action/(exposant)/action"
+import { CreateNotificationAction } from "@/action/(admin)/(notifications)/create/action";
+import { toast } from 'sonner';
 
 const formSchema = z.object({
   firstname: z.string().min(2, {
@@ -73,8 +76,76 @@ export default function ExposantForm() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+
+    const { firstname, lastName, type, number, email, adresse, city, postalCode, siret } = values
+
+    try {
+      const response = await ExposantSignupAction({
+        firstname: firstname,
+        lastName: lastName,
+        type: type,
+        number: number,
+        email: email,
+        adresse: adresse,
+        city: city,
+        postalCode: postalCode,
+        siret: siret,
+      });
+      if (response.status === "error") {
+        toast.error(response.message);
+      } else {
+        toast.success("Formulaire soumis avec succès");
+        try {
+          const sendNotification = await CreateNotificationAction({
+            title: "Nouvelle inscription",
+            description: `Un nouvel exposant s'est inscrit`,
+            url: "/exposants",
+          });
+          if (sendNotification.status === "error") {
+            toast.error(sendNotification.message);
+          } else {
+            toast.success("Notification envoyée");
+          }
+        } catch (error) {
+          console.error("Notification creation error:", error);
+        }
+        try {
+          const sendMail = await fetch("/api/mail/exposant-signup", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              firstname,
+              lastName,
+              email,
+              type,
+              number,
+              adresse,
+              city,
+              postalCode,
+              siret,
+            }),
+          });
+          const data = await sendMail.json();
+          if (data.status === "error") {
+            toast.error(data.message);
+          } else {
+            toast.success("Email envoyé");
+          }
+        } catch (error) {
+          console.log(error);
+        }
+        form.reset();
+      }
+      
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+        console.error(error);
+      }
+    }
   }
 
   return (
