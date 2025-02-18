@@ -62,17 +62,6 @@ const RichTextEditor = ({
                     levels: [1, 2],
                 },
             }),
-            Underline,
-            Highlight,
-            Link.configure({
-                HTMLAttributes: {
-                    class: "text-blue-500",
-                    target: "_blank",
-                },
-                openOnClick: false,
-                autolink: true,
-                defaultProtocol: "https",
-            }),
             CharacterCount.configure(),
         ],
         content: value,
@@ -81,26 +70,7 @@ const RichTextEditor = ({
         },
     });
 
-    const setLink = useCallback(() => {
-        const previousUrl = editor?.getAttributes("link").href;
-        const url = window.prompt("URL", previousUrl);
 
-        if (url === null) {
-            return;
-        }
-
-        if (url === "") {
-            editor?.chain().focus().extendMarkRange("link").unsetLink().run();
-            return;
-        }
-
-        editor
-            ?.chain()
-            .focus()
-            .extendMarkRange("link")
-            .setLink({ href: url })
-            .run();
-    }, [editor]);
 
 
     useEffect(() => {
@@ -123,7 +93,6 @@ const RichTextEditor = ({
             {editor ? (
                 <RichTextEditorToolbar
                     editor={editor}
-                    setLink={setLink}
                 />
             ) : null}
             <div className={`flex flex-row items-center gap-2 text-sm`}>
@@ -135,21 +104,14 @@ const RichTextEditor = ({
 
 const RichTextEditorToolbar = ({
     editor,
-    setLink,
+
 
 }: {
     editor: Editor;
-    setLink: () => void;
 }) => {
     return (
         <div className="border border-input bg-transparent rounded-br-md rounded-bl-md p-1 flex flex-row items-center gap-1 flex-wrap">
-            <Toggle
-                size="sm"
-                pressed={editor.isActive("bold")}
-                onPressedChange={() => editor.chain().focus().toggleBold().run()}
-            >
-                <Bold className="h-4 w-4" />
-            </Toggle>
+
             <Toggle
                 size="sm"
                 pressed={editor.isActive("italic")}
@@ -157,27 +119,7 @@ const RichTextEditorToolbar = ({
             >
                 <Italic className="h-4 w-4" />
             </Toggle>
-            <Toggle
-                size="sm"
-                pressed={editor.isActive("strike")}
-                onPressedChange={() => editor.chain().focus().toggleStrike().run()}
-            >
-                <Strikethrough className="h-4 w-4" />
-            </Toggle>
-            <Toggle
-                size="sm"
-                pressed={editor.isActive("strike")}
-                onPressedChange={() => editor.chain().focus().toggleUnderline().run()}
-            >
-                <UnderlineIcon className="h-4 w-4" />
-            </Toggle>
-            <Toggle
-                size="sm"
-                pressed={editor.isActive("highlight")}
-                onPressedChange={() => editor.chain().focus().toggleHighlight().run()}
-            >
-                <Highlighter className="h-4 w-4" />
-            </Toggle>
+            
             <Separator orientation="vertical" className="w-[1px] h-8" />
             <Toggle
                 size="sm"
@@ -203,20 +145,6 @@ const RichTextEditorToolbar = ({
             </Toggle>
             <Toggle
                 size="sm"
-                pressed={editor.isActive("codeBlock")}
-                onPressedChange={() => editor.chain().focus().toggleCodeBlock().run()}
-            >
-                <Code className="h-4 w-4" />
-            </Toggle>
-            <Toggle
-                size="sm"
-                pressed={editor.isActive("code")}
-                onPressedChange={() => editor.chain().focus().toggleCode().run()}
-            >
-                <Code2 className="h-4 w-4" />
-            </Toggle>
-            <Toggle
-                size="sm"
                 pressed={editor.isActive("hardBreak")}
                 onPressedChange={() => editor.chain().focus().setHardBreak().run()}
             >
@@ -229,44 +157,7 @@ const RichTextEditorToolbar = ({
             >
                 <Text className="h-4 w-4" />
             </Toggle>
-            <Toggle
-                size="sm"
-                pressed={editor.isActive("link")}
-                onPressedChange={setLink}
-            >
-                <LinkIcon className="h-4 w-4" />
-            </Toggle>
-            <Separator orientation="vertical" className="w-[1px] h-8" />
-            <Toggle
-                size="sm"
-                pressed={editor.isActive("heading", { level: 1 })}
-                onPressedChange={() =>
-                    editor.chain().focus().toggleHeading({ level: 1 }).run()
-                }
-                className={editor.isActive("heading", { level: 1 }) ? "is-active" : ""}
-            >
-                <Heading1 className="h-4 w-4" />
-            </Toggle>
-            <Toggle
-                size="sm"
-                pressed={editor.isActive("heading", { level: 2 })}
-                onPressedChange={() =>
-                    editor.chain().focus().toggleHeading({ level: 2 }).run()
-                }
-                className={editor.isActive("heading", { level: 2 }) ? "is-active" : ""}
-            >
-                <Heading2 className="h-4 w-4" />
-            </Toggle>
-            <Toggle
-                size="sm"
-                pressed={editor.isActive("heading", { level: 3 })}
-                onPressedChange={() =>
-                    editor.chain().focus().toggleHeading({ level: 3 }).run()
-                }
-                className={editor.isActive("heading", { level: 3 }) ? "is-active" : ""}
-            >
-                <Heading3 className="h-4 w-4" />
-            </Toggle>
+            
         </div>
     );
 };
