@@ -120,8 +120,8 @@ export default function ExposantForm() {
       <Card className="max-w-4xl mx-auto">
         <CardHeader>
           <div className="flex items-center space-x-4">
-            <div className="bg-primary p-3 rounded-full">
-              <UserPlus className="h-6 w-6 text-primary-foreground" />
+            <div className="bg-primary p-2 rounded-full">
+              <UserPlus className="size-6 text-primary-foreground" />
             </div>
             <div>
               <CardTitle>Inscription</CardTitle>
@@ -289,7 +289,7 @@ export default function ExposantForm() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Parlez nous de vos produits</FormLabel>
-                      <FormControl className="focus:outline-none focus:ring-0">
+                      <FormControl className="focus:outline-hidden focus:ring-0">
                         <Tiptap value={field.value} onChange={(value) => field.onChange(value)} />
                       </FormControl>
                       <FormMessage />
@@ -305,7 +305,7 @@ export default function ExposantForm() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Parlez nous de votre histoire</FormLabel>
-                      <FormControl className="focus:outline-none focus:ring-0">
+                      <FormControl className="focus:outline-hidden focus:ring-0">
                         <Tiptap value={field.value} onChange={(value) => field.onChange(value)} />
                       </FormControl>
                       <FormMessage />
