@@ -86,7 +86,7 @@ export default function EventForm() {
           const sendNotification = await CreateNotificationAction({
             title: "Nouvelle inscription",
             description: "Nouvelle inscription pour le salon des créateurs d'objets et artisans de Neuilly",
-            url: `/dashboard/attendees/${response.content}`,
+            type: "visitor",
           });
           if (sendNotification.status === "error") {
             toast.error(sendNotification.message);

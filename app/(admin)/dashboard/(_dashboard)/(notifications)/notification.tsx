@@ -26,9 +26,9 @@ export default function Notifications({
     return (
         <DropdownMenuItem key={key} asChild>
             <Link
-                href={item.url}
+                href={'/notifications/' + item.id}
                 className={cn(
-                    "flex flex-col items-baseline gap-2 rounded-md p-3 transition hover:bg-muted/50",
+                    "flex flex-col items-baseline gap-2 rounded-md p-3 transition hover:bg-muted/50 w-full items-start",
                     !item.read && "bg-muted/50",
                     "hover:bg-muted/80 focus:bg-muted/80"
                 )}
