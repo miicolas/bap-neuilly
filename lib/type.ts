@@ -1,4 +1,5 @@
 import { ZodIssue } from "zod";
+import { ColumnDef } from "@tanstack/react-table"
 
 export interface SalonInvitationEmailProps {
     firstName?: string;
@@ -12,6 +13,7 @@ export interface SalonInvitationEmailProps {
 }
 
 export interface NotificationItem {
+    id?: string;
     title: string;
     description: string;
     url: string;
@@ -20,7 +22,7 @@ export interface NotificationItem {
 }
 
 export interface NotificationProps {
-    index: number;
+    key: number;
     item: NotificationItem;
 }
 
@@ -30,3 +32,19 @@ export type FormResponse<T = unknown> = {
     message?: string;
     content?: T;
 };
+
+export interface DataTableProps<TData extends { ticketNumber: string; lastName: string; person: number }, TValue> {
+    columns: ColumnDef<TData, TValue>[];
+    data: TData[];
+}
+
+export type Visitor = {
+    id?: string
+    ticketNumber: string
+    lastName: string
+    person: number
+}
+
+export interface ExportExcelProps {
+    dataToExport: { ticketNumber: string, lastName: string, person: number }[]
+}

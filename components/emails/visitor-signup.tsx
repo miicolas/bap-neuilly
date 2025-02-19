@@ -32,7 +32,7 @@ export default function SalonInvitationEmail({
     firstName = firstName
     lastName = lastName
     eventDate = "15 mars 2025"
-    eventName = "Salon des créateurs d&apos;objects et artisans de Neuilly"
+    eventName = "Salon des créateurs d'objets et artisans de Neuilly"
     numberOfGuests = numberOfGuests
     eventLocation = "Paris Expo Porte de Versailles"
     ticketNumber = ticketNumber
@@ -96,8 +96,8 @@ export default function SalonInvitationEmail({
                             Ce billet est nominatif et a été émis pour{' '}
                             <span className="text-black">{firstName} {lastName}</span>.
                             Veuillez le présenter avec une pièce d'identité le jour de l'événement.
-                            Pour toute question, n&apos;hésitez pas à contacter notre service client
-                            à l'adresse support@{(eventName || 'événement').toLowerCase().replace(/ /g, '-')}.fr
+                            Pour toute question, n'hésitez pas à contacter notre service client
+                            à l&apos;adresse support@{(eventName || 'événement').toLowerCase().replace(/ /g, '-')}.fr
                         </Text>
                     </Container>
                 </Body>
