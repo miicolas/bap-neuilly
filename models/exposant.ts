@@ -7,16 +7,18 @@ export class Exposant {
     public firstName: string,
     public lastName: string,
     public type: string,
-    public number: number,
     public email: string,
     public adresse: string,
     public city: string,
     public postalCode: string,
-    public siret: string
-  ) {}
+    public siret: string,
+    public products: string,
+    public history: string,
+    public societyName: string
+
+  ) { }
 
   async signup() {
-    // Vérifie si l'email existe déjà
     const checkEmail = await db
       .select()
       .from(ExposantTable)
@@ -27,19 +29,20 @@ export class Exposant {
       throw new Error("Email already exists");
     }
 
-    // Insère l'exposant dans la nouvelle table `exposant`
     const exposant = await db
       .insert(ExposantTable)
       .values({
         firstName: this.firstName,
         lastName: this.lastName,
         type: this.type,
-        number: this.number,
         email: this.email,
         adresse: this.adresse,
         city: this.city,
         postalCode: this.postalCode,
         siret: this.siret,
+        products: this.products,
+        history: this.history,
+        societyName: this.societyName,
       })
       .$returningId()
       .execute();

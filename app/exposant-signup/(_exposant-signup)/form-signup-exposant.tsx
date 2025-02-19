@@ -89,24 +89,27 @@ export default function ExposantForm() {
       products: "",
       history: "",
       societyName: "",
+    
     },
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
 
-    const { firstname, lastName, type, number, email, adresse, city, postalCode, siret } = values
+    const { firstname, lastName, type, email, adresse, city, postalCode, siret, products, history, societyName } = values
 
     try {
       const response = await ExposantSignupAction({
         firstname: firstname,
         lastName: lastName,
         type: type,
-        number: number,
         email: email,
         adresse: adresse,
         city: city,
         postalCode: postalCode,
         siret: siret,
+        products: products,
+        history: history,
+        societyName: societyName,
       });
       if (response.status === "error") {
         toast.error(response.message);
@@ -116,7 +119,7 @@ export default function ExposantForm() {
           const sendNotification = await CreateNotificationAction({
             title: "Nouvelle inscription",
             description: `Un nouvel exposant s'est inscrit`,
-            url: "/exposants",
+            type: "exposant",
           });
           if (sendNotification.status === "error") {
             toast.error(sendNotification.message);
@@ -126,7 +129,7 @@ export default function ExposantForm() {
         } catch (error) {
           console.error("Notification creation error:", error);
         }
-        try {
+        /* try {
           const sendMail = await fetch("/api/mail/exposant-signup", {
             method: "POST",
             headers: {
@@ -137,11 +140,11 @@ export default function ExposantForm() {
               lastName,
               email,
               type,
-              number,
               adresse,
               city,
               postalCode,
               siret,
+              
             }),
           });
           const data = await sendMail.json();
@@ -152,7 +155,7 @@ export default function ExposantForm() {
           }
         } catch (error) {
           console.log(error);
-        }
+        } */
         form.reset();
       }
       
