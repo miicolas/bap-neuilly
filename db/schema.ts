@@ -68,10 +68,10 @@ export const notification = mysqlTable("notification", {
     id: varchar("id", { length: 36 }).primaryKey(),
     title: varchar('title', { length: 255 }).notNull(),
     description: text('description').notNull(),
-    url: text('url').notNull(),
     read: boolean('read').notNull(),
     createdAt: timestamp('created_at').notNull(),
-    updatedAt: timestamp('updated_at').notNull()
+    updatedAt: timestamp('updated_at').notNull(),
+    type: varchar('type', { length: 255 }).notNull(),
 });
 
 export const ExposantTable = mysqlTable("exposant", {
@@ -82,10 +82,13 @@ export const ExposantTable = mysqlTable("exposant", {
     lastName: varchar("lastName", { length: 255 }).notNull(),
     email: varchar("email", { length: 255 }).notNull().unique(),
     type: varchar("type", { length: 255 }).notNull(),
-    number: int("number").notNull(),
     adresse: varchar("adresse", { length: 255 }).notNull(),
     city: varchar("city", { length: 255 }).notNull(),
     postalCode: varchar("postalCode", { length: 20 }).notNull(),
     siret: varchar("siret", { length: 14 }).notNull(),
+    products: text("products").notNull(),
+    history: text("history").notNull(),
+    societyName: varchar("societyName", { length: 255 }).notNull(),
+
   });
   
