@@ -7,10 +7,10 @@ import { generateTicketId } from "@/lib/utils";
 import { FormResponse } from "@/lib/type";
 
 const bodySchema = z.object({
-    firstname: z.string().min(2, {
+    firstName: z.string().min(2, {
         message: "Le prénom doit contenir au moins 2 caractères",
     }),
-    lastname: z.string().min(2, {
+    lastName: z.string().min(2, {
         message: "Le nom doit contenir au moins 2 caractères",
     }),
     email: z.string().email({
@@ -41,10 +41,10 @@ export async function VisitorSignupAction(body: z.infer<typeof bodySchema>): Pro
         }
 
 
-        const { firstname, lastname, email, gender, age, city, person } = validatedBody.data;
+        const { firstName, lastName, email, gender, age, city, person } = validatedBody.data;
         const visitor = new Visitor(
-            firstname,
-            lastname,
+            firstName,
+            lastName,
             age,
             gender,
             email,

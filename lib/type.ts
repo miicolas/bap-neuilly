@@ -12,6 +12,16 @@ export interface SalonInvitationEmailProps {
     pdfLink?: string;
 }
 
+export interface ExposantAwaitingValidationEmailProps {
+    firstName?: string;
+    lastName?: string;
+    eventDate?: string;
+    eventName?: string;
+    companyName?: string;
+    eventLocation?: string;
+    exhibitorNumber?: string;
+}
+
 export interface NotificationItem {
     id?: string;
     title: string;

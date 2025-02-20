@@ -89,7 +89,7 @@ export default function ExposantForm() {
       products: "",
       history: "",
       societyName: "",
-    
+
     },
   })
 
@@ -98,67 +98,25 @@ export default function ExposantForm() {
     const { firstname, lastName, type, email, adresse, city, postalCode, siret, products, history, societyName } = values
 
     try {
-      const response = await ExposantSignupAction({
-        firstname: firstname,
-        lastName: lastName,
-        type: type,
-        email: email,
-        adresse: adresse,
-        city: city,
-        postalCode: postalCode,
-        siret: siret,
-        products: products,
-        history: history,
-        societyName: societyName,
-      });
-      if (response.status === "error") {
-        toast.error(response.message);
-      } else {
-        toast.success("Formulaire soumis avec succès");
-        try {
-          const sendNotification = await CreateNotificationAction({
-            title: "Nouvelle inscription",
-            description: `Un nouvel exposant s'est inscrit`,
-            type: "exposant",
-          });
-          if (sendNotification.status === "error") {
-            toast.error(sendNotification.message);
-          } else {
-            toast.success("Notification envoyée");
-          }
-        } catch (error) {
-          console.error("Notification creation error:", error);
-        }
-        /* try {
-          const sendMail = await fetch("/api/mail/exposant-signup", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              firstname,
-              lastName,
-              email,
-              type,
-              adresse,
-              city,
-              postalCode,
-              siret,
-              
-            }),
-          });
-          const data = await sendMail.json();
-          if (data.status === "error") {
-            toast.error(data.message);
-          } else {
-            toast.success("Email envoyé");
-          }
-        } catch (error) {
-          console.log(error);
-        } */
-        form.reset();
-      }
-      
+      const response = await ExposantSignupAction(values);
+      if (response.status === "error") return toast.error(response.message);
+
+      toast.success("Formulaire soumis avec succès");
+
+      await Promise.all([
+        await CreateNotificationAction({
+          title: "Nouvelle inscription",
+          description: `Un nouvel exposant s'est inscrit`,
+          type: "exposant",
+        }),
+        await fetch("/api/send/exposant-awaiting-validation", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(values),
+        }),
+      ]);
+      toast.success("Email envoyé");
+      form.reset();
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);

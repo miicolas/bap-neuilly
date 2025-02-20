@@ -62,74 +62,48 @@ export default function EventForm() {
       person: 1,
     },
   });
-
   async function onSubmit(values: z.infer<typeof formSchema>) {
-
-
-    const { firstName, lastName, email, gender, age, city, person } = values;
-
     try {
-      const response = await VisitorSignupAction({
-        firstname: firstName,
-        lastname: lastName,
-        email: email,
-        gender: gender,
-        age: age,
-        city: city,
-        person: person,
-      });
+      const { firstName, lastName, email, gender, age, city, person } = values;
+
+      const response = await VisitorSignupAction(
+        {
+          firstName,
+          lastName,
+          email,
+          gender,
+          age,
+          city,
+          person
+        }
+
+      );
+
       if (response.status === "error") {
-        toast.error(response.message);
-      } else {
-        toast.success("Formulaire soumis avec succès");
-        try {
-          const sendNotification = await CreateNotificationAction({
-            title: "Nouvelle inscription",
-            description: "Nouvelle inscription pour le salon des créateurs d'objets et artisans de Neuilly",
-            type: "visitor",
-          });
-          if (sendNotification.status === "error") {
-            toast.error(sendNotification.message);
-          } else {
-            toast.success("Notification envoyée avec succès");
-          }
-        } catch (error) {
-          console.error("Notification creation error:", error);
-        }
-        try {
-          const sendMail = await fetch(`/api/send/visitor-signup`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              firstName,
-              lastName,
-              email,
-              person: person,
-              ticketNumber: response.content,
-            }),
-          });
-          const data = await sendMail.json();
-          if (data.status === "error") {
-            toast.error(data.message);
-          } else {
-            toast.success('Email envoyé avec succès');
-          }
-        } catch (error) {
-          console.log(error);
-        }
-        form.reset();
+        return toast.error(response.message);
       }
 
+      toast.success("Formulaire soumis avec succès");
 
+      await Promise.all([
+        CreateNotificationAction({
+          title: "Nouvelle inscription",
+          description: "Nouvelle inscription pour l'événement",
+          type: "visitor",
+        }),
+        fetch(`/api/send/visitor-signup`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...values,
+            ticketNumber: response.content,
+          }),
+        }),
+      ]);
+      form.reset();
     } catch (error) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-        console.error(error);
-      }
+      toast.error(error instanceof Error ? error.message : "Une erreur est survenue");
     }
-
   }
 
   return (
