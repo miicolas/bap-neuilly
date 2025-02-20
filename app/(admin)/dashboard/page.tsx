@@ -6,6 +6,7 @@ import { Visitor } from "@/lib/type"
 export default async function DashboardPage() {
 
     const visitors = await ListVisitorsAction()
+    console.log(visitors, 'visitors')
 
     return (
         <div className="flex flex-col items-center justify-center gap-4 p-4 w-full">
