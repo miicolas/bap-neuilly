@@ -35,8 +35,7 @@ export const columns: ColumnDef<Visitor>[] = [
             const visitor = row.original
 
             const handleDeleteVisitor = async () => {
-                console.log("delete visitor", visitor.id)
-
+                
                 if (visitor.id) {
                     const deleteVisitor = await DeleteVisitorAction({ id: visitor.id })
                     if (deleteVisitor.status === "success") {

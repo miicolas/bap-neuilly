@@ -142,8 +142,6 @@ export default function ExposantForm() {
     setCurrentStep(currentStep - 1);
   };
 
-  console.log(form.formState.errors)
-
   return (
     <div className="mx-auto py-10">
       <Card className="max-w-4xl mx-auto">
