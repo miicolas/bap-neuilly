@@ -5,7 +5,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
     try {
-        const { firstName, lastName, email, person, ticketNumber } = await req.json();
+        const { firstName, lastName, email } = await req.json();
         const { data, error } = await resend.emails.send({
             from: "Salon des créateurs d'objects et artisans de Neuilly <bap-neuilly-contact@nicolas-becharat.com>",
             replyTo: 'bap-neuilly-contact@nicolas-becharat.com',
@@ -18,8 +18,6 @@ export async function POST(req: Request) {
             react: ExposantAwaitingValidationEmail({
                 firstName,
                 lastName,
-                
-
             }),
         });
 

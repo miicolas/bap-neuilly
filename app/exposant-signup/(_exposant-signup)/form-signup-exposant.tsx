@@ -95,8 +95,6 @@ export default function ExposantForm() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
 
-    const { firstname, lastName, type, email, adresse, city, postalCode, siret, products, history, societyName } = values
-
     try {
       const response = await ExposantSignupAction(values);
       if (response.status === "error") return toast.error(response.message);
