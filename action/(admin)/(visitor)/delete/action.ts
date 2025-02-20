@@ -26,7 +26,6 @@ export async function DeleteVisitorAction(body: z.infer<typeof bodySchema>): Pro
 
         const { id } = validatedBody.data;
 
-        console.log("ticketNumber", id);
         const deleteVisitor = await Visitor.delete(id);
 
         if (!deleteVisitor) {
