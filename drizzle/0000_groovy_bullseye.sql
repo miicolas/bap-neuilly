@@ -14,6 +14,25 @@ CREATE TABLE `event_attendee` (
 	CONSTRAINT `event_attendee_email_unique` UNIQUE(`email`)
 );
 --> statement-breakpoint
+CREATE TABLE `exposant` (
+	`id` varchar(191) NOT NULL,
+	`createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
+	`updatedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`firstName` varchar(255) NOT NULL,
+	`lastName` varchar(255) NOT NULL,
+	`email` varchar(255) NOT NULL,
+	`type` varchar(255) NOT NULL,
+	`adresse` varchar(255) NOT NULL,
+	`city` varchar(255) NOT NULL,
+	`postalCode` varchar(20) NOT NULL,
+	`siret` varchar(14) NOT NULL,
+	`products` text NOT NULL,
+	`history` text NOT NULL,
+	`societyName` varchar(255) NOT NULL,
+	CONSTRAINT `exposant_id` PRIMARY KEY(`id`),
+	CONSTRAINT `exposant_email_unique` UNIQUE(`email`)
+);
+--> statement-breakpoint
 CREATE TABLE `account` (
 	`id` varchar(36) NOT NULL,
 	`account_id` text NOT NULL,
@@ -35,10 +54,10 @@ CREATE TABLE `notification` (
 	`id` varchar(36) NOT NULL,
 	`title` varchar(255) NOT NULL,
 	`description` text NOT NULL,
-	`url` text NOT NULL,
 	`read` boolean NOT NULL,
 	`created_at` timestamp NOT NULL,
 	`updated_at` timestamp NOT NULL,
+	`type` varchar(255) NOT NULL,
 	CONSTRAINT `notification_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint

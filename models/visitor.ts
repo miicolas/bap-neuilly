@@ -4,16 +4,16 @@ import { eq } from "drizzle-orm/expressions";
 
 export class Visitor {
   constructor(
-    public firstname: string,
-    public lastname: string,
+    public firstName: string,
+    public lastName: string,
     public age: number,
     public gender: "MALE" | "FEMALE" | "OTHER",
     public email: string,
     public city: string,
     public person: number
   ) {
-    this.firstname = firstname;
-    this.lastname = lastname;
+    this.firstName = firstName;
+    this.lastName = lastName;
     this.age = age;
     this.gender = gender;
     this.email = email;
@@ -35,8 +35,8 @@ export class Visitor {
     const event_attendee = await db
       .insert(EventAttendee)
       .values({
-        firstName: this.firstname,
-        lastName: this.lastname,
+        firstName: this.firstName,
+        lastName: this.lastName,
         age: this.age,
         gender: this.gender,
         email: this.email,

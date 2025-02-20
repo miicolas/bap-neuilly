@@ -29,9 +29,12 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { UserPlus } from "lucide-react"
-import Tiptap from "@/components/rich-editor"
-import StepBar from "@/components/ui/steps-bar";
+import { ExposantSignupAction } from "@/action/(exposant)/action"
+import { CreateNotificationAction } from "@/action/(admin)/(notifications)/create/action";
+import { toast } from 'sonner';
 import ResumeSignup from "./resume-signup-exposant";
+import StepBar from "@/components/ui/steps-bar";
+import Tiptap from "@/components/rich-editor"
 
 const formSchema = z.object({
   firstname: z.string().min(2, {
@@ -86,12 +89,38 @@ export default function ExposantForm() {
       products: "",
       history: "",
       societyName: "",
+
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("submitting form")
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+
+    try {
+      const response = await ExposantSignupAction(values);
+      if (response.status === "error") return toast.error(response.message);
+
+      toast.success("Formulaire soumis avec succès");
+
+      await Promise.all([
+        await CreateNotificationAction({
+          title: "Nouvelle inscription",
+          description: `Un nouvel exposant s'est inscrit`,
+          type: "exposant",
+        }),
+        await fetch("/api/send/exposant-awaiting-validation", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(values),
+        }),
+      ]);
+      toast.success("Email envoyé");
+      form.reset();
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+        console.error(error);
+      }
+    }
   }
 
   const steps = [

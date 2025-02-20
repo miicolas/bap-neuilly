@@ -13,7 +13,7 @@ export const EventAttendee = mysqlTable("event_attendee", {
   gender: text("gender", { enum: ["MALE", "FEMALE", "OTHER"] }).notNull(),
   age: int("age").notNull(),
   city: varchar("city", { length: 255 }).notNull(),
-  ticketNumber: varchar("ticketNumber", { length: 255 }),
+    ticketNumber: varchar("ticketNumber", { length: 255 }),
 });
 
 export const user = mysqlTable("user", {
@@ -68,8 +68,27 @@ export const notification = mysqlTable("notification", {
     id: varchar("id", { length: 36 }).primaryKey(),
     title: varchar('title', { length: 255 }).notNull(),
     description: text('description').notNull(),
-    url: text('url').notNull(),
     read: boolean('read').notNull(),
     createdAt: timestamp('created_at').notNull(),
-    updatedAt: timestamp('updated_at').notNull()
+    updatedAt: timestamp('updated_at').notNull(),
+    type: varchar('type', { length: 255 }).notNull(),
 });
+
+export const ExposantTable = mysqlTable("exposant", {
+    id: varchar("id", { length: 191 }).primaryKey().$defaultFn(() => sql`(uuid())`),
+    createdAt: datetime("createdAt").default(sql`CURRENT_TIMESTAMP`),
+    updatedAt: datetime("updatedAt").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+    firstName: varchar("firstName", { length: 255 }).notNull(),
+    lastName: varchar("lastName", { length: 255 }).notNull(),
+    email: varchar("email", { length: 255 }).notNull().unique(),
+    type: varchar("type", { length: 255 }).notNull(),
+    adresse: varchar("adresse", { length: 255 }).notNull(),
+    city: varchar("city", { length: 255 }).notNull(),
+    postalCode: varchar("postalCode", { length: 20 }).notNull(),
+    siret: varchar("siret", { length: 14 }).notNull(),
+    products: text("products").notNull(),
+    history: text("history").notNull(),
+    societyName: varchar("societyName", { length: 255 }).notNull(),
+
+  });
+  
