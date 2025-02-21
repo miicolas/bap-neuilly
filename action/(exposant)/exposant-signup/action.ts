@@ -4,6 +4,7 @@ import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { Exposant } from "@/models/exposant";
 import { FormResponse } from "@/lib/type";
+import { generateExposantId } from "@/lib/utils";
 
 const bodySchema = z.object({
   firstname: z.string().min(2, {
@@ -35,7 +36,7 @@ const bodySchema = z.object({
 
     message: "La description de votre histoire doit contenir au moins 2 caractères",
   }),
-  societyName: z.string().min(2, {
+  companyName: z.string().min(2, {
     message: "Le nom de votre société doit contenir au moins 2 caractères",
   }),
 });
@@ -52,7 +53,7 @@ export async function ExposantSignupAction(body: z.infer<typeof bodySchema>): Pr
       };
     }
 
-    const { firstname, lastName, type, email, adresse, city, postalCode, siret, products, history, societyName } = validatedBody.data;
+    const { firstname, lastName, type, email, adresse, city, postalCode, siret, products, history, companyName } = validatedBody.data;
     const exposant = new Exposant(
       firstname,
       lastName,
@@ -64,7 +65,7 @@ export async function ExposantSignupAction(body: z.infer<typeof bodySchema>): Pr
       siret,
       products,
       history,
-      societyName
+      companyName
     );
 
     const signup = await exposant.signup();
@@ -76,6 +77,18 @@ export async function ExposantSignupAction(body: z.infer<typeof bodySchema>): Pr
 
     if (!uuid) {
       return { status: "error", message: "Failed to get exposant uuid" };
+    }
+
+    const exposant_id = generateExposantId(uuid);
+
+    if (!exposant_id) {
+      return { status: "error", message: "Failed to generate exposant id" };
+    }
+
+    const updateExposantId = await exposant.updateExposantId(exposant_id);
+
+    if (!updateExposantId) {
+      return { status: "error", message: "Failed to update exposant id" };
     }
 
     revalidatePath("/");
