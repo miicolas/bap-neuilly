@@ -29,7 +29,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { UserPlus } from "lucide-react"
-import { ExposantSignupAction } from "@/action/(exposant)/action"
+import { ExposantSignupAction } from "@/action/(exposant)/exposant-signup/action"
 import { CreateNotificationAction } from "@/action/(admin)/(notifications)/create/action";
 import { toast } from 'sonner';
 import ResumeSignup from "./resume-signup-exposant";
@@ -69,7 +69,7 @@ const formSchema = z.object({
   history: z.string().min(2, {
     message: "La description de votre histoire doit contenir au moins 2 caractères",
   }),
-  societyName: z.string().min(2, {
+  companyName: z.string().min(2, {
     message: "Le nom de votre société doit contenir au moins 2 caractères",
   }),
 })
@@ -88,7 +88,7 @@ export default function ExposantForm() {
       siret: "",
       products: "",
       history: "",
-      societyName: "",
+      companyName: "",
 
     },
   })
@@ -295,7 +295,7 @@ export default function ExposantForm() {
 
                   <FormField
                     control={form.control}
-                    name="societyName"
+                    name="companyName"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Nom de votre société</FormLabel>

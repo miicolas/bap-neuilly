@@ -43,7 +43,7 @@ export type FormResponse<T = unknown> = {
     content?: T;
 };
 
-export interface DataTableProps<TData extends { ticketNumber: string; lastName: string; person: number }, TValue> {
+export interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
 }
@@ -55,6 +55,14 @@ export type Visitor = {
     person: number
 }
 
-export interface ExportExcelProps {
-    dataToExport: { ticketNumber: string, lastName: string, person: number }[]
+export type ExposantAwaiting = {
+    id?: string
+    exposantId: string
+    companyName: string
+    status: string
 }
+
+export interface ExportExcelProps {
+    dataToExport: { ticketNumber: string, lastName: string, person: number }[] | ExposantAwaiting[] | { exposantId: string; companyName: string; status: string }[];
+}
+

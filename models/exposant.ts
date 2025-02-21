@@ -14,7 +14,7 @@ export class Exposant {
     public siret: string,
     public products: string,
     public history: string,
-    public societyName: string
+    public companyName: string
 
   ) { }
 
@@ -42,7 +42,8 @@ export class Exposant {
         siret: this.siret,
         products: this.products,
         history: this.history,
-        societyName: this.societyName,
+        companyName: this.companyName,
+        status: "pending"
       })
       .$returningId()
       .execute();
@@ -63,4 +64,30 @@ export class Exposant {
 
     return exposant_id[0].id;
   }
+
+  static async list_awaiting() {
+    const exposants = await db.select().from(ExposantTable).where(eq(ExposantTable.status, "pending")).execute();
+    return exposants;
+  }
+
+  static async list_accepted() {
+    const exposants = await db.select().from(ExposantTable).where(eq(ExposantTable.status, "accepted")).execute();
+    return exposants;
+  }
+
+  async updateExposantId(exposantId: string) {
+      const exposant_id = await db
+        .select({ id: ExposantTable.id })
+        .from(ExposantTable)
+        .where(eq(ExposantTable.email, this.email))
+        .execute();
+  
+      const updateTicketNumber = await db
+        .update(ExposantTable)
+        .set({ exposantId })
+        .where(eq(ExposantTable.id, exposant_id[0].id))
+        .execute();
+  
+      return updateTicketNumber;
+    }
 }

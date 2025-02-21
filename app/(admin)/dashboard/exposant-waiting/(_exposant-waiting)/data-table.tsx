@@ -9,7 +9,7 @@ import {
     ColumnFiltersState,
 } from "@tanstack/react-table";
 
-import { DataTableProps, Visitor } from "@/lib/type";
+import { DataTableProps } from "@/lib/type";
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
@@ -17,25 +17,26 @@ import { Input } from "@/components/ui/input";
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import ExportExcel from "./export-excel";
+import { ExposantAwaiting } from "@/lib/type";
 
 export function DataTable<TData, TValue>({
     columns,
     data,
-}: DataTableProps<TData, TValue>) {
+}: DataTableProps<TData , TValue>) {
     const searchParams = useSearchParams();
     const router = useRouter();
 
-    const ticketNumberParam = searchParams.get("ticketNumber") || "";
+    const exposantIdParam = searchParams.get("exposantId") || "";
 
     const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
-        ticketNumberParam ? [{ id: "ticketNumber", value: ticketNumberParam }] : []
+        exposantIdParam ? [{ id: "exposantId", value: exposantIdParam }] : []
     );
 
     useEffect(() => {
-        if (ticketNumberParam) {
-            setColumnFilters([{ id: "ticketNumber", value: ticketNumberParam }]);
+        if (exposantIdParam) {
+            setColumnFilters([{ id: "exposantId", value: exposantIdParam }]);
         }
-    }, [ticketNumberParam]);
+    }, [exposantIdParam]);
 
     const table = useReactTable({
         data,
@@ -48,13 +49,13 @@ export function DataTable<TData, TValue>({
     });
 
     const handleFilterChange = (value: string) => {
-        table.getColumn("ticketNumber")?.setFilterValue(value);
+        table.getColumn("exposantId")?.setFilterValue(value);
 
         const params = new URLSearchParams(searchParams);
         if (value) {
-            params.set("ticketNumber", value);
+            params.set("exposantId", value);
         } else {
-            params.delete("ticketNumber");
+            params.delete("exposantId");
         }
         router.replace(`?${params.toString()}`);
     };
@@ -64,12 +65,12 @@ export function DataTable<TData, TValue>({
             <div>
                 <div className="flex justify-between items-center py-4">
                     <Input
-                        placeholder="Filter ticketNumber..."
-                        value={table.getColumn("ticketNumber")?.getFilterValue() as string || ""}
+                        placeholder="Filter exposantId..."
+                        value={table.getColumn("exposantId")?.getFilterValue() as string || ""}
                         onChange={(e) => handleFilterChange(e.target.value)}
                         className="max-w-sm"
                     />
-                    <ExportExcel dataToExport={data as Visitor[]} />
+                    <ExportExcel dataToExport={data as ExposantAwaiting[]} />
                 </div>
 
                 <div className="rounded-md border">
@@ -97,7 +98,7 @@ export function DataTable<TData, TValue>({
                             ) : (
                                 <TableRow>
                                     <TableCell colSpan={columns.length} className="h-24 text-center">
-                                        No results.
+                                        Pas de données.
                                     </TableCell>
                                 </TableRow>
                             )}
@@ -105,10 +106,10 @@ export function DataTable<TData, TValue>({
                     </Table>
                     <div className="flex items-center justify-end space-x-2 p-4">
                         <Button variant="outline" size="sm" onClick={table.previousPage} disabled={!table.getCanPreviousPage()}>
-                            Previous
+                            Précédent
                         </Button>
                         <Button variant="outline" size="sm" onClick={table.nextPage} disabled={!table.getCanNextPage()}>
-                            Next
+                            Suivant
                         </Button>
                     </div>
                 </div>

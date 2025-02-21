@@ -34,7 +34,7 @@ const items = [
   },
   {
     title: "Vendeurs en attente",
-    url: "#",
+    url: "/dashboard/exposant-waiting",
     icon: Calendar,
   },
   {
