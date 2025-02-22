@@ -1,18 +1,18 @@
-import { mysqlTable, varchar, text, datetime, int, boolean, primaryKey,timestamp } from "drizzle-orm/mysql-core";
+import { mysqlTable, varchar, text, datetime, int, boolean, primaryKey, timestamp } from "drizzle-orm/mysql-core";
 
 import { sql } from "drizzle-orm";
 
 export const EventAttendee = mysqlTable("event_attendee", {
-  id: varchar("id", { length: 191 }).primaryKey().$defaultFn(() => sql`(uuid())`),
-  createdAt: datetime("createdAt").default(sql`CURRENT_TIMESTAMP`),
-  updatedAt: datetime("updatedAt").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
-  firstName: varchar("firstName", { length: 255 }).notNull(),
-  lastName: varchar("lastName", { length: 255 }).notNull(),
-  email: varchar("email", { length: 255 }).notNull().unique(),
-  person: int("person").default(1),
-  gender: text("gender", { enum: ["MALE", "FEMALE", "OTHER"] }).notNull(),
-  age: int("age").notNull(),
-  city: varchar("city", { length: 255 }).notNull(),
+    id: varchar("id", { length: 191 }).primaryKey().$defaultFn(() => sql`(uuid())`),
+    createdAt: datetime("createdAt").default(sql`CURRENT_TIMESTAMP`),
+    updatedAt: datetime("updatedAt").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+    firstName: varchar("firstName", { length: 255 }).notNull(),
+    lastName: varchar("lastName", { length: 255 }).notNull(),
+    email: varchar("email", { length: 255 }).notNull().unique(),
+    person: int("person").default(1),
+    gender: text("gender", { enum: ["MALE", "FEMALE", "OTHER"] }).notNull(),
+    age: int("age").notNull(),
+    city: varchar("city", { length: 255 }).notNull(),
     ticketNumber: varchar("ticketNumber", { length: 255 }),
 });
 
@@ -88,7 +88,7 @@ export const ExposantTable = mysqlTable("exposant", {
     siret: varchar("siret", { length: 14 }).notNull(),
     products: text("products").notNull(),
     history: text("history").notNull(),
-    societyName: varchar("societyName", { length: 255 }).notNull(),
-
-  });
-  
+    companyName: varchar("companyName", { length: 255 }).notNull(),
+    status: text("status", { enum: ["pending", "accepted", "refused"] }).notNull(),
+    exposantId : varchar("exposantId", { length: 191 }).unique()
+});

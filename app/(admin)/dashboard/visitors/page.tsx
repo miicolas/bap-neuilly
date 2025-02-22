@@ -10,7 +10,7 @@ export default async function VisitorsDashboardPage() {
     return (
         <div className="mx-auto p-12">
             <Suspense fallback={<div>Loading...</div>}>
-                <DataTable columns={columns} data={data.content as Visitor[]} />
+                <DataTable<Visitor, string> columns={columns} data={data.content as Visitor[]} />
             </Suspense>
         </div>
     )
