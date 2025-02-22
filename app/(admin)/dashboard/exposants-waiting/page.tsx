@@ -1,11 +1,11 @@
-import { columns } from "./(_exposant-waiting)/columns"
-import { DataTable } from "./(_exposant-waiting)/data-table"
+import { columns } from "./(_exposants-waiting)/columns"
+import { DataTable } from "./(_exposants-waiting)/data-table"
 import { ExposantAwaiting } from "@/lib/type"
 import { Suspense } from "react"
-import { ListAwaitingExposantsAction } from "@/action/(admin)/(exposant)/list-awaiting/action"
+import { ListWaitingExposantsAction } from "@/action/(admin)/(exposant)/list-waiting/action"
 
 export default async function ExposantAwaitingDashboardPage() {
-    const data = await ListAwaitingExposantsAction()
+    const data = await ListWaitingExposantsAction()
 
     return (
         <div className="mx-auto p-12">

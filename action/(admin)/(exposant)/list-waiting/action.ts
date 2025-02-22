@@ -4,10 +4,9 @@ import { z } from "zod";
 import { Exposant } from "@/models/exposant";
 import { FormResponse } from "@/lib/type";
 
-export async function ListAwaitingExposantsAction(): Promise<FormResponse> {
+export async function ListWaitingExposantsAction(): Promise<FormResponse> {
     try {
-        const list = await Exposant.list_awaiting();
-        console.log(list);
+        const list = await Exposant.list_pending();
         return { status: "success", content: list, message: "Exposants retrieved" };
     } catch (error) {
         if (error instanceof z.ZodError) {

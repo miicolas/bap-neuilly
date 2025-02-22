@@ -65,7 +65,7 @@ export class Exposant {
     return exposant_id[0].id;
   }
 
-  static async list_awaiting() {
+  static async list_pending() {
     const exposants = await db.select().from(ExposantTable).where(eq(ExposantTable.status, "pending")).execute();
     return exposants;
   }
@@ -76,18 +76,52 @@ export class Exposant {
   }
 
   async updateExposantId(exposantId: string) {
-      const exposant_id = await db
-        .select({ id: ExposantTable.id })
-        .from(ExposantTable)
-        .where(eq(ExposantTable.email, this.email))
-        .execute();
-  
-      const updateTicketNumber = await db
-        .update(ExposantTable)
-        .set({ exposantId })
-        .where(eq(ExposantTable.id, exposant_id[0].id))
-        .execute();
-  
-      return updateTicketNumber;
-    }
+    const exposant_id = await db
+      .select({ id: ExposantTable.id })
+      .from(ExposantTable)
+      .where(eq(ExposantTable.email, this.email))
+      .execute();
+
+    const updateTicketNumber = await db
+      .update(ExposantTable)
+      .set({ exposantId })
+      .where(eq(ExposantTable.id, exposant_id[0].id))
+      .execute();
+
+    return updateTicketNumber;
+  }
+
+  static async delete(id: string) {
+
+    console.log(id, "id");
+    const deleteExposant = await db
+      .delete(ExposantTable)
+      .where(eq(ExposantTable.id, id))
+      .execute();
+
+      console.log(deleteExposant, "deleteExposant");
+
+    return deleteExposant;
+  }
+
+  static async accept(id: string) {
+    const exposant = await db
+      .update(ExposantTable)
+      .set({ status: "accepted" })
+      .where(eq(ExposantTable.id, id))
+      .execute();
+
+    return exposant;
+  }
+
+  static async refuse(id: string) {
+    const exposant = await db
+      .update(ExposantTable)
+      .set({ status: "refused" })
+      .where(eq(ExposantTable.id, id))
+      .execute();
+
+    return exposant;
+  }
+
 }

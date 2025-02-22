@@ -11,8 +11,10 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { DeleteVisitorAction } from "@/action/(admin)/(visitor)/delete/action"
 import { ExposantAwaiting } from "@/lib/type"
+import { DeleteExposantAction } from "@/action/(admin)/(exposant)/delete/action"
+import { AcceptExposantAction } from "@/action/(admin)/(exposant)/accept/action"
+import { RefuseExposantAction } from "@/action/(admin)/(exposant)/refuse/action"
 
 export const columns: ColumnDef<ExposantAwaiting>[] = [
     {
@@ -34,13 +36,39 @@ export const columns: ColumnDef<ExposantAwaiting>[] = [
             const exposant = row.original
 
             const handleDeleteVisitor = async () => {
-                
+
                 if (exposant.id) {
-                    const deleteVisitor = await DeleteVisitorAction({ id: exposant.id })
+                    const deleteVisitor = await DeleteExposantAction({ id: exposant.id })
                     if (deleteVisitor.status === "success") {
                         toast.success(deleteVisitor.message)
                     } else {
                         toast.error(deleteVisitor.message)
+                    }
+                } else {
+                    toast.error("Visitor ID is undefined")
+                }
+            }
+
+            const handleAcceptVisitor = async () => {
+                if (exposant.id) {
+                    const acceptVisitor = await AcceptExposantAction({ id: exposant.id })
+                    if (acceptVisitor.status === "success") {
+                        toast.success(acceptVisitor.message)
+                    } else {
+                        toast.error(acceptVisitor.message)
+                    }
+                } else {
+                    toast.error("Visitor ID is undefined")
+                }
+            }
+
+            const handleRefuseVisitor = async () => {
+                if (exposant.id) {
+                    const refuseVisitor = await RefuseExposantAction({ id: exposant.id })
+                    if (refuseVisitor.status === "success") {
+                        toast.success(refuseVisitor.message)
+                    } else {
+                        toast.error(refuseVisitor.message)
                     }
                 } else {
                     toast.error("Visitor ID is undefined")
@@ -63,10 +91,23 @@ export const columns: ColumnDef<ExposantAwaiting>[] = [
                             Copie l'ID de l'exposant
                         </DropdownMenuItem>
                         <DropdownMenuItem
+                            onClick={handleAcceptVisitor}
+                        >
+                            Accepter l'exposant
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            onClick={handleRefuseVisitor}
+                        >
+                            Refuser l'exposant
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
                             onClick={handleDeleteVisitor}
                         >
-                            Supprimer l'exposant
+                            <Button variant="danger" className="w-full">
+                                Supprimer l'exposant
+                            </Button>
                         </DropdownMenuItem>
+
                     </DropdownMenuContent>
                 </DropdownMenu>
             )
