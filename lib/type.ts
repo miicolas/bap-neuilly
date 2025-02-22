@@ -55,6 +55,15 @@ export type Visitor = {
     person: number
 }
 
+export type Exposant = {
+    id?: string
+    exposantId: string
+    companyName: string
+    type: string[]
+    history: string
+    companyLogo: string
+}
+
 export type ExposantAwaiting = {
     id?: string
     exposantId: string
