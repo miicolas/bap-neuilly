@@ -8,7 +8,7 @@ import {
     getFilteredRowModel,
 } from "@tanstack/react-table";
 
-import { DataTableProps, Visitor } from "@/lib/type";
+import { DataTableProps } from "@/lib/type";
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import ExportExcel from "./export-excel";
+import { ExposantAwaiting } from "@/lib/type";
 
 export function DataTable<TData, TValue>({
     columns,
@@ -66,11 +67,11 @@ export function DataTable<TData, TValue>({
                         onChange={(e) => handleFilterChange(e.target.value)}
                         className="max-w-sm"
                     />
-                    <ExportExcel dataToExport={data as Visitor[]} />
+                    <ExportExcel dataToExport={data as ExposantAwaiting[]} />
                 </div>
 
                 <div className="rounded-md border">
-                    <Table>
+                    <Table className="bg-card">
                         <TableHeader>
                             {table.getHeaderGroups().map((headerGroup) => (
                                 <TableRow key={headerGroup.id}>
@@ -94,18 +95,18 @@ export function DataTable<TData, TValue>({
                             ) : (
                                 <TableRow>
                                     <TableCell colSpan={columns.length} className="h-24 text-center">
-                                        No results.
+                                        Pas de données.
                                     </TableCell>
                                 </TableRow>
                             )}
                         </TableBody>
                     </Table>
-                    <div className="flex items-center justify-end space-x-2 p-4">
+                    <div className="flex items-center justify-end space-x-2 p-4 bg-card">
                         <Button variant="outline" size="sm" onClick={table.previousPage} disabled={!table.getCanPreviousPage()}>
-                            Previous
+                            Précédent
                         </Button>
                         <Button variant="outline" size="sm" onClick={table.nextPage} disabled={!table.getCanNextPage()}>
-                            Next
+                            Suivant
                         </Button>
                     </div>
                 </div>

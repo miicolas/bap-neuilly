@@ -29,7 +29,7 @@ const items = [
   },
   {
     title: "Mes vendeurs",
-    url: "#",
+    url: "/dashboard/exposants",
     icon: Inbox,
   },
   {
