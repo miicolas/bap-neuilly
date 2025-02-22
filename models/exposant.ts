@@ -1,6 +1,7 @@
 import { db } from "@/db";
 import { ExposantTable } from "@/db/schema";
-import { eq } from "drizzle-orm/expressions";
+import { eq } from "drizzle-orm";
+
 
 export class Exposant {
   constructor(

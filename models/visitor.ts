@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { EventAttendee } from "@/db/schema";
-import { eq } from "drizzle-orm/expressions";
+import { eq } from "drizzle-orm";
 
 export class Visitor {
   constructor(
