@@ -4,7 +4,7 @@ import HtmlConvertorMdx from "@/components/ui/html-convertor-mdx";
 import { Badge } from "@/components/ui/badge";
 import { limiteText } from "@/lib/utils";
 import Link from "next/link";
-export default async function CardExposant(
+export default function CardExposant(
     { exposant }: { exposant: Exposant }
 ) {
     const { companyLogo, companyName, type, history } = exposant;

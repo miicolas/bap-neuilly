@@ -1,7 +1,7 @@
 import { Exposant } from "@/lib/type";
 import CardExposant from "./card-exposant";
 
-export default async function ListExposants({
+export default function ListExposants({
     exposants,
 }: {
     exposants: Exposant[];
