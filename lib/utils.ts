@@ -27,3 +27,10 @@ export function generateExposantId(uuid: string) {
 
   return `EXPOSANT-${String(num1).padStart(4, "0")}-${String(num2).padStart(4, "0")}`;
 }
+
+export function limiteText(text: string, limit: number) {
+  if (text.length > limit) {
+    return text.substring(0, limit) + "...";
+  }
+  return text;
+}

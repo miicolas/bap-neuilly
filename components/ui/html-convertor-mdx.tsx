@@ -1,8 +1,10 @@
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 
-export default function HtmlConvertorMdx({ children }: { children: string }) {
+export default function HtmlConvertorMdx({ children, className }: { children: React.ReactNode, className?: string }) {
     return (
-        <ReactMarkdown rehypePlugins={[rehypeRaw]}>{children}</ReactMarkdown>
+        <ReactMarkdown rehypePlugins={[rehypeRaw]} className={`prose max-w-none ${className}`}>
+            {children as string}
+        </ReactMarkdown>
     );
 }
