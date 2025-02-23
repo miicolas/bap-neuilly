@@ -1,14 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import minioClient from "@/lib/minios-client";
 import sharp from "sharp";
-import { Exposant } from "@/models/exposant";
 
 export async function POST(req: NextRequest) {
   try {
 
     const formData = await req.formData();
     const file = formData.get("file") as File;
-    const fileNameType = formData.get("fileName") as string;
 
     if (!file) {
       return NextResponse.json({ error: "Aucun fichier envoyé" }, { status: 400 });
