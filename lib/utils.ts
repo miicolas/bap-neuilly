@@ -34,3 +34,6 @@ export function limiteText(text: string, limit: number) {
   }
   return text;
 }
+
+
+
