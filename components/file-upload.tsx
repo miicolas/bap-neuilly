@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "./ui/label";
+import Image from "next/image";
 
 
 export default function FileUpload({ fileName, label }: { fileName: string, label?: string }) {
@@ -59,7 +60,7 @@ export default function FileUpload({ fileName, label }: { fileName: string, labe
       {imageUrl && (
         <div className="flex flex-col items-center gap-4">
           <h2>Image Uploadée :</h2>
-          <img src={imageUrl} alt="Image uploadée" width={400} />
+          <Image src={imageUrl} alt="Image uploadée" width={400} />
         </div>
       )}
     </div>
