@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { Exposant } from "@/models/exposant";
 import { FormResponse } from "@/lib/type";
 import { generateExposantId } from "@/lib/utils";
+import { getSession } from "@/lib/session";
 
 const bodySchema = z.object({
   firstname: z.string().min(2, {
@@ -39,6 +40,9 @@ const bodySchema = z.object({
   companyName: z.string().min(2, {
     message: "Le nom de votre société doit contenir au moins 2 caractères",
   }),
+  userId: z.string().min(2, {
+    message: "Le User Id doit contenir au moins 2 caractères",
+  }),
 });
 
 export async function ExposantSignupAction(body: z.infer<typeof bodySchema>): Promise<FormResponse> {
@@ -65,7 +69,7 @@ export async function ExposantSignupAction(body: z.infer<typeof bodySchema>): Pr
       siret,
       products,
       history,
-      companyName
+      companyName,
     );
 
     const signup = await exposant.signup();
@@ -89,11 +93,23 @@ export async function ExposantSignupAction(body: z.infer<typeof bodySchema>): Pr
 
     if (!updateExposantId) {
       return { status: "error", message: "Failed to update exposant id" };
+
+    }
+
+
+    const { userId } = validatedBody.data;
+
+    const associateAccount = await Exposant.associateUser(email, userId);
+
+    console.log(associateAccount);
+
+    if (!associateAccount) {
+      return { status: "error", message: "Failed to associate user" };
     }
 
     revalidatePath("/");
 
-    return { status: "success", message: "Exposant created successfully" };
+    return { status: "success", message: "Exposant created successfully", content: exposant_id };
   } catch (error) {
     if (error instanceof z.ZodError) {
       return {

@@ -16,7 +16,7 @@ export default function SearchBar({ exposants, setFilteredExposants }: { exposan
         if (globalFilter !== searchParam) {
             setGlobalFilter(searchParam);
         }
-    }, [searchParam]);
+    }, [searchParam, globalFilter]);
 
     const filteredExposants = useMemo(() => {
         if (!globalFilter) return exposants;
@@ -30,7 +30,6 @@ export default function SearchBar({ exposants, setFilteredExposants }: { exposan
         setFilteredExposants(filteredExposants);
     }, [filteredExposants, setFilteredExposants]);
 
-    // Met à jour les paramètres de l'URL en fonction de `globalFilter`
     useEffect(() => {
         const params = new URLSearchParams(searchParams);
         if (globalFilter) {
@@ -39,7 +38,7 @@ export default function SearchBar({ exposants, setFilteredExposants }: { exposan
             params.delete("search");
         }
         router.replace(`?${params.toString()}`);
-    }, [globalFilter, router]);
+    }, [globalFilter, router, searchParams]);
 
     return (
         <div className="flex items-center gap-4 w-full">

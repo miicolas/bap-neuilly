@@ -35,6 +35,7 @@ import { toast } from 'sonner';
 import ResumeSignup from "./resume-signup-exposant";
 import StepBar from "@/components/ui/steps-bar";
 import Tiptap from "@/components/rich-editor"
+import { useRouter } from 'next/navigation'
 
 const formSchema = z.object({
   firstname: z.string().min(2, {
@@ -74,14 +75,17 @@ const formSchema = z.object({
   }),
 })
 
-export default function ExposantForm() {
+export default function ExposantForm( { email, id } : { email: string, id: string }) {
+
+  const router = useRouter()
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       firstname: "",
       lastName: "",
       type: "EXPOSANT",
-      email: "",
+      email: email,
       adresse: "",
       city: "",
       postalCode: "",
@@ -96,8 +100,11 @@ export default function ExposantForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
 
     try {
-      const response = await ExposantSignupAction(values);
+
+      const response = await ExposantSignupAction({ ...values, userId: id });
       if (response.status === "error") return toast.error(response.message);
+
+      const exposantId = response.content
 
       toast.success("Formulaire soumis avec succès");
 
@@ -114,6 +121,7 @@ export default function ExposantForm() {
         }),
       ]);
       toast.success("Email envoyé");
+      router.push(`/exposant-signup/${exposantId}`);
       form.reset();
     } catch (error) {
       if (error instanceof Error) {
@@ -202,7 +210,7 @@ export default function ExposantForm() {
                       <FormItem>
                         <FormLabel>Email</FormLabel>
                         <FormControl>
-                          <Input placeholder="jean.dupont@example.com" {...field} />
+                          <Input placeholder="jean.dupont@example.com" {...field} disabled={true} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

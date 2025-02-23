@@ -1,5 +1,4 @@
 import { mysqlTable, varchar, text, datetime, int, boolean, primaryKey, timestamp } from "drizzle-orm/mysql-core";
-
 import { sql } from "drizzle-orm";
 
 export const EventAttendee = mysqlTable("event_attendee", {
@@ -63,7 +62,6 @@ export const verification = mysqlTable("verification", {
     updatedAt: timestamp('updated_at')
 });
 
-
 export const notification = mysqlTable("notification", {
     id: varchar("id", { length: 36 }).primaryKey(),
     title: varchar('title', { length: 255 }).notNull(),
@@ -72,6 +70,14 @@ export const notification = mysqlTable("notification", {
     createdAt: timestamp('created_at').notNull(),
     updatedAt: timestamp('updated_at').notNull(),
     type: varchar('type', { length: 255 }).notNull(),
+});
+
+export const ImageTable = mysqlTable("image", {
+    id: varchar("id", { length: 191 }).primaryKey().$defaultFn(() => sql`(uuid())`),
+    createdAt: datetime("createdAt").default(sql`CURRENT_TIMESTAMP`),
+    updatedAt: datetime("updatedAt").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+    exposantId: varchar("exposantId", { length: 191 }).notNull(),
+    picture: text("picture").notNull(),
 });
 
 export const ExposantTable = mysqlTable("exposant", {
@@ -90,5 +96,11 @@ export const ExposantTable = mysqlTable("exposant", {
     history: text("history").notNull(),
     companyName: varchar("companyName", { length: 255 }).notNull(),
     status: text("status", { enum: ["pending", "accepted", "refused"] }).notNull(),
-    exposantId : varchar("exposantId", { length: 191 }).unique()
+    exposantId: varchar("exposantId", { length: 191 }).unique(),
+    logo: varchar("logo", { length: 191 }).references(() => ImageTable.id),
+    picture: varchar("picture", { length: 191 }).references(() => ImageTable.id),
+    picture2: varchar("picture2", { length: 191 }).references(() => ImageTable.id),
+    picture3: varchar("picture3", { length: 191 }).references(() => ImageTable.id),
+    picture4: varchar("picture4", { length: 191 }).references(() => ImageTable.id),
+    userId: varchar("userId", { length: 36 }).references(() => user.id),
 });

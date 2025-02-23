@@ -11,7 +11,7 @@ import {
     ShoppingBag,
     History,
     Briefcase,
-    MapPinned
+    MapPinned,
 } from "lucide-react";
 import HtmlConvertorMdx from '@/components/ui/html-convertor-mdx';
 
@@ -51,7 +51,7 @@ export default function ResumeSignup({ form }: { form: FormProps }) {
                 { label: "Produits", key: "products", icon: ShoppingBag },
                 { label: "Histoire", key: "history", icon: History },
             ]
-        }
+        },
     ];
 
     return (

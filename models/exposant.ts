@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { ExposantTable } from "@/db/schema";
+import { account, ExposantTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 
@@ -15,7 +15,7 @@ export class Exposant {
     public siret: string,
     public products: string,
     public history: string,
-    public companyName: string
+    public companyName: string,
 
   ) { }
 
@@ -93,8 +93,6 @@ export class Exposant {
   }
 
   static async delete(id: string) {
-
-    console.log(id, "id");
     const deleteExposant = await db
       .delete(ExposantTable)
       .where(eq(ExposantTable.id, id))
@@ -124,5 +122,28 @@ export class Exposant {
 
     return exposant;
   }
+
+  async addFile( fileNameType: string, fileName: string) {
+    const exposant = await db
+      .update(ExposantTable)
+      .set({ [fileNameType]: fileName })
+      .where(eq(ExposantTable.email, this.email))
+      .execute();
+
+    return exposant;
+  }
+
+  static async associateUser(email: string, userId: string) {
+
+    const exposant = await db
+      .update(ExposantTable)
+      .set({ userId : userId })
+      .where(eq(ExposantTable.email, email))
+      .execute();
+
+    return exposant;
+  }
+
+  
 
 }
