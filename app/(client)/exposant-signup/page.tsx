@@ -3,14 +3,19 @@ import FormExposantSignup from "./(_exposant-signup)/form-signup-exposant";
 import HeaderExposantSignup from "./(_exposant-signup)/header-signup-exposant";
 import SignupExposant from "./(_exposant-signup)/signup-exposant";
 import { getSession } from "@/lib/session";
-import { redirect } from 'next/navigation'
+import { redirect, unauthorized } from 'next/navigation'
 
 export default async function ExposantSignupPage() {
 
     const session = await getSession();
-    const checkForm = await Exposant.getExposantByUserId(session?.user.id!);
 
-    if (checkForm.length > 0) {
+    if (!session || !session.user || !session.user.id) {
+        unauthorized();
+    }
+
+    const checkForm = await Exposant.getExposantByUserId(session.user.id);
+
+    if (!session || !session.user || checkForm.length > 0) {
         redirect(`/exposant-signup/${checkForm[0].exposantId}`);
     }
     return (

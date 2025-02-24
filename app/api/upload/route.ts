@@ -18,12 +18,9 @@ export async function POST(req: Request) {
         const file = formData.get("file") as File;
         const fileName = formData.get("fileName") as string;
 
-
         const buffer = Buffer.from(await file.arrayBuffer());
         const uniqueFileName = `${Date.now()}-${file.name}`;
         const putResult = await put(uniqueFileName, buffer);
-
-
 
         if (!putResult) {
             return new NextResponse("Erreur lors de l'upload", { status: 500 });
@@ -35,7 +32,8 @@ export async function POST(req: Request) {
             return new NextResponse("Exposant non trouvé", { status: 404 });
         }
 
-        const imageResult = await db.insert(ImageTable)
+        const imageResult = await db
+            .insert(ImageTable)
             .values({
                 exposantId: exposant[0].id,
                 picture: uniqueFileName,
@@ -43,31 +41,43 @@ export async function POST(req: Request) {
             .execute();
 
         if (!imageResult) {
-            return new NextResponse("Erreur lors de la création de l'image", { status: 500 });
+            return new NextResponse("Erreur lors de la création de l'image", {
+                status: 500,
+            });
         }
 
-        const [newImage] = await db.select()
+        const [newImage] = await db
+            .select()
             .from(ImageTable)
             .where(eq(ImageTable.picture, uniqueFileName))
             .execute();
 
         if (!newImage) {
-            return new NextResponse("Erreur lors de la création de l'image", { status: 500 });
+            return new NextResponse("Erreur lors de la création de l'image", {
+                status: 500,
+            });
         }
 
-        const updateResult = await db.update(ExposantTable)
+        const updateResult = await db
+            .update(ExposantTable)
             .set({
-                [fileName]: newImage.id
+                [fileName]: newImage.id,
             })
             .where(eq(ExposantTable.id, exposant[0].id))
             .execute();
 
+        if (!updateResult) {
+            return new NextResponse(
+                "Erreur lors de la mise à jour de l'image",
+                { status: 500 }
+            );
+        }
+
         return NextResponse.json({
             success: true,
             filename: uniqueFileName,
-            id: newImage.id
+            id: newImage.id,
         });
-
     } catch (error) {
         console.error("Erreur lors de l'upload:", error);
         return new NextResponse("Erreur interne du serveur", { status: 500 });

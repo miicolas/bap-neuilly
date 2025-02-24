@@ -15,26 +15,35 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { ArrowLeftIcon } from "lucide-react";
 import SignOut from "@/components/sign-out";
+
+interface ExposantWaitingValidationPageProps {
+    params: Promise<{ exposantId: string }>;
+}
+
 export default async function ExposantWaitingValidationPage({
     params,
-}: {
-    params: { exposantId: string };
-}) {
-    const { exposantId } = await params;
+}: ExposantWaitingValidationPageProps) {
+    const { exposantId } = await params; 
     const session = await getSession();
 
     if (!session) {
         unauthorized();
     }
 
-    const checkForm = await Exposant.getExposantByUserId(session?.user.id!);
+    const checkForm = await Exposant.getExposantByUserId(session?.user.id);
 
-    const status = checkForm[0].status;
+    if (!checkForm || checkForm.length === 0) {
+        unauthorized();
+    }
 
-    if (checkForm[0].exposantId !== exposantId[0]) {
+    const status = checkForm[0]?.status;
+
+    if (status === "accepted") {
+        unauthorized();
+    }
+
+    if (checkForm[0]?.exposantId !== exposantId[0]) {
         unauthorized();
     }
 
@@ -58,8 +67,6 @@ export default async function ExposantWaitingValidationPage({
             status: "pending",
         },
     ];
-
-    
 
     return (
         <div className="min-h-screen w-full max-w-4xl mx-auto p-4 md:p-8 space-y-8">
@@ -120,9 +127,9 @@ export default async function ExposantWaitingValidationPage({
                 </CardContent>
             </Card>
 
-            {checkForm[0] && (
+            {checkForm[0] && checkForm[0].status === "pending" && (
                 <div className="pt-8">
-                    <UploadImages userId={session?.user.id!} />
+                    <UploadImages userId={session?.user.id} />
                 </div>
             )}
             <SignOut />

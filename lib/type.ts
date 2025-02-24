@@ -75,3 +75,14 @@ export interface ExportExcelProps {
     dataToExport: { ticketNumber: string, lastName: string, person: number }[] | ExposantAwaiting[] | { exposantId: string; companyName: string; status: string }[];
 }
 
+export interface FileUploadProps {
+    fileName: string;
+    label?: string;
+    maxSize?: number;
+    acceptedTypes?: string[];
+    isLogo?: boolean;
+    existingImage?: string | null;
+    userId: string;
+}
+
+
