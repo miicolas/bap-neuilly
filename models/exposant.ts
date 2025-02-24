@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { account, ExposantTable } from "@/db/schema";
+import { ExposantTable, user } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 
@@ -123,18 +123,7 @@ export class Exposant {
     return exposant;
   }
 
-  async addFile( fileNameType: string, fileName: string) {
-    const exposant = await db
-      .update(ExposantTable)
-      .set({ [fileNameType]: fileName })
-      .where(eq(ExposantTable.email, this.email))
-      .execute();
-
-    return exposant;
-  }
-
   static async associateUser(email: string, userId: string) {
-
     const exposant = await db
       .update(ExposantTable)
       .set({ userId : userId })
@@ -144,6 +133,34 @@ export class Exposant {
     return exposant;
   }
 
-  
+  static async updateRole(userId: string) {
+    const exposant = await db.update(user).set({ role: "SELLER" }).where(eq(user.id, userId)).execute();
+    return exposant;
+  }
+
+  static async getExposantByUserId(userId: string) {
+    const exposant = await db
+      .select()
+      .from(ExposantTable)
+      .where(eq(ExposantTable.userId, userId))
+      .execute();
+
+    return exposant;
+  }
+
+  static async addFile( userId: string, fileNameType: string, fileName: string) {
+    const exposant = await db
+      .update(ExposantTable)
+      .set({ [fileNameType]: fileName })
+      .where(eq(ExposantTable.userId, userId))
+      .execute();
+
+    return exposant;
+  }
+
+  static async getFilesByUserId(userId: string) {
+    const files = await db.select({picture: ExposantTable.picture, picture2: ExposantTable.picture2, picture3: ExposantTable.picture3, picture4: ExposantTable.picture4, logo: ExposantTable.logo}).from(ExposantTable).where(eq(ExposantTable.userId, userId)).execute();
+    return files;
+  }
 
 }
