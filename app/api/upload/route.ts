@@ -29,14 +29,12 @@ export async function POST(req: Request) {
             return new NextResponse("Erreur lors de l'upload", { status: 500 });
         }
 
-        console.log('uniqueFileName', uniqueFileName);
-
         const exposant = await Exposant.getExposantByUserId(session.user.id);
 
         if (!exposant[0]) {
             return new NextResponse("Exposant non trouvé", { status: 404 });
         }
-        console.log('exposant', exposant[0]);
+
         const imageResult = await db.insert(ImageTable)
             .values({
                 exposantId: exposant[0].id,

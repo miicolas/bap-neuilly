@@ -98,8 +98,6 @@ export class Exposant {
       .where(eq(ExposantTable.id, id))
       .execute();
 
-      console.log(deleteExposant, "deleteExposant");
-
     return deleteExposant;
   }
 
