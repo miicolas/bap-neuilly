@@ -1,4 +1,10 @@
-export default async function ExposantPage ({ params } : { params: { companyName: string } }) {
+"use client";
+
+import { useParams } from "next/navigation";
+
+export default function ExposantPage () {
+
+    const params = useParams();
     const companyName = params.companyName;
 
     return (

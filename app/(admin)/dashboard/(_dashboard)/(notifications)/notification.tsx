@@ -28,7 +28,7 @@ export default function Notifications({
             <Link
                 href={'/notifications/' + item.id}
                 className={cn(
-                    "flex flex-col items-baseline gap-2 rounded-md p-3 transition hover:bg-muted/50 w-full items-start",
+                    "flex flex-col gap-2 rounded-md p-3 transition hover:bg-muted/50 w-full items-start",
                     !item.read && "bg-muted/50",
                     "hover:bg-muted/80 focus:bg-muted/80"
                 )}

@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { ExposantTable } from "@/db/schema";
+import { ExposantTable, user } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 
@@ -15,7 +15,7 @@ export class Exposant {
     public siret: string,
     public products: string,
     public history: string,
-    public companyName: string
+    public companyName: string,
 
   ) { }
 
@@ -93,14 +93,10 @@ export class Exposant {
   }
 
   static async delete(id: string) {
-
-    console.log(id, "id");
     const deleteExposant = await db
       .delete(ExposantTable)
       .where(eq(ExposantTable.id, id))
       .execute();
-
-      console.log(deleteExposant, "deleteExposant");
 
     return deleteExposant;
   }
@@ -123,6 +119,46 @@ export class Exposant {
       .execute();
 
     return exposant;
+  }
+
+  static async associateUser(email: string, userId: string) {
+    const exposant = await db
+      .update(ExposantTable)
+      .set({ userId : userId })
+      .where(eq(ExposantTable.email, email))
+      .execute();
+
+    return exposant;
+  }
+
+  static async updateRole(userId: string) {
+    const exposant = await db.update(user).set({ role: "SELLER" }).where(eq(user.id, userId)).execute();
+    return exposant;
+  }
+
+  static async getExposantByUserId(userId: string) {
+    const exposant = await db
+      .select()
+      .from(ExposantTable)
+      .where(eq(ExposantTable.userId, userId))
+      .execute();
+
+    return exposant;
+  }
+
+  static async addFile( userId: string, fileNameType: string, fileName: string) {
+    const exposant = await db
+      .update(ExposantTable)
+      .set({ [fileNameType]: fileName })
+      .where(eq(ExposantTable.userId, userId))
+      .execute();
+
+    return exposant;
+  }
+
+  static async getFilesByUserId(userId: string) {
+    const files = await db.select({picture: ExposantTable.picture, picture2: ExposantTable.picture2, picture3: ExposantTable.picture3, picture4: ExposantTable.picture4, logo: ExposantTable.logo}).from(ExposantTable).where(eq(ExposantTable.userId, userId)).execute();
+    return files;
   }
 
 }
