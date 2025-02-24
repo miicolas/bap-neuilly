@@ -11,16 +11,7 @@ import { Button } from "./ui/button";
 import { Progress } from "./ui/progress";
 import { Alert, AlertDescription } from "./ui/alert";
 import { updateExposantImage } from "@/action/(exposant)/upload-image/action";
-
-interface FileUploadProps {
-    fileName: string;
-    label?: string;
-    maxSize?: number;
-    acceptedTypes?: string[];
-    isLogo?: boolean;
-    existingImage?: string | null;
-    userId: string;
-}
+import { FileUploadProps } from "@/lib/type";
 
 export default function FileUpload({
     fileName,
@@ -29,9 +20,7 @@ export default function FileUpload({
     acceptedTypes = ["image/jpeg", "image/png", "image/webp"],
     isLogo = false,
     existingImage = null,
-    userId,
 }: FileUploadProps) {
-    const [file, setFile] = useState<File | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [imageUrl, setImageUrl] = useState<string | null>(existingImage);
     const [uploadProgress, setUploadProgress] = useState<number>(0);
@@ -40,7 +29,7 @@ export default function FileUpload({
         height: number;
     } | null>(null);
 
-    const validateImage = (file: File): Promise<boolean> => {
+    const validateImage = useCallback((file: File): Promise<boolean> => {
         return new Promise((resolve) => {
             const img: HTMLImageElement = document.createElement("img");
             img.src = URL.createObjectURL(file);
@@ -61,47 +50,9 @@ export default function FileUpload({
                 resolve(true);
             };
         });
-    };
+    }, [isLogo]);
 
-    const onDrop = useCallback(
-        async (acceptedFiles: File[]) => {
-            const selectedFile = acceptedFiles[0];
-
-            if (selectedFile.size > maxSize) {
-                toast.error(
-                    "Le fichier est trop volumineux. Taille maximum: 5MB"
-                );
-                return;
-            }
-
-            if (!acceptedTypes.includes(selectedFile.type)) {
-                toast.error(
-                    "Type de fichier non supporté. Formats acceptés: JPG, PNG, WebP"
-                );
-                return;
-            }
-
-            const isValid = await validateImage(selectedFile);
-            if (!isValid) return;
-
-            setFile(selectedFile);
-            await handleUpload(selectedFile);
-        },
-        [maxSize, acceptedTypes, isLogo]
-    );
-
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({
-        onDrop,
-        accept: {
-            "image/jpeg": [".jpg", ".jpeg"],
-            "image/png": [".png"],
-            "image/webp": [".webp"],
-        },
-        maxSize,
-        multiple: false,
-    });
-
-    const handleUpload = async (selectedFile: File) => {
+    const handleUpload = useCallback(async (selectedFile: File) => {
         setLoading(true);
         setUploadProgress(0);
 
@@ -133,22 +84,58 @@ export default function FileUpload({
                         "L'image a été téléchargée mais n'a pas pu être associée à votre profil"
                     );
                 }
-
-                setFile(null);
             } else {
                 toast.error(`Erreur: ${data.error}`);
             }
         } catch (error) {
+            console.error("Erreur lors du téléchargement:", error);
             toast.error("Une erreur est survenue lors du téléchargement");
         } finally {
             setLoading(false);
             setUploadProgress(100);
         }
-    };
+    }, [fileName]);
 
+    const onDrop = useCallback(
+        async (acceptedFiles: File[]) => {
+            const selectedFile = acceptedFiles[0];
+
+            if (selectedFile.size > maxSize) {
+                toast.error(
+                    "Le fichier est trop volumineux. Taille maximum: 5MB"
+                );
+                return;
+            }
+
+            if (!acceptedTypes.includes(selectedFile.type)) {
+                toast.error(
+                    "Type de fichier non supporté. Formats acceptés: JPG, PNG, WebP"
+                );
+                return;
+            }
+
+            const isValid = await validateImage(selectedFile);
+            if (!isValid) return;
+
+            await handleUpload(selectedFile);
+        },
+        [maxSize, acceptedTypes, handleUpload, validateImage]
+    );
+
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+        onDrop,
+        accept: {
+            "image/jpeg": [".jpg", ".jpeg"],
+            "image/png": [".png"],
+            "image/webp": [".webp"],
+        },
+        maxSize,
+        multiple: false,
+    });
+
+    
     const handleRemove = () => {
         setImageUrl(null);
-        setFile(null);
         setUploadProgress(0);
         setImageSize(null);
     };
@@ -241,6 +228,12 @@ export default function FileUpload({
                     >
                         <X className="h-4 w-4" />
                     </Button>
+                    {imageSize && (
+                        <p className="text-sm text-muted-foreground">
+                            Dimensions: {imageSize.width} x {imageSize.height}{" "}
+                            pixels
+                        </p>
+                    )}
                 </div>
             )}
         </div>
