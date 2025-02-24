@@ -5,7 +5,6 @@ import { revalidatePath } from "next/cache";
 import { Exposant } from "@/models/exposant";
 import { FormResponse } from "@/lib/type";
 import { generateExposantId } from "@/lib/utils";
-import { getSession } from "@/lib/session";
 
 const bodySchema = z.object({
   firstname: z.string().min(2, {
@@ -95,16 +94,18 @@ export async function ExposantSignupAction(body: z.infer<typeof bodySchema>): Pr
       return { status: "error", message: "Failed to update exposant id" };
 
     }
-
-
     const { userId } = validatedBody.data;
 
     const associateAccount = await Exposant.associateUser(email, userId);
 
-    console.log(associateAccount);
-
     if (!associateAccount) {
       return { status: "error", message: "Failed to associate user" };
+    }
+
+    const updateStatus = await Exposant.updateRole(userId);
+
+    if (!updateStatus) {
+      return { status: "error", message: "Failed to update role" };
     }
 
     revalidatePath("/");

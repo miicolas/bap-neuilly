@@ -33,7 +33,7 @@ export default function RootLayout({
       >
         <NuqsAdapter>
           {children}
-          <Toaster />
+          <Toaster /> 
         </NuqsAdapter>
       </body>
     </html>
