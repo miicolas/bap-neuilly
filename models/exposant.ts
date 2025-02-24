@@ -161,4 +161,9 @@ export class Exposant {
     return files;
   }
 
+  static async getExposantByCompanyName(companyName: string) {
+    const exposant = await db.select().from(ExposantTable).where(eq(ExposantTable.companyName, companyName)).execute();
+    return exposant;
+  }
+
 }

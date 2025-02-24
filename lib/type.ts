@@ -29,6 +29,7 @@ export interface NotificationItem {
     url: string;
     read?: boolean;
     date?: string;
+    type: string;
 }
 
 export interface NotificationProps {
@@ -57,11 +58,25 @@ export type Visitor = {
 
 export type Exposant = {
     id?: string
-    exposantId: string
+    exposantId?: string
     companyName: string
-    type: string[]
-    history: string
-    companyLogo: string
+    type: string
+    history: string    
+    firstName: string
+    lastName: string
+    email: string
+    adresse: string
+    city: string
+    postalCode: string
+    siret: string
+    products: string
+    status: string
+    userId: string
+    logo?: string
+    picture?: string
+    picture2?: string
+    picture3?: string
+    picture4?: string
 }
 
 export type ExposantAwaiting = {

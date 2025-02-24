@@ -8,7 +8,7 @@ import { NotificationProps } from "@/lib/type";
 import { ReadNotificationAction } from "@/action/(admin)/(notifications)/read/action";
 import { toast } from "sonner";
 
-export default function Notifications({
+export default function Notification({
     key,
     item,
 }: NotificationProps) {
@@ -23,10 +23,18 @@ export default function Notifications({
             toast.success("Notification lue avec succès");
         }
     }
+
+    const getUrl = () => {
+        if (item.type === "exposant") {
+            return '/dashboard/exposants-waiting/';
+        }
+        return '/dashboard/visitors/';
+    }
+
     return (
         <DropdownMenuItem key={key} asChild>
             <Link
-                href={'/notifications/' + item.id}
+                href={getUrl()}
                 className={cn(
                     "flex flex-col gap-2 rounded-md p-3 transition hover:bg-muted/50 w-full items-start",
                     !item.read && "bg-muted/50",
