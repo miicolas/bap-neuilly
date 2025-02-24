@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { ExposantTable, user } from "@/db/schema";
 import { eq } from "drizzle-orm";
-
+import { Exposant as ExposantType } from "@/lib/type";
 
 export class Exposant {
   constructor(
@@ -163,6 +163,28 @@ export class Exposant {
 
   static async getExposantByCompanyName(companyName: string) {
     const exposant = await db.select().from(ExposantTable).where(eq(ExposantTable.companyName, companyName)).execute();
+    return exposant;
+  }
+
+  static async updateExposant(id: string, data: ExposantType) {
+    const exposant = await db.update(ExposantTable).set(
+      {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        type: data.type,
+        adresse: data.adresse,
+        city: data.city,
+        postalCode: data.postalCode,
+        siret: data.siret,
+        products: data.products,
+        history: data.history,
+        companyName: data.companyName,
+        status: data.status as "pending" | "accepted" | "refused",
+        userId: data.userId,
+        exposantId: data.exposantId,
+      }
+    ).where(eq(ExposantTable.id, id)).execute();
     return exposant;
   }
 

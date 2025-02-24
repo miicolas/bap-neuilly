@@ -1,10 +1,10 @@
 "use client";
 
-import { Exposant } from "@/lib/type";
-
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { UpdateExposantAction } from "@/action/(admin)/(exposant)/update/action";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -23,8 +23,11 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+
+import { Exposant as ExposantType } from "@/lib/type";
+
 const formSchema = z.object({
-    firstname: z.string().min(2, {
+    firstName: z.string().min(2, {
         message: "Le prénom d'utilisateur doit contenir au moins 2 caractères",
     }),
     lastName: z.string().min(2, {
@@ -68,19 +71,14 @@ const formSchema = z.object({
     }),
     status: z.enum(["pending", "accepted", "refused"]),
     userId: z.string(),
-    logo: z.string().optional(),
-    picture: z.string().optional(),
-    picture2: z.string().optional(),
-    picture3: z.string().optional(),
-    picture4: z.string().optional(),
-    exposantId: z.string().optional(),
+    exposantId: z.string(),
 });
 
-export default function FormExposant({ exposant }: { exposant: Exposant }) {
+export default function FormExposant({ exposant }: { exposant: ExposantType }) {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            firstname: exposant.firstName,
+            firstName: exposant.firstName,
             lastName: exposant.lastName,
             email: exposant.email,
             type: exposant.type as "EXPOSANT" | "VISITEUR",
@@ -92,21 +90,63 @@ export default function FormExposant({ exposant }: { exposant: Exposant }) {
             history: exposant.history,
             companyName: exposant.companyName,
             status: exposant.status as "pending" | "accepted" | "refused",
-            userId: exposant.userId,
-            logo: exposant.logo,
-            picture: exposant.picture,
-            picture2: exposant.picture2,
-            picture3: exposant.picture3,
-            picture4: exposant.picture4,
+            userId: exposant.userId || "",
             exposantId: exposant.exposantId || "",
         },
     });
 
-    // 2. Define a submit handler.
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values);
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        try {
+            if (!exposant.id) {
+                toast.error("Exposant not found");
+                return;
+            }
+
+            const {
+                firstName,
+                lastName,
+                email,
+                type,
+                adresse,
+                city,
+                postalCode,
+                siret,
+                products,
+                history,
+                companyName,
+                status,
+                userId,
+                exposantId,
+            } = values;
+            
+            const updateExposant = await UpdateExposantAction({
+                id: exposant.id,
+                data: {
+                    firstName,
+                    lastName,
+                    email,
+                    type: type as "EXPOSANT" | "VISITEUR",
+                    adresse,
+                    city,
+                    postalCode,
+                    siret,
+                    products,
+                    history,
+                    companyName,
+                    status: status as "pending" | "accepted" | "refused",
+                    userId,
+                    exposantId,
+                },
+            });
+
+            if (updateExposant.status === "success") {
+                toast.success(updateExposant.message);
+            } else {
+                toast.error(updateExposant.message);
+            }
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (
@@ -118,7 +158,7 @@ export default function FormExposant({ exposant }: { exposant: Exposant }) {
                 <div className="flex items-start justify-start gap-4 w-full">
                     <FormField
                         control={form.control}
-                        name="firstname"
+                        name="firstName"
                         render={({ field }) => (
                             <FormItem className="w-full">
                                 <FormLabel>Prénom</FormLabel>
@@ -242,7 +282,7 @@ export default function FormExposant({ exposant }: { exposant: Exposant }) {
                                     <Input
                                         placeholder="Nom de l'entreprise"
                                         {...field}
-                                        disabled
+                                        
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -259,7 +299,7 @@ export default function FormExposant({ exposant }: { exposant: Exposant }) {
                                     <Input
                                         placeholder="Siret"
                                         {...field}
-                                        disabled
+                                        
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -278,7 +318,7 @@ export default function FormExposant({ exposant }: { exposant: Exposant }) {
                                     <Input
                                         placeholder="Postal Code"
                                         {...field}
-                                        disabled
+                                        
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -295,7 +335,7 @@ export default function FormExposant({ exposant }: { exposant: Exposant }) {
                                     <Input
                                         placeholder="City"
                                         {...field}
-                                        disabled
+                                        
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -312,7 +352,7 @@ export default function FormExposant({ exposant }: { exposant: Exposant }) {
                                     <Input
                                         placeholder="Adresse"
                                         {...field}
-                                        disabled
+                                        
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -320,7 +360,7 @@ export default function FormExposant({ exposant }: { exposant: Exposant }) {
                         )}
                     />
                 </div>
-                <Button type="submit">Submit</Button>
+                <Button type="submit">Envoyer les modifications</Button>
             </form>
         </Form>
     );
