@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 
-export default function SignOut() {
+export default function SignOut({ redirectTo }: { redirectTo: string }) {
 
     const router = useRouter();
 
@@ -12,7 +12,7 @@ export default function SignOut() {
         await authClient.signOut({
             fetchOptions: {
               onSuccess: () => {
-                router.push("/exposant-signup"); 
+                router.push(redirectTo); 
               },
             },
         });

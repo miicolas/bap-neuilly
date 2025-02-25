@@ -3,12 +3,13 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 
-export default function SellersLogin() {
+export default function AdminLogin() {
 
     const signIn = async () => {
         await authClient.signIn.social({
-            provider: "google"
-        })
+            provider: "google",
+            callbackURL: "/dashboard"
+        });
     }
     
     return (
@@ -17,10 +18,10 @@ export default function SellersLogin() {
             <div className="w-full max-w-md space-y-8">
                 <div className="text-center">
                     <h1 className="text-4xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
-                        Connexion
+                        Connexion à votre espace 
                     </h1>
                     <p className="mt-2 text-gray-600 dark:text-gray-400">
-                        Veuillez vous connecter pour continuers
+                        Veuillez vous connecter pour continuer
                     </p>
                 </div>
 
