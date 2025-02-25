@@ -6,8 +6,7 @@ export class Notification {
     constructor(
         public title: string,
         public description: string,
-        public type: string
-    
+        public type: string,
     ) { }
 
     async create() {
@@ -32,8 +31,7 @@ export class Notification {
 
     static async read(id: string) {
         return db
-            .update(notification)
-            .set({ read: true })
+            .delete(notification)
             .where(eq(notification.id, id))
             .execute();
     }

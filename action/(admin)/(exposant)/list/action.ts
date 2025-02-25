@@ -7,6 +7,7 @@ import { FormResponse } from "@/lib/type";
 export async function ListExposantsAction(): Promise<FormResponse> {
     try {
         const list = await Exposant.list_accepted();
+
         return { status: "success", content: list, message: "Exposants retrieved" };
     } catch (error) {
         if (error instanceof z.ZodError) {

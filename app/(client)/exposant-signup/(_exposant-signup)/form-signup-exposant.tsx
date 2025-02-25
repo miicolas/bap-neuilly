@@ -21,13 +21,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+
 import { UserPlus } from "lucide-react"
 import { ExposantSignupAction } from "@/action/(exposant)/exposant-signup/action"
 import { CreateNotificationAction } from "@/action/(admin)/(notifications)/create/action";
@@ -36,6 +30,7 @@ import ResumeSignup from "./resume-signup-exposant";
 import StepBar from "@/components/ui/steps-bar";
 import Tiptap from "@/components/rich-editor"
 import { useRouter } from 'next/navigation'
+import { TagInput } from "@/components/ui/tag";
 
 const formSchema = z.object({
   firstname: z.string().min(2, {
@@ -44,7 +39,9 @@ const formSchema = z.object({
   lastName: z.string().min(2, {
     message: "Le nom doit contenir au moins 2 caractères",
   }),
-  type: z.enum(["EXPOSANT", "VISITEUR"]),
+  type: z.array(z.string()).min(1, {
+    message: "Veuillez sélectionner au moins un type",
+  }),
   email: z.string().email({
     message: "Veuillez entrer une adresse email valide",
   }),
@@ -75,6 +72,7 @@ const formSchema = z.object({
   }),
 })
 
+
 export default function ExposantForm( { email, id } : { email: string, id: string }) {
 
   const router = useRouter()
@@ -84,7 +82,7 @@ export default function ExposantForm( { email, id } : { email: string, id: strin
     defaultValues: {
       firstname: "",
       lastName: "",
-      type: "EXPOSANT",
+      type: [],
       email: email,
       adresse: "",
       city: "",
@@ -117,7 +115,7 @@ export default function ExposantForm( { email, id } : { email: string, id: strin
         await fetch("/api/send/exposant-awaiting-validation", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(values),
+          body: JSON.stringify({ ...values, exposantId }),
         }),
       ]);
       toast.success("Email envoyé");
@@ -285,17 +283,11 @@ export default function ExposantForm( { email, id } : { email: string, id: strin
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Type</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Sélectionnez un type" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="EXPOSANT">Exposant</SelectItem>
-                            <SelectItem value="VISITEUR">Visiteur</SelectItem>
-                          </SelectContent>
-                        </Select>
+                        <TagInput
+                          value={field.value}
+                          onChange={(value) => field.onChange(value)}
+                          placeholder="Sélectionnez un type"
+                        />
                         <FormMessage />
                       </FormItem>
                     )}

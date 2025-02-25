@@ -1,5 +1,5 @@
 import { db } from "@/db";
-import { ExposantTable, user } from "@/db/schema";
+import { ExposantTable, user, ImageTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { Exposant as ExposantType } from "@/lib/type";
 
@@ -72,8 +72,28 @@ export class Exposant {
   }
 
   static async list_accepted() {
-    const exposants = await db.select().from(ExposantTable).where(eq(ExposantTable.status, "accepted")).execute();
-    return exposants;
+    const exposants = await db
+      .select({
+        exposant: ExposantTable,
+        logoUrl: ImageTable.picture,
+        pictureUrl: ImageTable.picture,
+        picture2Url: ImageTable.picture,
+        picture3Url: ImageTable.picture,
+        picture4Url: ImageTable.picture,
+      })
+      .from(ExposantTable)
+      .leftJoin(ImageTable, eq(ExposantTable.logo, ImageTable.id))
+      .where(eq(ExposantTable.status, "accepted"))
+      .execute();
+
+    return exposants.map(exposant => ({
+      ...exposant.exposant,
+      logoUrl: exposant.logoUrl,
+      pictureUrl: exposant.pictureUrl,
+      picture2Url: exposant.picture2Url,
+      picture3Url: exposant.picture3Url,
+      picture4Url: exposant.picture4Url,
+    }));
   }
 
   async updateExposantId(exposantId: string) {

@@ -16,15 +16,15 @@ import {
     ChartTooltip,
     ChartTooltipContent,
 } from "@/components/ui/chart"
-import { Visitor } from "@/lib/type"
+import { Exposant, Visitor } from "@/lib/type"
 
-export default function InfluenceChart({ visitors }: { visitors: Visitor[] }) {
+export default function InfluenceChart({ visitors, exposants }: { visitors: Visitor[], exposants: Exposant[] }) {
 
-    const visitorsPerson = visitors.map((visitor) => visitor.person).reduce((a, b) => a + b, 0)
-
+    const visitorsPerson = visitors.length
+    const exposantsPerson = exposants.length
     const chartData = [
         { browser: "Visiteurs", visitors: visitorsPerson, fill: "#00B0FF" },
-        { browser: "Exposants", visitors: 12, fill: "#FF0000" },
+        { browser: "Exposants", visitors: exposantsPerson, fill: "#FF0000" },
         { browser: "Fournisseurs", visitors: 15, fill: "#FFA500" },
     ]
 

@@ -13,7 +13,9 @@ const bodySchema = z.object({
   lastName: z.string().min(2, {
     message: "Le nom doit contenir au moins 2 caractères",
   }),
-  type: z.enum(["EXPOSANT", "VISITEUR"]),
+  type: z.array(z.string()).min(1, {
+    message: "Veuillez sélectionner au moins un type",
+  }),
   email: z.string().email({
     message: "Veuillez entrer une adresse email valide",
   }),
@@ -60,7 +62,7 @@ export async function ExposantSignupAction(body: z.infer<typeof bodySchema>): Pr
     const exposant = new Exposant(
       firstname,
       lastName,
-      type,
+      type.join(","),
       email,
       adresse,
       city,
