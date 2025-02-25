@@ -7,7 +7,6 @@ import { useState } from "react";
 
 export default function GridContent({ content }: { content: Exposant[] }) {
     const [filteredExposants, setFilteredExposants] = useState<Exposant[]>(content);
-    console.log(content)
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
