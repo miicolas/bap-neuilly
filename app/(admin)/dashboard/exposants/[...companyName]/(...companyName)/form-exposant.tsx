@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/select";
 
 import { Exposant as ExposantType } from "@/lib/type";
+import RichTextEditor from "@/components/rich-editor";
 
 const formSchema = z.object({
     firstName: z.string().min(2, {
@@ -360,6 +361,39 @@ export default function FormExposant({ exposant }: { exposant: ExposantType }) {
                         )}
                     />
                 </div>
+                <div className="flex items-start justify-start gap-4 w-full">
+                    <FormField
+                        control={form.control}
+                        name="products"
+                        render={({ field }) => (
+                            <FormItem className="w-full">
+                                <FormLabel>Les produits de l'entreprise</FormLabel>
+                                <FormControl>
+                                    <RichTextEditor
+                                        value={field.value}
+                                        onChange={(value) => field.onChange(value)}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="history"
+                        render={({ field }) => (
+                            <FormItem className="w-full">
+                                <FormLabel>L'histoire de l'entreprise</FormLabel>
+                                <FormControl>
+                                    <RichTextEditor
+                                        value={field.value}
+                                        onChange={(value) => field.onChange(value)}
+                                    />
+                                </FormControl>
+                            </FormItem>
+                        )}
+                    />
+                </div>
+
                 <Button type="submit">Envoyer les modifications</Button>
             </form>
         </Form>
