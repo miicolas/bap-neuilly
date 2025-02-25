@@ -72,19 +72,6 @@ const formSchema = z.object({
   }),
 })
 
-interface FormProps {
-  firstname: string;
-  lastName: string;
-  email: string;
-  adresse: string;
-  city: string;
-  postalCode: string;
-  siret: string;
-  products: string;
-  history: string;
-  companyName: string;
-  type: string[];
-}
 
 export default function ExposantForm( { email, id } : { email: string, id: string }) {
 

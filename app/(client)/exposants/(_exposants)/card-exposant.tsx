@@ -8,11 +8,8 @@ import Link from "next/link";
 export default function CardExposant(
     { exposant }: { exposant: Exposant }
 ) {
-    const { companyName, type, history, logoUrl, id } = exposant;
-
-    console.log(exposant)
+    const { companyName, type, history, logoUrl } = exposant;
     const types = type.split(',');
-
     const logoUrlMinio = logoUrl ? `https://minio-bap-neuilly.nicolas-becharat.com/bap-neuilly/${logoUrl}` : null;
 
     return (
