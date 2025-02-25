@@ -108,7 +108,7 @@ export default function EventForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4 bg-card rounded-lg p-4 border border-neutral-200">
 
         <div className="grid grid-cols-2 gap-4">
           <FormField

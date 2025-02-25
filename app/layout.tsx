@@ -32,6 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased w-full bg-neutral-50 dark:bg-neutral-900`}
       >
         <NuqsAdapter>
+     
           {children}
           <Toaster /> 
         </NuqsAdapter>
