@@ -115,7 +115,7 @@ export default function ExposantForm( { email, id } : { email: string, id: strin
         await fetch("/api/send/exposant-awaiting-validation", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(values),
+          body: JSON.stringify({ ...values, exposantId }),
         }),
       ]);
       toast.success("Email envoyé");

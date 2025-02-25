@@ -19,7 +19,11 @@ export interface ExposantAwaitingValidationEmailProps {
     eventName?: string;
     companyName?: string;
     eventLocation?: string;
-    exhibitorNumber?: string;
+    exposantId?: string;
+    siret?: string;
+    adresse?: string;
+    city?: string;
+    postalCode?: string;
 }
 
 export interface NotificationItem {

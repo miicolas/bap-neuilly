@@ -11,12 +11,12 @@ import {
     Section,
     Tailwind,
     Text,
-} from '@react-email/components';
-import { ExposantAwaitingValidationEmailProps } from '@/lib/type';
+} from "@react-email/components";
+import { ExposantAwaitingValidationEmailProps } from "@/lib/type";
 
 const baseUrl = process.env.BETTER_AUTH
     ? `https://${process.env.BETTER_AUTH}`
-    : '';
+    : "";
 
 export default function ExposantAwaitingValidationEmail({
     firstName,
@@ -25,15 +25,23 @@ export default function ExposantAwaitingValidationEmail({
     eventName,
     companyName,
     eventLocation,
-    exhibitorNumber,
+    exposantId,
+    siret,
+    adresse,
+    city,
+    postalCode,
 }: ExposantAwaitingValidationEmailProps) {
-    firstName = firstName
-    lastName = lastName
-    eventDate = "15 mars 2025"
-    eventName = "Salon des créateurs d'objets et artisans de Neuilly"
-    companyName = "Eau de Toile"
-    eventLocation = "Paris Expo Porte de Versailles"
-    exhibitorNumber = exhibitorNumber || "expo-2021"
+    firstName = firstName;
+    lastName = lastName;
+    companyName = companyName;
+    eventDate = "15 mars 2025";
+    eventName = "Salon des créateurs d'objets et artisans de Neuilly";
+    eventLocation = "Paris Expo Porte de Versailles";
+    siret = siret;
+    adresse = adresse;
+    city = city;
+    postalCode = postalCode;
+    exposantId = exposantId;
 
     const previewText = `Inscription en attente de validation - ${eventName}`;
 
@@ -54,46 +62,70 @@ export default function ExposantAwaitingValidationEmail({
                             />
                         </Section>
                         <Heading className="text-black text-[24px] font-normal text-center p-0 my-[30px] mx-0">
-                            Inscription en attente de validation au <strong>{eventName}</strong>
+                            Inscription en attente de validation au{" "}
+                            <strong>{eventName}</strong>
                         </Heading>
                         <Text className="text-black text-[14px] leading-[24px]">
                             Bonjour {firstName} {lastName},
                         </Text>
                         <Text className="text-black text-[14px] leading-[24px]">
-                            Nous avons bien reçu votre inscription au {eventName}, qui se tiendra le{' '}
-                            <strong>{eventDate}</strong> à <strong>{eventLocation}</strong>.
+                            Nous avons bien reçu votre inscription au{" "}
+                            {eventName}, qui se tiendra le{" "}
+                            <strong>{eventDate}</strong> à{" "}
+                            <strong>{eventLocation}</strong>.
                         </Text>
                         <Section className="bg-gray-50 rounded p-[20px] my-[16px]">
                             <Text className="text-black text-[14px] leading-[24px] m-0">
                                 <strong>Détails de votre inscription :</strong>
                             </Text>
                             <Text className="text-black text-[14px] leading-[24px] m-0">
-                                Numéro d'exposant : {exhibitorNumber}
+                                Numéro d'exposant : {exposantId}
                             </Text>
                             <Text className="text-black text-[14px] leading-[24px] m-0">
-                               Nom de votre société : {companyName}
+                                Nom de votre société : {companyName}
+                            </Text>
+                            <Text className="text-black text-[14px] leading-[24px] m-0">
+                                SIRET : {siret}
+                            </Text>
+                            <Text className="text-black text-[14px] leading-[24px] m-0">
+                                Adresse : {adresse}
+                            </Text>
+                            <Text className="text-black text-[14px] leading-[24px] m-0">
+                                Code postal : {postalCode}
+                            </Text>
+                            <Text className="text-black text-[14px] leading-[24px] m-0">
+                                Ville : {city}
                             </Text>
                         </Section>
                         <Text className="text-black text-[14px] leading-[24px]">
-                            Votre inscription est actuellement en attente de validation. Vous recevrez un email de confirmation une fois votre inscription approuvée.
+                            Votre inscription est actuellement en attente de
+                            validation. Vous recevrez un email de confirmation
+                            une fois votre inscription approuvée.
                         </Text>
                         <Section className="text-center mt-[32px] mb-[32px]">
                             <Button
                                 className="bg-[#000000] rounded text-white text-[12px] font-semibold no-underline text-center px-5 py-3"
-                                href={`mailto:support@${(eventName || 'événement').toLowerCase().replace(/ /g, '-')}.fr`}
+                                href={`mailto:support@${(
+                                    eventName || "événement"
+                                )
+                                    .toLowerCase()
+                                    .replace(/ /g, "-")}.fr`}
                             >
                                 Contacter le support
                             </Button>
                         </Section>
-                        
+
                         <Hr className="border border-solid border-[#eaeaea] my-[26px] mx-0 w-full" />
                         <Text className="text-[#666666] text-[12px] leading-[24px]">
-                            Une fois validée, votre inscription vous permettra d’accéder au salon et de participer en tant qu'exposant.
-                            Veuillez patienter le temps de la validation. Pour toute question, n'hésitez pas à contacter notre service client.
+                            Une fois validée, votre inscription vous permettra
+                            d’accéder au salon et de participer en tant
+                            qu'exposant. Veuillez patienter le temps de la
+                            validation. Pour toute question, n'hésitez pas à
+                            contacter notre service client.
                         </Text>
                     </Container>
                 </Body>
             </Tailwind>
         </Html>
     );
-};
+}
