@@ -16,13 +16,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
+import { TagInput } from "@/components/ui/tag";
 
 import { Exposant as ExposantType } from "@/lib/type";
 import RichTextEditor from "@/components/rich-editor";
@@ -34,7 +28,9 @@ const formSchema = z.object({
     lastName: z.string().min(2, {
         message: "Le nom doit contenir au moins 2 caractères",
     }),
-    type: z.enum(["EXPOSANT", "VISITEUR"]),
+    type: z.array(z.string()).min(1, {
+        message: "Veuillez sélectionner au moins un type",
+    }),
     email: z.string().email({
         message: "Veuillez entrer une adresse email valide",
     }),
@@ -76,13 +72,16 @@ const formSchema = z.object({
 });
 
 export default function FormExposant({ exposant }: { exposant: ExposantType }) {
+
+    const types = exposant.type.split(',')
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             firstName: exposant.firstName,
             lastName: exposant.lastName,
             email: exposant.email,
-            type: exposant.type as "EXPOSANT" | "VISITEUR",
+            type: types,
             adresse: exposant.adresse,
             city: exposant.city,
             postalCode: exposant.postalCode,
@@ -126,7 +125,7 @@ export default function FormExposant({ exposant }: { exposant: ExposantType }) {
                     firstName,
                     lastName,
                     email,
-                    type: type as "EXPOSANT" | "VISITEUR",
+                    type: type.join(", "),
                     adresse,
                     city,
                     postalCode,
@@ -216,20 +215,12 @@ export default function FormExposant({ exposant }: { exposant: ExposantType }) {
                         <FormItem>
                             <FormLabel>Type</FormLabel>
                             <FormControl>
-                                <Select {...field}>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Type" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="EXPOSANT">
-                                            Exposant
-                                        </SelectItem>
-                                        <SelectItem value="VISITEUR">
-                                            Visiteur
-                                        </SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </FormControl>
+                                <TagInput
+                                    value={field.value}
+                                    onChange={(value) => field.onChange(value)}
+                                    placeholder="Type"
+                                />
+                            </FormControl>  
                             <FormMessage />
                         </FormItem>
                     )}

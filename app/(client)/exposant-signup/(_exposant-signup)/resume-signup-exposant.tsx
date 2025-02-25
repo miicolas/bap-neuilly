@@ -16,7 +16,7 @@ import {
 import HtmlConvertorMdx from '@/components/ui/html-convertor-mdx';
 
 interface FormProps {
-    getValues: () => Record<string, string>;
+    getValues: () => Record<string, string | string[]>;
 }
 
 export default function ResumeSignup({ form }: { form: FormProps }) {
@@ -80,8 +80,8 @@ export default function ResumeSignup({ form }: { form: FormProps }) {
                                                             {field.label}
                                                         </div>
                                                         <div className="text-sm font-medium text-gray-900">
-                                                            {field.key === 'type'
-                                                                ? value === 'EXPOSANT' ? 'Exposant' : 'Visiteur'
+                                                            {field.key === 'type' && Array.isArray(value)
+                                                                ? value.map((type: string) => type.charAt(0).toUpperCase() + type.slice(1)).join(', ')
                                                                 : <HtmlConvertorMdx>{String(value)}</HtmlConvertorMdx>}
                                                         </div>
                                                     </div>

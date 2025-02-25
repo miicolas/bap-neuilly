@@ -10,7 +10,7 @@ const bodySchema = z.object({
         firstName: z.string(),
         lastName: z.string(),
         email: z.string(),
-        type: z.enum(["EXPOSANT", "VISITEUR"]),
+        type: z.string(),
         adresse: z.string(),
         city: z.string(),
         postalCode: z.string(),
