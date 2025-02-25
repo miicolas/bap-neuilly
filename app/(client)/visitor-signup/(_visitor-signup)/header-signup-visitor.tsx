@@ -1,15 +1,16 @@
-import { Badge } from "@/components/ui/badge";
-import { Users, Gift, Calendar, MapPin, Ticket, Star, Clock } from "lucide-react";
+import {
+    Users,
+    Gift,
+    Calendar,
+    MapPin,
+    Ticket,
+    Star,
+    Clock,
+} from "lucide-react";
 
 export default function VisitorSignupHeader() {
     return (
         <div className="flex flex-col items-center justify-center max-w-3xl mx-auto">
-            <Badge
-                variant="outline"
-                className="mb-4 px-3 py-1 text-sm bg-primary/5 text-primary"
-            >
-                Édition 2024
-            </Badge>
 
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70 mb-6">
                 Inscription visiteur
@@ -64,20 +65,28 @@ export default function VisitorSignupHeader() {
                     l'événement.
                 </p>
             </div>
-            
+
             <div className="w-full max-w-2xl grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 <div className="p-4 bg-card rounded-lg border shadow-sm flex items-center gap-3">
                     <Gift className="h-8 w-8 text-primary flex-shrink-0" />
                     <div>
-                        <h3 className="text-sm font-semibold">Cadeaux exclusifs</h3>
-                        <p className="text-xs text-muted-foreground">Des surprises pour les premiers inscrits</p>
+                        <h3 className="text-sm font-semibold">
+                            Cadeaux exclusifs
+                        </h3>
+                        <p className="text-xs text-muted-foreground">
+                            Des surprises pour les premiers inscrits
+                        </p>
                     </div>
                 </div>
                 <div className="p-4 bg-card rounded-lg border shadow-sm flex items-center gap-3">
                     <Clock className="h-8 w-8 text-primary flex-shrink-0" />
                     <div>
-                        <h3 className="text-sm font-semibold">Accès prioritaire</h3>
-                        <p className="text-xs text-muted-foreground">Évitez les files d'attente</p>
+                        <h3 className="text-sm font-semibold">
+                            Accès prioritaire
+                        </h3>
+                        <p className="text-xs text-muted-foreground">
+                            Évitez les files d'attente
+                        </p>
                     </div>
                 </div>
             </div>

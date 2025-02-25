@@ -1,13 +1,9 @@
-import { Badge } from "@/components/ui/badge";
 import { Palette, Brush, Calendar, MapPin } from "lucide-react";
 
 export default function ExposantSignupHeader() {
     return (
         <div className="flex flex-col items-center justify-center max-w-3xl mx-auto">
-            <Badge variant="outline" className="mb-4 px-3 py-1 text-sm bg-primary/5 text-primary">
-                Édition 2024
-            </Badge>
-            
+        
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70 mb-6">
                 Inscription exposant
             </h1>

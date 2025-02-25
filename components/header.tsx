@@ -23,8 +23,7 @@ export default function Header() {
                             </h1>
                         </Link>
                         <Badge
-                            variant="outline"
-                            className="hidden md:flex px-3 py-1 text-xs bg-primary/10 text-primary border-primary/20"
+                            variant="default"
                         >
                             Édition 2024
                         </Badge>
