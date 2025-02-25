@@ -16,6 +16,7 @@ export async function POST(req: Request) {
             postalCode,
             exposantId,
         } = await req.json();
+
         const { data, error } = await resend.emails.send({
             from: "Salon des créateurs d'objects et artisans de Neuilly <bap-neuilly-contact@nicolas-becharat.com>",
             replyTo: "bap-neuilly-contact@nicolas-becharat.com",

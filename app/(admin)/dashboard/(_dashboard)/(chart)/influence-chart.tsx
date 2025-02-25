@@ -22,6 +22,7 @@ export default function InfluenceChart({ visitors, exposants }: { visitors: Visi
 
     const visitorsPerson = visitors.length
     const exposantsPerson = exposants.length
+    
     const chartData = [
         { browser: "Visiteurs", visitors: visitorsPerson, fill: "#00B0FF" },
         { browser: "Exposants", visitors: exposantsPerson, fill: "#FF0000" },
@@ -111,3 +112,4 @@ export default function InfluenceChart({ visitors, exposants }: { visitors: Visi
         </Card>
     )
 }
+
