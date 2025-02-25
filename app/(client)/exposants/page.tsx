@@ -6,7 +6,6 @@ import { Suspense } from "react";
 
 export default async function ExposantsPage() {
     const data = await ListExposantsAction();
-
     return (
         <div className="">
             <HeaderExposants />

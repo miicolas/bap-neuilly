@@ -1,4 +1,4 @@
-import { mysqlTable, varchar, text, datetime, int, boolean, primaryKey, timestamp } from "drizzle-orm/mysql-core";
+import { mysqlTable, varchar, text, datetime, int, boolean, timestamp } from "drizzle-orm/mysql-core";
 import { sql } from "drizzle-orm";
 
 export const EventAttendee = mysqlTable("event_attendee", {
@@ -77,7 +77,7 @@ export const ImageTable = mysqlTable("image", {
     createdAt: datetime("createdAt").default(sql`CURRENT_TIMESTAMP`),
     updatedAt: datetime("updatedAt").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
     exposantId: varchar("exposantId", { length: 191 }).notNull(),
-    picture: text("picture").notNull(),
+    picture: varchar("picture", { length: 255 }).notNull()
 });
 
 export const ExposantTable = mysqlTable("exposant", {

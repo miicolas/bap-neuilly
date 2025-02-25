@@ -72,7 +72,16 @@ export type Exposant = {
     products: string
     status: string
     userId: string
-    
+    logo?: string
+    logoUrl?: string
+    picture?: string
+    pictureUrl?: string
+    picture2?: string
+    picture2Url?: string
+    picture3?: string
+    picture3Url?: string
+    picture4?: string
+    picture4Url?: string
 }
 
 export type ExposantAwaiting = {
