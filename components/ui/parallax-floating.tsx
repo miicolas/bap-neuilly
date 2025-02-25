@@ -69,15 +69,12 @@ const Floating = ({
     elementsMap.current.forEach((data) => {
       const strength = (data.depth * sensitivity) / 20
 
-      // Calculate new target position
       const newTargetX = mousePositionRef.current.x * strength
       const newTargetY = mousePositionRef.current.y * strength
 
-      // Check if we need to update
       const dx = newTargetX - data.currentPosition.x
       const dy = newTargetY - data.currentPosition.y
 
-      // Update position only if we're still moving
       data.currentPosition.x += dx * easingFactor
       data.currentPosition.y += dy * easingFactor
 
@@ -119,10 +116,11 @@ export const FloatingElement = ({
     if (!elementRef.current || !context) return
 
     const nonNullDepth = depth ?? 0.01
+    const elementId = idRef.current
 
-    context.registerElement(idRef.current, elementRef.current, nonNullDepth)
-    return () => context.unregisterElement(idRef.current)
-  }, [depth])
+    context.registerElement(elementId, elementRef.current, nonNullDepth)
+    return () => context.unregisterElement(elementId)
+  }, [depth, context])
 
   return (
     <div
