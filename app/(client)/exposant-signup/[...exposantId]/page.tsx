@@ -127,7 +127,7 @@ export default async function ExposantWaitingValidationPage({
                     <UploadImages userId={session?.user.id} />
                 </div>
             )}
-            <SignOut />
+            <SignOut redirectTo="/exposant-signup" />
         </div>
     );
 }

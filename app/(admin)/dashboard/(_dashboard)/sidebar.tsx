@@ -20,6 +20,7 @@ import {
 
 import { User2, ChevronUp } from "lucide-react"
 import Link from "next/link"
+import SignOut from "@/components/sign-out"
 
 const items = [
   {
@@ -88,7 +89,7 @@ export default function AppSidebar() {
                 className="w-(--radix-popper-anchor-width)"
               >
                 <DropdownMenuItem>
-                  <span>Sign out</span>
+                  <SignOut redirectTo="/login" />
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
