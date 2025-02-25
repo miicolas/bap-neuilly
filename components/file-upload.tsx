@@ -168,7 +168,7 @@ export default function FileUpload({
                     {...getRootProps()}
                     className={cn(
                         "border-2 border-dashed rounded-lg p-6 transition-colors duration-200 ease-in-out cursor-pointer",
-                        "hover:border-primary/50 hover:bg-accent/50",
+                        "hover:border-primary/50 hover:bg-accent/50 max-w-full",
                         isDragActive
                             ? "border-primary bg-accent"
                             : "border-muted-foreground/25",

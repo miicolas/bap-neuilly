@@ -37,12 +37,7 @@ export default async function ExposantWaitingValidationPage({
         unauthorized();
     }
 
-    const status = checkForm[0]?.status;
-
-    if (status === "accepted") {
-        unauthorized();
-    }
-
+    
     if (checkForm[0]?.exposantId !== exposantId[0]) {
         unauthorized();
     }
@@ -127,7 +122,7 @@ export default async function ExposantWaitingValidationPage({
                 </CardContent>
             </Card>
 
-            {checkForm[0] && checkForm[0].status === "pending" && (
+            {checkForm[0] && (
                 <div className="pt-8">
                     <UploadImages userId={session?.user.id} />
                 </div>

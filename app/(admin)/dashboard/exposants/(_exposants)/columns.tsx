@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { ExposantAwaiting } from "@/lib/type"
 import { DeleteExposantAction } from "@/action/(admin)/(exposant)/delete/action"
-
+import Link from "next/link"
 
 export const columns: ColumnDef<ExposantAwaiting>[] = [
     {
@@ -64,6 +64,11 @@ export const columns: ColumnDef<ExposantAwaiting>[] = [
                             onClick={() => navigator.clipboard.writeText(exposant.exposantId)}
                         >
                             Copie l'ID de l'exposant
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                            <Link href={`/dashboard/exposants/${exposant.companyName}`}>
+                                Voir l'exposant
+                            </Link>
                         </DropdownMenuItem>
 
                         <DropdownMenuItem

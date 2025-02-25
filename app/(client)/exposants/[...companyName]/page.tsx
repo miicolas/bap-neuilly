@@ -1,11 +1,9 @@
-"use client";
+interface ExposantPageProps {
+    params: Promise<{ companyName: string }>;
+}
 
-import { useParams } from "next/navigation";
-
-export default function ExposantPage () {
-
-    const params = useParams();
-    const companyName = params.companyName;
+export default async function ExposantPage({ params }: ExposantPageProps) {
+    const { companyName } = await params;
 
     return (
         <div className="flex flex-col items-start py-16 px-36">
