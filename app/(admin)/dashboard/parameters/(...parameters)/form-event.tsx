@@ -18,8 +18,7 @@ import { toast } from "sonner";
 import { DatePickerWithRange } from "@/components/ui/data-picker";
 import { Event } from "@/lib/type";
 import { Textarea } from "@/components/ui/textarea";
-import { useEffect } from "react";
-import { DateRange } from "react-day-picker";
+
 
 const formSchema = z.object({
     eventName: z.string().min(2, {
