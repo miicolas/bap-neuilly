@@ -131,14 +131,14 @@ export default function Page() {
 
             <div className="flex flex-col justify-center items-center min-w-sm lg:min-w-4xl z-50 pointer-events-auto">
                 <motion.h1
-                    className="text-5xl md:text-7xl lg:text-8xl text-center w-full justify-center items-center flex-col flex whitespace-pre leading-tight font-calendas tracking-tight space-y-1 md:space-y-4 font-bold"
+                    className="text-4xl md:text-7xl lg:text-8xl text-center w-full justify-center items-center flex-col flex whitespace-pre leading-tight font-calendas tracking-tight space-y-1 md:space-y-4 font-bold"
                     animate={{ opacity: 1, y: 0 }}
                     initial={{ opacity: 0, y: 20 }}
                     transition={{ duration: 0.2, ease: "easeOut", delay: 0.3 }}
                 >
                     <span>Découvrez</span>
                     <LayoutGroup>
-                        <motion.span layout className="flex whitespace-pre font-semibold ">
+                        <motion.span layout className="flex whitespace-pre">
                             <motion.span
                                 layout
                                 className="flex whitespace-pre"

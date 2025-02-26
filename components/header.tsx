@@ -10,13 +10,16 @@ import {
     SheetTitle,
 } from "@/components/ui/sheet";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { GetYearEventAction } from "@/action/(visitor)/event-year/action";
 
-export default function Header() {
+export default async function Header() {
     const links = [
         { label: "Nos créateurs", href: "/exposants" },
         { label: "Programme", href: "/programme" },
         { label: "Contact", href: "/contact" },
     ];
+
+    const year = (await GetYearEventAction()) as { content: string };
 
     return (
         <header className="sticky top-0 z-50 w-full bg-neutral-50 backdrop-blur-sm border-b border-neutral-100 shadow-md">
@@ -31,7 +34,7 @@ export default function Header() {
                                 Salon des créateurs
                             </h1>
                         </Link>
-                        <Badge variant="default">Édition 2024</Badge>
+                        <Badge variant="default">Édition {year.content}</Badge>
                     </div>
 
                     <nav className="hidden md:flex items-center gap-6">
@@ -51,7 +54,6 @@ export default function Header() {
                         >
                             <Link href="/visitor-signup">Inscrivez-vous</Link>
                         </Button>
-                        
                     </nav>
 
                     {/* Mobile Menu */}

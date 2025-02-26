@@ -13,7 +13,7 @@ export default function CardExposant(
     const logoUrlMinio = logoUrl ? `https://minio-bap-neuilly.nicolas-becharat.com/bap-neuilly/${logoUrl}` : null;
 
     return (
-        <Link href={`/exposants/${companyName}`} className="bg-card rounded-lg p-4 border border-neutral-200">
+        <Link href={`/exposants/${companyName}`} className="bg-card rounded-lg p-4 border border-neutral-200 hover:bg-neutral-100 transition-all duration-300">
             <li className="flex items-start ">
                 {logoUrlMinio && <Image src={logoUrlMinio} alt={companyName} width={100} height={100} />}
 
