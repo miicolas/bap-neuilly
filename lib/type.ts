@@ -109,4 +109,14 @@ export interface FileUploadProps {
     userId: string;
 }
 
+export type Event = {
+    id?: string;
+    eventName: string;
+    eventDate: Date;
+    eventDateEnd: Date;
+    eventLocation: string;
+    eventDescription: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
 

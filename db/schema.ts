@@ -104,3 +104,13 @@ export const ExposantTable = mysqlTable("exposant", {
     picture4: varchar("picture4", { length: 191 }).references(() => ImageTable.id),
     userId: varchar("userId", { length: 36 }).references(() => user.id),
 });
+
+
+export const EventTable = mysqlTable("event", {
+    id: varchar("id", { length: 191 }).primaryKey().$defaultFn(() => sql`(uuid())`),
+    eventName: varchar("eventName", { length: 255 }).notNull(),
+    eventDate: datetime("eventDate").notNull(),
+    eventDateEnd: datetime("eventDateEnd").notNull(),
+    eventLocation: varchar("eventLocation", { length: 255 }).notNull(),
+    eventDescription: text("eventDescription").notNull(),
+});
