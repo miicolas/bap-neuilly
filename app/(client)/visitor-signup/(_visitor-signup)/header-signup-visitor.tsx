@@ -7,8 +7,12 @@ import {
     Star,
     Clock,
 } from "lucide-react";
+import { GetEventDetailsAction } from "@/action/(visitor)/event-details/action";
 
-export default function VisitorSignupHeader() {
+export default async function VisitorSignupHeader() {
+
+    const eventDetails = await GetEventDetailsAction() as { content: { dayEvent: string, dayEventEnd: string, localisation: string } };
+
     return (
         <div className="flex flex-col items-center justify-center max-w-3xl mx-auto">
 
@@ -41,13 +45,13 @@ export default function VisitorSignupHeader() {
                 <div className="flex flex-col items-center p-4 bg-card rounded-lg border shadow-sm hover:bg-muted/50 transition-colors">
                     <Calendar className="h-8 w-8 text-primary mb-2" />
                     <span className="text-sm font-medium text-center">
-                        27-29 Octobre 2024
+                        {eventDetails.content.dayEvent} - {eventDetails.content.dayEventEnd}
                     </span>
                 </div>
                 <div className="flex flex-col items-center p-4 bg-card rounded-lg border shadow-sm hover:bg-muted/50 transition-colors">
                     <MapPin className="h-8 w-8 text-primary mb-2" />
                     <span className="text-sm font-medium text-center">
-                        Neuilly-sur-Seine
+                        {eventDetails.content.localisation}
                     </span>
                 </div>
             </div>

@@ -4,13 +4,15 @@ import { z } from "zod";
 import { FormResponse } from "@/lib/type";
 import { Event } from "@/models/event";
 
-export async function ListEventAction(): Promise<FormResponse> {
+export async function GetYearEventAction(): Promise<FormResponse> {
     try {
         const list = await Event.list();
 
+        const year = list.map((event) => event.eventDate.getFullYear());
+
         return {
             status: "success",
-            content: list,
+            content: year[0],
             message: "Event updated successfully",
         };
     } catch (error) {
