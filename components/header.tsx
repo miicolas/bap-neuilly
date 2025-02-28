@@ -15,7 +15,6 @@ import { GetYearEventAction } from "@/action/(visitor)/event-year/action";
 export default async function Header() {
     const links = [
         { label: "Nos créateurs", href: "/exposants" },
-        { label: "Programme", href: "/programme" },
         { label: "Contact", href: "/contact" },
     ];
 
@@ -34,7 +33,9 @@ export default async function Header() {
                                 Salon des créateurs
                             </h1>
                         </Link>
-                        <Badge variant="default">Édition {year.content}</Badge>
+                        <Badge variant="default">
+                            Édition {year.content ? year.content : "2025"}
+                        </Badge>
                     </div>
 
                     <nav className="hidden md:flex items-center gap-6">
@@ -56,7 +57,6 @@ export default async function Header() {
                         </Button>
                     </nav>
 
-                    {/* Mobile Menu */}
                     <Sheet>
                         <SheetTrigger asChild>
                             <Button
@@ -86,7 +86,7 @@ export default async function Header() {
                                     variant="outline"
                                     className="self-start px-3 py-1 text-xs bg-neutral-50 text-neutral-900 border-neutral-200"
                                 >
-                                    Édition 2024
+                                    {year.content ? year.content : "2025"}
                                 </Badge>
                                 <nav className="flex flex-col gap-4">
                                     {links.map((link) => (
@@ -111,15 +111,6 @@ export default async function Header() {
                                         </Button>
                                     </SheetClose>
                                 </nav>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="self-start text-neutral-300 hover:text-white hover:bg-neutral-800 mt-4"
-                                    aria-label="Changer de thème"
-                                >
-                                    <Moon className="h-5 w-5 mr-2" />
-                                    <span>Changer de thème</span>
-                                </Button>
                             </div>
                         </SheetContent>
                     </Sheet>

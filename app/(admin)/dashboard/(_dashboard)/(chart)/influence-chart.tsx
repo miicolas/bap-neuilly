@@ -26,7 +26,6 @@ export default function InfluenceChart({ visitors, exposants }: { visitors: Visi
     const chartData = [
         { browser: "Visiteurs", visitors: visitorsPerson, fill: "#00B0FF" },
         { browser: "Exposants", visitors: exposantsPerson, fill: "#FF0000" },
-        { browser: "Fournisseurs", visitors: 15, fill: "#FFA500" },
     ]
 
     const chartConfig = {
@@ -37,14 +36,6 @@ export default function InfluenceChart({ visitors, exposants }: { visitors: Visi
         exposants: {
             label: "Exposants",
             color: "hsl(var(--chart-2))",
-        },
-        fournisseurs: {
-            label: "Fournisseurs",
-            color: "hsl(var(--chart-3))",
-        },
-        other: {
-            label: "Autres",
-            color: "hsl(var(--chart-4))",
         },
     } satisfies ChartConfig
 

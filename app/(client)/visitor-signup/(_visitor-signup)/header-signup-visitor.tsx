@@ -24,7 +24,7 @@ export default async function VisitorSignupHeader() {
                 Réservez votre place pour découvrir les créations uniques lors
                 de la prochaine édition du
                 <span className="font-semibold text-foreground">
-                    {" "}
+               
                     Salon des créateurs d&apos;objets et artisans de Neuilly
                 </span>
             </p>
@@ -45,7 +45,8 @@ export default async function VisitorSignupHeader() {
                 <div className="flex flex-col items-center p-4 bg-card rounded-lg border shadow-sm hover:bg-muted/50 transition-colors">
                     <Calendar className="h-8 w-8 text-primary mb-2" />
                     <span className="text-sm font-medium text-center">
-                        {eventDetails.content.dayEvent} - {eventDetails.content.dayEventEnd}
+                        {eventDetails.content.dayEvent ? eventDetails.content.dayEvent : "Date π définie"} - {eventDetails.content.dayEventEnd ? eventDetails.content.dayEventEnd : "Date non définie"}
+                        
                     </span>
                 </div>
                 <div className="flex flex-col items-center p-4 bg-card rounded-lg border shadow-sm hover:bg-muted/50 transition-colors">
