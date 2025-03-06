@@ -26,6 +26,19 @@ export interface ExposantAwaitingValidationEmailProps {
     postalCode?: string;
 }
 
+export interface ExposantValidationEmailProps {
+    firstName?: string;
+    lastName?: string;
+    eventDate?: string;
+    eventName?: string;
+    companyName?: string;
+    eventLocation?: string;
+    siret?: string;
+    adresse?: string;
+    city?: string;
+    postalCode?: string;
+}
+
 export interface NotificationItem {
     id?: string;
     title: string;
