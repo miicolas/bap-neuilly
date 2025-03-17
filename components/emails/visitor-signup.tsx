@@ -12,12 +12,12 @@ import {
     Section,
     Tailwind,
     Text,
-} from '@react-email/components';
-import { SalonInvitationEmailProps } from '@/lib/type';
+} from "@react-email/components";
+import { SalonInvitationEmailProps } from "@/lib/type";
 
 const baseUrl = process.env.BETTER_AUTH
     ? `https://${process.env.BETTER_AUTH}`
-    : '';
+    : "";
 
 export default function SalonInvitationEmail({
     firstName,
@@ -29,14 +29,14 @@ export default function SalonInvitationEmail({
     ticketNumber,
     pdfLink,
 }: SalonInvitationEmailProps) {
-    firstName = firstName
-    lastName = lastName
-    eventDate = "15 mars 2025"
-    eventName = "Salon des créateurs d'objets et artisans de Neuilly"
-    numberOfGuests = numberOfGuests
-    eventLocation = "Paris Expo Porte de Versailles"
-    ticketNumber = ticketNumber
-    pdfLink = "https://salon-mariage.com/tickets/SALON-2025-1234.pdf"
+    firstName = firstName;
+    lastName = lastName;
+    eventDate = eventDate;
+    eventName = eventName;
+    numberOfGuests = numberOfGuests;
+    eventLocation = eventLocation;
+    ticketNumber = ticketNumber;
+    pdfLink = pdfLink;
 
     const previewText = `Confirmation d'inscription - ${eventName}`;
 
@@ -57,14 +57,17 @@ export default function SalonInvitationEmail({
                             />
                         </Section>
                         <Heading className="text-black text-[24px] font-normal text-center p-0 my-[30px] mx-0">
-                            Confirmation d'inscription au <strong>{eventName}</strong>
+                            Confirmation d'inscription au{" "}
+                            <strong>{eventName}</strong>
                         </Heading>
                         <Text className="text-black text-[14px] leading-[24px]">
                             Bonjour {firstName} {lastName},
                         </Text>
                         <Text className="text-black text-[14px] leading-[24px]">
-                            Nous avons le plaisir de confirmer votre inscription au {eventName} qui se tiendra le{' '}
-                            <strong>{eventDate}</strong> à <strong>{eventLocation}</strong>.
+                            Nous avons le plaisir de confirmer votre inscription
+                            au {eventName} qui se tiendra le{" "}
+                            <strong>{eventDate}</strong> à{" "}
+                            <strong>{eventLocation}</strong>.
                         </Text>
                         <Section className="bg-gray-50 rounded p-[20px] my-[16px]">
                             <Text className="text-black text-[14px] leading-[24px] m-0">
@@ -77,31 +80,24 @@ export default function SalonInvitationEmail({
                                 Nombre de personnes : {numberOfGuests}
                             </Text>
                         </Section>
-                        <Section className="text-center mt-[32px] mb-[32px]">
-                            <Button
-                                className="bg-[#000000] rounded text-white text-[12px] font-semibold no-underline text-center px-5 py-3"
-                                href={pdfLink}
-                            >
-                                Télécharger votre billet
-                            </Button>
-                        </Section>
-                        <Text className="text-black text-[14px] leading-[24px]">
-                            ou copier-coller ce lien dans votre navigateur :{' '}
-                            <Link href={pdfLink} className="text-blue-600 no-underline">
-                                {pdfLink}
-                            </Link>
-                        </Text>
                         <Hr className="border border-solid border-[#eaeaea] my-[26px] mx-0 w-full" />
                         <Text className="text-[#666666] text-[12px] leading-[24px]">
-                            Ce billet est nominatif et a été émis pour{' '}
-                            <span className="text-black">{firstName} {lastName}</span>.
-                            Veuillez le présenter avec une pièce d'identité le jour de l'événement.
-                            Pour toute question, n'hésitez pas à contacter notre service client
-                            à l&apos;adresse support@{(eventName || 'événement').toLowerCase().replace(/ /g, '-')}.fr
+                            Ce billet est nominatif et a été émis pour{" "}
+                            <span className="text-black">
+                                {firstName} {lastName}
+                            </span>
+                            . Veuillez le présenter avec une pièce d'identité le
+                            jour de l'événement. Pour toute question, n'hésitez
+                            pas à contacter notre service client à
+                            l&apos;adresse support@
+                            {(eventName || "événement")
+                                .toLowerCase()
+                                .replace(/ /g, "-")}
+                            .fr
                         </Text>
                     </Container>
                 </Body>
             </Tailwind>
         </Html>
     );
-};
+}
