@@ -1,19 +1,19 @@
 import { db } from "@/db";
 import { EventAttendee } from "@/db/schema";
-import { eq } from "drizzle-orm/expressions";
+import { eq } from "drizzle-orm";
 
 export class Visitor {
   constructor(
-    public firstname: string,
-    public lastname: string,
+    public firstName: string,
+    public lastName: string,
     public age: number,
     public gender: "MALE" | "FEMALE" | "OTHER",
     public email: string,
     public city: string,
     public person: number
   ) {
-    this.firstname = firstname;
-    this.lastname = lastname;
+    this.firstName = firstName;
+    this.lastName = lastName;
     this.age = age;
     this.gender = gender;
     this.email = email;
@@ -35,8 +35,8 @@ export class Visitor {
     const event_attendee = await db
       .insert(EventAttendee)
       .values({
-        firstName: this.firstname,
-        lastName: this.lastname,
+        firstName: this.firstName,
+        lastName: this.lastName,
         age: this.age,
         gender: this.gender,
         email: this.email,
@@ -73,5 +73,28 @@ export class Visitor {
       .execute();
 
     return updateTicketNumber;
+  }
+
+  static async list() {
+    const event_attendee = await db
+      .select({
+        id: EventAttendee.id,
+        ticketNumber: EventAttendee.ticketNumber,
+        lastName: EventAttendee.lastName,
+        person: EventAttendee.person
+      })
+      .from(EventAttendee)
+      .execute();
+
+    return event_attendee;
+  }
+
+  static async delete(id: string) {
+    const event_attendee = await db
+      .delete(EventAttendee)
+      .where(eq(EventAttendee.id, id))
+      .execute();
+
+    return event_attendee;
   }
 }

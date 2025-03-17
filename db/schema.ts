@@ -1,19 +1,18 @@
-import { mysqlTable, varchar, text, datetime, int, boolean, primaryKey,timestamp } from "drizzle-orm/mysql-core";
-
+import { mysqlTable, varchar, text, datetime, int, boolean, timestamp } from "drizzle-orm/mysql-core";
 import { sql } from "drizzle-orm";
 
 export const EventAttendee = mysqlTable("event_attendee", {
-  id: varchar("id", { length: 191 }).primaryKey().$defaultFn(() => sql`(uuid())`),
-  createdAt: datetime("createdAt").default(sql`CURRENT_TIMESTAMP`),
-  updatedAt: datetime("updatedAt").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
-  firstName: varchar("firstName", { length: 255 }).notNull(),
-  lastName: varchar("lastName", { length: 255 }).notNull(),
-  email: varchar("email", { length: 255 }).notNull().unique(),
-  person: int("person").default(1),
-  gender: text("gender", { enum: ["MALE", "FEMALE", "OTHER"] }).notNull(),
-  age: int("age").notNull(),
-  city: varchar("city", { length: 255 }).notNull(),
-  ticketNumber: varchar("ticketNumber", { length: 255 }),
+    id: varchar("id", { length: 191 }).primaryKey().$defaultFn(() => sql`(uuid())`),
+    createdAt: datetime("createdAt").default(sql`CURRENT_TIMESTAMP`),
+    updatedAt: datetime("updatedAt").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+    firstName: varchar("firstName", { length: 255 }).notNull(),
+    lastName: varchar("lastName", { length: 255 }).notNull(),
+    email: varchar("email", { length: 255 }).notNull().unique(),
+    person: int("person").default(1),
+    gender: text("gender", { enum: ["MALE", "FEMALE", "OTHER"] }).notNull(),
+    age: int("age").notNull(),
+    city: varchar("city", { length: 255 }).notNull(),
+    ticketNumber: varchar("ticketNumber", { length: 255 }),
 });
 
 export const user = mysqlTable("user", {
@@ -63,13 +62,55 @@ export const verification = mysqlTable("verification", {
     updatedAt: timestamp('updated_at')
 });
 
-
 export const notification = mysqlTable("notification", {
     id: varchar("id", { length: 36 }).primaryKey(),
     title: varchar('title', { length: 255 }).notNull(),
     description: text('description').notNull(),
-    url: text('url').notNull(),
     read: boolean('read').notNull(),
     createdAt: timestamp('created_at').notNull(),
-    updatedAt: timestamp('updated_at').notNull()
+    updatedAt: timestamp('updated_at').notNull(),
+    type: varchar('type', { length: 255 }).notNull(),
+});
+
+export const ImageTable = mysqlTable("image", {
+    id: varchar("id", { length: 191 }).primaryKey().$defaultFn(() => sql`(uuid())`),
+    createdAt: datetime("createdAt").default(sql`CURRENT_TIMESTAMP`),
+    updatedAt: datetime("updatedAt").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+    exposantId: varchar("exposantId", { length: 191 }).notNull(),
+    picture: varchar("picture", { length: 255 }).notNull()
+});
+
+export const ExposantTable = mysqlTable("exposant", {
+    id: varchar("id", { length: 191 }).primaryKey().$defaultFn(() => sql`(uuid())`),
+    createdAt: datetime("createdAt").default(sql`CURRENT_TIMESTAMP`),
+    updatedAt: datetime("updatedAt").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+    firstName: varchar("firstName", { length: 255 }).notNull(),
+    lastName: varchar("lastName", { length: 255 }).notNull(),
+    email: varchar("email", { length: 255 }).notNull().unique(),
+    type: varchar("type", { length: 255 }).notNull(),
+    adresse: varchar("adresse", { length: 255 }).notNull(),
+    city: varchar("city", { length: 255 }).notNull(),
+    postalCode: varchar("postalCode", { length: 20 }).notNull(),
+    siret: varchar("siret", { length: 14 }).notNull(),
+    products: text("products").notNull(),
+    history: text("history").notNull(),
+    companyName: varchar("companyName", { length: 255 }).notNull(),
+    status: text("status", { enum: ["pending", "accepted", "refused"] }).notNull(),
+    exposantId: varchar("exposantId", { length: 191 }).unique(),
+    logo: varchar("logo", { length: 191 }).references(() => ImageTable.id),
+    picture: varchar("picture", { length: 191 }).references(() => ImageTable.id),
+    picture2: varchar("picture2", { length: 191 }).references(() => ImageTable.id),
+    picture3: varchar("picture3", { length: 191 }).references(() => ImageTable.id),
+    picture4: varchar("picture4", { length: 191 }).references(() => ImageTable.id),
+    userId: varchar("userId", { length: 36 }).references(() => user.id),
+});
+
+
+export const EventTable = mysqlTable("event", {
+    id: varchar("id", { length: 191 }).primaryKey().$defaultFn(() => sql`(uuid())`),
+    eventName: varchar("eventName", { length: 255 }).notNull(),
+    eventDate: datetime("eventDate").notNull(),
+    eventDateEnd: datetime("eventDateEnd").notNull(),
+    eventLocation: varchar("eventLocation", { length: 255 }).notNull(),
+    eventDescription: text("eventDescription").notNull(),
 });

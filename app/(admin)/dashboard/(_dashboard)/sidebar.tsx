@@ -19,31 +19,33 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { User2, ChevronUp } from "lucide-react"
+import Link from "next/link"
+import SignOut from "@/components/sign-out"
 
 const items = [
   {
     title: "Accueil",
-    url: "#",
+    url: "/dashboard",
     icon: Home,
   },
   {
     title: "Mes vendeurs",
-    url: "#",
+    url: "/dashboard/exposants",
     icon: Inbox,
   },
   {
     title: "Vendeurs en attente",
-    url: "#",
+    url: "/dashboard/exposants-waiting",
     icon: Calendar,
   },
   {
     title: "Inscriptions",
-    url: "#",
+    url: "/dashboard/visitors",
     icon: Search,
   },
   {
     title: "Paramètres",
-    url: "#",
+    url: "/dashboard/parameters",
     icon: Settings,
   },
 ]
@@ -57,41 +59,43 @@ export default function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                <Link href={item.url} key={item.title}>
+                  <SidebarMenuItem >
+                    <SidebarMenuButton>
+
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </Link>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <SidebarMenuButton>
-                    <User2 /> Username
-                    <ChevronUp className="ml-auto" />
-                  </SidebarMenuButton>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  side="top"
-                  className="w-[--radix-popper-anchor-width]"
-                >
-                  <DropdownMenuItem>
-                    <span>Sign out</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <SidebarMenuButton>
+                  <User2 /> Username
+                  <ChevronUp className="ml-auto" />
+                </SidebarMenuButton>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                side="top"
+                className="w-(--radix-popper-anchor-width)"
+              >
+                <DropdownMenuItem>
+                  <SignOut redirectTo="/login" />
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
     </Sidebar>
   )
 }

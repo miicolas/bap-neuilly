@@ -4,11 +4,11 @@
 import Link from "next/link";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
-import { NotificationProps, NotificationItem } from "@/lib/type";
+import { NotificationProps } from "@/lib/type";
 import { ReadNotificationAction } from "@/action/(admin)/(notifications)/read/action";
 import { toast } from "sonner";
 
-export default function Notifications({
+export default function Notification({
     key,
     item,
 }: NotificationProps) {
@@ -23,12 +23,20 @@ export default function Notifications({
             toast.success("Notification lue avec succès");
         }
     }
+
+    const getUrl = () => {
+        if (item.type === "exposant") {
+            return '/dashboard/exposants-waiting/';
+        }
+        return '/dashboard/visitors/';
+    }
+
     return (
         <DropdownMenuItem key={key} asChild>
             <Link
-                href={item.url}
+                href={getUrl()}
                 className={cn(
-                    "flex flex-col items-baseline gap-2 rounded-md p-3 transition hover:bg-muted/50",
+                    "flex flex-col gap-2 rounded-md p-3 transition hover:bg-muted/50 w-full items-start",
                     !item.read && "bg-muted/50",
                     "hover:bg-muted/80 focus:bg-muted/80"
                 )}
@@ -37,7 +45,7 @@ export default function Notifications({
                 <div className="flex items-center justify-between gap-2">
                     <h4 className="font-medium">{item.title}</h4>
                     {!item.read && (
-                        <span className="h-2 w-2 rounded-full bg-primary" />
+                        <span className="size-2 rounded-full bg-primary" />
                     )}
                 </div>
                 <p className="line-clamp-2 text-sm text-muted-foreground">

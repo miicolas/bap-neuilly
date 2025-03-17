@@ -1,13 +1,12 @@
 import { db } from "@/db";
 import { notification } from "@/db/schema";
 import { eq } from "drizzle-orm/expressions";
-import { read } from "fs";
 
 export class Notification {
     constructor(
         public title: string,
         public description: string,
-        public url: string
+        public type: string,
     ) { }
 
     async create() {
@@ -17,10 +16,10 @@ export class Notification {
                 id: crypto.randomUUID(),
                 title: this.title,
                 description: this.description,
-                url: this.url,
                 read: false,
                 createdAt: new Date(),
                 updatedAt: new Date(),
+                type : this.type
             })
             .$returningId()
             .execute();
@@ -32,8 +31,7 @@ export class Notification {
 
     static async read(id: string) {
         return db
-            .update(notification)
-            .set({ read: true })
+            .delete(notification)
             .where(eq(notification.id, id))
             .execute();
     }
