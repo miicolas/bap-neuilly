@@ -1,6 +1,6 @@
 import { db } from "@/db";
 import { ExposantTable, user, ImageTable } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, or } from "drizzle-orm";
 import { Exposant as ExposantType } from "@/lib/type";
 
 export class Exposant {
@@ -61,13 +61,13 @@ export class Exposant {
 
     if (!exposant_id.length) {
       throw new Error("Exposant non trouvé");
-    }
+    } 
 
     return exposant_id[0].id;
   }
 
   static async list_pending() {
-    const exposants = await db.select().from(ExposantTable).where(eq(ExposantTable.status, "pending")).execute();
+    const exposants = await db.select().from(ExposantTable).where(or(eq(ExposantTable.status, "pending"), eq(ExposantTable.status, "refused"))).execute();
     return exposants;
   }
 

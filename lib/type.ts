@@ -1,5 +1,5 @@
 import { ZodIssue } from "zod";
-import { ColumnDef } from "@tanstack/react-table"
+import { ColumnDef } from "@tanstack/react-table";
 
 export interface SalonInvitationEmailProps {
     firstName?: string;
@@ -54,49 +54,52 @@ export interface DataTableProps<TData, TValue> {
 }
 
 export type Visitor = {
-    id?: string
-    ticketNumber: string
-    lastName: string
-    person: number
-}
+    id?: string;
+    ticketNumber: string;
+    lastName: string;
+    person: number;
+};
 
 export type Exposant = {
-    id?: string
-    exposantId?: string
-    companyName: string
-    type: string
-    history: string    
-    firstName: string
-    lastName: string
-    email: string
-    adresse: string
-    city: string
-    postalCode: string
-    siret: string
-    products: string
-    status: string
-    userId: string
-    logo?: string
-    logoUrl?: string
-    picture?: string
-    pictureUrl?: string
-    picture2?: string
-    picture2Url?: string
-    picture3?: string
-    picture3Url?: string
-    picture4?: string
-    picture4Url?: string
-}
+    id?: string;
+    exposantId?: string;
+    companyName: string;
+    type: string;
+    history: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    adresse: string;
+    city: string;
+    postalCode: string;
+    siret: string;
+    products: string;
+    status: string;
+    userId: string;
+    logo?: string;
+    logoUrl?: string;
+    picture?: string;
+    pictureUrl?: string;
+    picture2?: string;
+    picture2Url?: string;
+    picture3?: string;
+    picture3Url?: string;
+    picture4?: string;
+    picture4Url?: string;
+};
 
 export type ExposantAwaiting = {
-    id?: string
-    exposantId: string
-    companyName: string
-    status: string
-}
+    id?: string;
+    exposantId: string;
+    companyName: string;
+    status: string;
+};
 
 export interface ExportExcelProps {
-    dataToExport: { ticketNumber: string, lastName: string, person: number }[] | ExposantAwaiting[] | { exposantId: string; companyName: string; status: string }[];
+    dataToExport:
+        | { ticketNumber: string; lastName: string; person: number }[]
+        | ExposantAwaiting[]
+        | { exposantId: string; companyName: string; status: string }[];
 }
 
 export interface FileUploadProps {
@@ -118,5 +121,27 @@ export type Event = {
     eventDescription: string;
     createdAt: Date;
     updatedAt: Date;
-}
+};
 
+export interface Session {
+    session: {
+        id: string;
+        expiresAt: Date;
+        token: string;
+        createdAt: Date;
+        updatedAt: Date;
+        ipAddress: string;
+        userAgent: string;
+        userId: string;
+        impersonatedBy: string | null;
+    };
+    user: {
+        id: string;
+        name: string;
+        email: string;
+        emailVerified: boolean;
+        image: string;
+        createdAt: Date;
+        updatedAt: Date;
+    };
+}
