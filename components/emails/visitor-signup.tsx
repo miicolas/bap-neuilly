@@ -1,13 +1,11 @@
 import {
     Body,
-    Button,
     Container,
     Head,
     Heading,
     Hr,
     Html,
     Img,
-    Link,
     Preview,
     Section,
     Tailwind,
@@ -27,7 +25,6 @@ export default function SalonInvitationEmail({
     numberOfGuests,
     eventLocation,
     ticketNumber,
-    pdfLink,
 }: SalonInvitationEmailProps) {
     firstName = firstName;
     lastName = lastName;
@@ -36,7 +33,6 @@ export default function SalonInvitationEmail({
     numberOfGuests = numberOfGuests;
     eventLocation = eventLocation;
     ticketNumber = ticketNumber;
-    pdfLink = pdfLink;
 
     const previewText = `Confirmation d'inscription - ${eventName}`;
 

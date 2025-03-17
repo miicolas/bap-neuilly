@@ -1,5 +1,6 @@
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import EventTab from "./event-tab";
+import AdminTab from "./admin-tab";
 import { Event } from "@/lib/type";
 import { ListEventAction } from "@/action/(admin)/(event)/list/action";
 
@@ -20,6 +21,9 @@ export default async function TabsParameter() {
             </TabsContent>
             <TabsContent value="admin">
                 <p>Administration</p>
+                <div>
+                    <AdminTab />
+                </div>
             </TabsContent>
         </Tabs>
     );

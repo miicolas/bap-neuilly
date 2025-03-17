@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Moon, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import {
     Sheet,
     SheetContent,
