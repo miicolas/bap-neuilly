@@ -9,7 +9,6 @@ export interface SalonInvitationEmailProps {
     numberOfGuests?: number;
     eventLocation?: string;
     ticketNumber?: string;
-    pdfLink?: string;
 }
 
 export interface ExposantAwaitingValidationEmailProps {
@@ -144,4 +143,10 @@ export interface Session {
         createdAt: Date;
         updatedAt: Date;
     };
+}
+
+export interface Admin {
+    id?: string;
+    name: string;
+    email: string;
 }

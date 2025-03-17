@@ -114,3 +114,11 @@ export const EventTable = mysqlTable("event", {
     eventLocation: varchar("eventLocation", { length: 255 }).notNull(),
     eventDescription: text("eventDescription").notNull(),
 });
+
+export const AdminTable = mysqlTable("admin", {
+    id: varchar("id", { length: 191 }).primaryKey().$defaultFn(() => sql`(uuid())`),
+    createdAt: datetime("createdAt").default(sql`CURRENT_TIMESTAMP`),
+    updatedAt: datetime("updatedAt").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+    name: varchar("name", { length: 255 }).notNull(),
+    email: varchar("email", { length: 255 }).notNull().unique(),
+});

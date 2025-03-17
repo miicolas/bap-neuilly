@@ -24,7 +24,8 @@ export default function AdminLogin() {
       setIsLoading(true);
       await authClient.signIn.social({
         provider: "google",
-        callbackURL: "/dashboard"
+        callbackURL: "/dashboard",
+        newUserCallbackURL: "/api/auth/check-admin"
       });
     } catch (error) {
       console.error("Erreur de connexion avec Google:", error);
