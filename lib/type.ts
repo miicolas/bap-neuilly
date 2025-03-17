@@ -59,6 +59,14 @@ export type Visitor = {
     person: number;
 };
 
+export type Image = {
+    id: string;
+    picture: string;
+    createdAt: Date;
+    updatedAt: Date;
+    exposantId: string;
+};
+
 export type Exposant = {
     id?: string;
     exposantId?: string;
@@ -75,6 +83,7 @@ export type Exposant = {
     products: string;
     status: string;
     userId: string;
+    slug: string;
     logo?: string;
     logoUrl?: string;
     picture?: string;
@@ -85,6 +94,7 @@ export type Exposant = {
     picture3Url?: string;
     picture4?: string;
     picture4Url?: string;
+    images?: Image[];
 };
 
 export type ExposantAwaiting = {

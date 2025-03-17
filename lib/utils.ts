@@ -40,3 +40,6 @@ export function limiteText(text: string, limit: number) {
     return text;
 }
 
+export function slugify(text: string) {
+    return text.toLowerCase().replace(/ /g, "-");
+}

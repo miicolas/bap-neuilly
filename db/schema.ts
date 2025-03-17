@@ -84,6 +84,7 @@ export const ExposantTable = mysqlTable("exposant", {
     id: varchar("id", { length: 191 }).primaryKey().$defaultFn(() => sql`(uuid())`),
     createdAt: datetime("createdAt").default(sql`CURRENT_TIMESTAMP`),
     updatedAt: datetime("updatedAt").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+    slug: varchar("slug", { length: 255 }).notNull().unique(),
     firstName: varchar("firstName", { length: 255 }).notNull(),
     lastName: varchar("lastName", { length: 255 }).notNull(),
     email: varchar("email", { length: 255 }).notNull().unique(),

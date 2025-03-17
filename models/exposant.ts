@@ -2,7 +2,7 @@ import { db } from "@/db";
 import { ExposantTable, user, ImageTable } from "@/db/schema";
 import { eq, or } from "drizzle-orm";
 import { Exposant as ExposantType } from "@/lib/type";
-
+import { slugify } from "@/lib/utils";
 export class Exposant {
   constructor(
     public firstName: string,
@@ -44,7 +44,8 @@ export class Exposant {
         products: this.products,
         history: this.history,
         companyName: this.companyName,
-        status: "pending"
+        status: "pending",
+        slug: slugify(this.companyName),
       })
       .$returningId()
       .execute();
@@ -181,9 +182,13 @@ export class Exposant {
     return files;
   }
 
-  static async getExposantByCompanyName(companyName: string) {
-    const exposant = await db.select().from(ExposantTable).where(eq(ExposantTable.companyName, companyName)).execute();
-    return exposant;
+  static async getExposantBySlug(slug: string) {
+    const exposant = await db.select().from(ExposantTable).where(eq(ExposantTable.slug, slug)).execute();
+
+    const images = await db.select().from(ImageTable).where(eq(ImageTable.exposantId, exposant[0].id)).execute();
+
+    return { ...exposant[0], images };
+    
   }
 
   static async updateExposant(id: string, data: ExposantType) {

@@ -1,31 +1,49 @@
-'use server';
+"use server";
 
 import { z } from "zod";
 import { Exposant } from "@/models/exposant";
 import { FormResponse } from "@/lib/type";
 
-const getExposantSchema = z.object({
-    companyName: z.string().min(2, {
+const bodySchema = z.object({
+    slug: z.string().min(2, {
         message: "Le nom de l'entreprise doit contenir au moins 2 caractères",
     }),
 });
 
-export async function GetExposantAction(filters: z.infer<typeof getExposantSchema>): Promise<FormResponse> {
+export async function GetExposantAction(
+    body: z.infer<typeof bodySchema>
+): Promise<FormResponse> {
     try {
-        const validatedFilters = getExposantSchema.safeParse(filters);
-        if (!validatedFilters.success) {
-            return { status: "error", message: "Format de données invalide", errors: validatedFilters.error.issues };
+        const validatedBody = bodySchema.safeParse(body);
+
+        if (!validatedBody.success) {
+            return {
+                status: "error",
+                message: "Format de données invalide",
+                errors: validatedBody.error.issues,
+            };
         }
 
-        const exposant = await Exposant.getExposantByCompanyName(validatedFilters.data.companyName);
-        if (!exposant || exposant.length === 0) {
+        console.log(validatedBody.data.slug, "slug");
+
+        const exposant = await Exposant.getExposantBySlug(
+            validatedBody.data.slug
+        );
+
+        if (!exposant) {
             return { status: "error", message: "Exposant non trouvé" };
         }
 
-        return { status: "success", content: exposant[0], message: "Exposant retrieved" };
-
+        return {
+            status: "success",
+            content: { ...exposant, images: exposant.images },
+            message: "Exposant retrieved",
+        };
     } catch (error) {
         console.error("Erreur lors de la récupération de l'exposant :", error);
-        return { status: "error", message: "Échec de la récupération de l'exposant" };
+        return {
+            status: "error",
+            message: "Échec de la récupération de l'exposant",
+        };
     }
 }
