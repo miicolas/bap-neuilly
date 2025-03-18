@@ -21,6 +21,8 @@ import {
 import { User2, ChevronUp } from "lucide-react"
 import Link from "next/link"
 import SignOut from "@/components/sign-out"
+import { getSession } from "@/lib/session"
+import { unauthorized } from "next/navigation"
 
 const items = [
   {
@@ -50,7 +52,13 @@ const items = [
   },
 ]
 
-export default function AppSidebar() {
+export default async function AppSidebar() {
+
+  const session = await getSession();
+  if (!session) {
+    return unauthorized();
+  }
+
   return (
     <Sidebar>
       <SidebarContent className="bg-neutral-100">
@@ -80,7 +88,7 @@ export default function AppSidebar() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton>
-                  <User2 /> Username
+                  <User2 /> {session.user.name}
                   <ChevronUp className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
@@ -89,7 +97,9 @@ export default function AppSidebar() {
                 className="w-(--radix-popper-anchor-width)"
               >
                 <DropdownMenuItem>
-                  <SignOut redirectTo="/login" />
+                  <Link href="/login" className="w-full">
+                    <SignOut redirectTo="/login" />
+                  </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

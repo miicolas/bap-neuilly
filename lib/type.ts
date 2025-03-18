@@ -102,6 +102,8 @@ export type ExposantAwaiting = {
     exposantId: string;
     companyName: string;
     status: string;
+    slug: string;
+    images?: Image[];
 };
 
 export interface ExportExcelProps {

@@ -13,6 +13,7 @@ interface ImageGalleryProps {
 
 export const ImageGallery = ({ images, priority = false }: ImageGalleryProps) => {
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+    const thumbnailImages = images.slice(1);
 
     const handleImageClick = (index: number) => {
         setSelectedImageIndex(index);
@@ -20,13 +21,13 @@ export const ImageGallery = ({ images, priority = false }: ImageGalleryProps) =>
 
     return (
         <div className="space-y-4">
-            {images[selectedImageIndex]?.src && (
+            {thumbnailImages[selectedImageIndex]?.src && (
                 <div className="relative aspect-square rounded-xl overflow-hidden bg-white shadow-sm">
                     <Image
-                        src={images[selectedImageIndex].src}
-                        alt={images[selectedImageIndex].alt}
+                        src={thumbnailImages[selectedImageIndex].src}
+                        alt={thumbnailImages[selectedImageIndex].alt}
                         fill
-                        className="object-cover"
+                        className="object-cover p-4"
                         sizes="(max-width: 768px) 100vw, 50vw"
                         priority={priority}
                     />
@@ -34,9 +35,9 @@ export const ImageGallery = ({ images, priority = false }: ImageGalleryProps) =>
             )}
 
             <div className="grid grid-cols-4 gap-2">
-                {images.map(
-                    (image, index) =>
-                        image.src && (
+                {thumbnailImages.map(
+                    (thumbnailImage, index) =>
+                        thumbnailImage.src && (
                             <div
                                 key={index}
                                 className={`relative aspect-square rounded-lg overflow-hidden bg-white shadow-sm cursor-pointer transition-all ${
@@ -52,13 +53,13 @@ export const ImageGallery = ({ images, priority = false }: ImageGalleryProps) =>
                                         handleImageClick(index);
                                     }
                                 }}
-                                aria-label={`Voir ${image.alt}`}
+                                aria-label={`Voir ${thumbnailImage.alt}`}
                             >
                                 <Image
-                                    src={image.src}
-                                    alt={image.alt}
+                                    src={thumbnailImage.src}
+                                    alt={thumbnailImage.alt}
                                     fill
-                                    className="object-cover"
+                                    className="object-cover p-4"
                                     sizes="(max-width: 768px) 25vw, 12.5vw"
                                 />
                             </div>

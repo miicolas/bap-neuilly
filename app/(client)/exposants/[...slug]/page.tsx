@@ -1,12 +1,14 @@
 import { GetExposantAction } from "@/action/(exposant)/get-exposant/action";
 import { notFound } from "next/navigation";
 import { Exposant } from "@/lib/type";
-import { ExposantHeader } from "./_slug/exposant-header";
-import { ImageGallery } from "./_slug/image-gallery";
-import { ExposantContent } from "./_slug/exposant-content";
-import { getMinioUrl } from "./_slug/utils";
+import { ExposantHeader } from "./(_slug)/exposant-header";
+import { ImageGallery } from "./(_slug)/image-gallery";
+import { ExposantContent } from "./(_slug)/exposant-content";
+import { getMinioUrl } from "@/lib/utils";
 import { ArrowLeftIcon } from "lucide-react";
 import Link from "next/link";
+import { GetExposantSelectAction } from "@/action/(admin)/(exposant)/get-select/action";
+import { ListExposants } from "@/components/list-exposants";
 interface ExposantPageProps {
     params: Promise<{ slug?: string[] }>;
 }
@@ -19,8 +21,13 @@ export default async function ExposantPage({ params }: ExposantPageProps) {
     }
 
     const exposantData = await GetExposantAction({ slug: slug[0] });
+    const exposantSelect = await GetExposantSelectAction();
 
     if (exposantData.status === "error") {
+        return notFound();
+    }
+
+    if (exposantSelect.status === "error") {
         return notFound();
     }
 
@@ -67,6 +74,12 @@ export default async function ExposantPage({ params }: ExposantPageProps) {
                     <ExposantContent
                         history={exposant.history}
                         products={exposant.products}
+                    />
+                </div>
+                <div className="mt-8">
+                    <h2 className="text-2xl font-bold">Autres exposants</h2>
+                    <ListExposants
+                        exposants={exposantSelect.content as Exposant[]}
                     />
                 </div>
             </div>
