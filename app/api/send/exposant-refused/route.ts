@@ -1,17 +1,25 @@
-import SalonInvitationEmail from "@/components/emails/visitor-signup";
+import ExposantRefusedEmail from "@/components/emails/exposant-refused";
+import { Resend } from "resend";
 import { GetEventDetailsAction } from "@/action/(visitor)/event-details/action";
 import { FormResponse } from "@/lib/type";
-import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
-
     try {
-        const { firstName, lastName, email, person, ticketNumber, isPro } =
-            await req.json();
+        const {
+            firstName,
+            lastName,
+            email,
+            companyName,
+            siret,
+            adresse,
+            city,
+            postalCode,
+            exposantId,
+        } = await req.json();
 
-        const eventDetails = await GetEventDetailsAction() as FormResponse<{
+        const eventDetails = (await GetEventDetailsAction()) as FormResponse<{
             dayEvent: string[];
             localisation: string[];
         }>;
@@ -19,7 +27,6 @@ export async function POST(req: Request) {
         if (!eventDetails.content) {
             throw new Error("Event details not found");
         }
-
         const { data, error } = await resend.emails.send({
             from: "Salon des créateurs d'objects et artisans de Neuilly <bap-neuilly-contact@nicolas-becharat.com>",
             replyTo: "bap-neuilly-contact@nicolas-becharat.com",
@@ -28,29 +35,29 @@ export async function POST(req: Request) {
                 "Return-Path": "bap-neuilly-contact@nicolas-becharat.com",
             },
             to: [`${email}`],
-            subject: `Salon des créateurs d'objects et artisans de Neuilly - Confirmation d'inscription`,
-            react: SalonInvitationEmail({
-                firstName: firstName,
-                lastName: lastName,
+            subject: `Salon des créateurs d'objects et artisans de Neuilly - Refus d'inscription`,
+            react: ExposantRefusedEmail({
+                firstName,
+                lastName,
+                companyName,
                 eventDate: eventDetails.content.dayEvent[0],
                 eventName:
                     "Salon des créateurs d'objects et artisans de Neuilly",
-                numberOfGuests: person,
                 eventLocation: eventDetails.content.localisation[0],
-                ticketNumber: ticketNumber,
-                isPro: isPro,
+                siret,
+                adresse,
+                city,
+                postalCode,
+                exposantId,
             }),
         });
 
         if (error) {
-            console.log(error);
             return Response.json({ error }, { status: 500 });
         }
 
         return Response.json(data);
     } catch (error) {
-        console.log(error);
         return Response.json({ error }, { status: 500 });
     }
-
 }

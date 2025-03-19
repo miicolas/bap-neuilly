@@ -24,7 +24,6 @@ export async function GetExposantAction(
             };
         }
 
-        console.log(validatedBody.data.slug, "slug");
 
         const exposant = await Exposant.getExposantBySlug(
             validatedBody.data.slug

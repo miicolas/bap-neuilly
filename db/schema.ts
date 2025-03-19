@@ -13,6 +13,7 @@ export const EventAttendee = mysqlTable("event_attendee", {
     age: int("age").notNull(),
     city: varchar("city", { length: 255 }).notNull(),
     ticketNumber: varchar("ticketNumber", { length: 255 }),
+    company: varchar("company", { length: 255 }),
 });
 
 export const user = mysqlTable("user", {

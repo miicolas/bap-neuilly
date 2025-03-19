@@ -25,6 +25,7 @@ export default function SalonInvitationEmail({
     numberOfGuests,
     eventLocation,
     ticketNumber,
+    isPro,
 }: SalonInvitationEmailProps) {
     firstName = firstName;
     lastName = lastName;
@@ -33,7 +34,7 @@ export default function SalonInvitationEmail({
     numberOfGuests = numberOfGuests;
     eventLocation = eventLocation;
     ticketNumber = ticketNumber;
-
+    isPro = isPro;
     const previewText = `Confirmation d'inscription - ${eventName}`;
 
     return (
@@ -76,6 +77,17 @@ export default function SalonInvitationEmail({
                                 Nombre de personnes : {numberOfGuests}
                             </Text>
                         </Section>
+
+                        {isPro && (
+                            <Section className="bg-gray-50 rounded p-[20px] my-[16px]">
+                                <Text className="text-black text-[14px] leading-[24px] m-0">
+                                    Vous êtes un professionnel ? Vous pourrez
+                                    rencontrer des professionnels du secteur de
+                                    l&apos;objet et nos exposants sur le salon !
+                                </Text>
+                            </Section>
+                        )}
+
                         <Hr className="border border-solid border-[#eaeaea] my-[26px] mx-0 w-full" />
                         <Text className="text-[#666666] text-[12px] leading-[24px]">
                             Ce billet est nominatif et a été émis pour{" "}

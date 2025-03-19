@@ -9,6 +9,7 @@ export interface SalonInvitationEmailProps {
     numberOfGuests?: number;
     eventLocation?: string;
     ticketNumber?: string;
+    isPro?: boolean;
 }
 
 export interface ExposantAwaitingValidationEmailProps {
