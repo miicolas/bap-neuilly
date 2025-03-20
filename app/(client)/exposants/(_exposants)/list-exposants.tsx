@@ -6,6 +6,10 @@ export default function ListExposants({
 }: {
     exposants: Exposant[];
 }) {
+    if (!exposants || exposants.length === 0) {
+        return <p className="text-center text-gray-500">Aucun exposant trouvé.</p>;
+    }
+
     return (
         <ul className="flex flex-col gap-4">
             {exposants.map((exposant, index) => (
