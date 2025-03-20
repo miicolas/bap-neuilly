@@ -12,10 +12,10 @@ export default function RootLayout({
 }>) {
     return (
 
-        <main
-            className={`max-w-7xl mx-auto px-4 sm:px-6 antialiased w-full bg-neutral-50 dark:bg-neutral-900`}
+        <div
+            className={`max-w-7xl mx-auto px-4 sm:px-6 antialiased w-full`}
         >
             {children}
-        </main>
+        </div>
     );
 }

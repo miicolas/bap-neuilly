@@ -21,7 +21,7 @@ export default async function Header() {
     const year = (await GetYearEventAction()) as { content: string };
 
     return (
-        <header className="sticky top-0 z-50 w-full bg-neutral-50 backdrop-blur-sm border-b border-neutral-100 shadow-md">
+        <header className="sticky top-0 z-[9999] w-full bg-neutral-50 backdrop-blur-sm border-b border-neutral-100 shadow-md">
             <div className="container mx-auto px-4 py-3">
                 <div className="flex justify-between items-center">
                     <div className="flex items-center">
@@ -50,7 +50,7 @@ export default async function Header() {
                         ))}
                         <Button
                             variant="default"
-                            className="bg-yellow-500 hover:bg-yellow-500/90 text-neutral-900 font-medium rounded-full px-5"
+                            className="bg-[#3E4B86] hover:bg-[#3E4B86]/90 text-neutral-200 font-medium rounded-full px-5"
                             asChild
                         >
                             <Link href="/visitor-signup">Inscrivez-vous</Link>
