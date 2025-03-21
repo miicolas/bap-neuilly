@@ -31,7 +31,7 @@ export async function ReadNotificationAction( body: z.infer<typeof bodySchema>):
 
         revalidatePath("/dashboard/");
 
-        return { status: "success", content: read, message: "Notification read" };
+        return { status: "success", message: "Notification read" };
     } catch (error) {
         if (error instanceof z.ZodError) {
             return { status: "error", message: "Invalid data format", errors: error.issues };

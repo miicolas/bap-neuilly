@@ -26,6 +26,9 @@ const bodySchema = z.object({
     person: z.number().min(1, {
         message: "Le nombre de personnes doit être un nombre positif",
     }),
+    company: z.string().min(2, {
+        message: "Le nom de l'entreprise doit contenir au moins 2 caractères",
+    }),
 });
 
 export async function VisitorSignupAction(body: z.infer<typeof bodySchema>): Promise<FormResponse> {
@@ -41,7 +44,7 @@ export async function VisitorSignupAction(body: z.infer<typeof bodySchema>): Pro
         }
 
 
-        const { firstName, lastName, email, gender, age, city, person } = validatedBody.data;
+        const { firstName, lastName, email, gender, age, city, person, company } = validatedBody.data;
         const visitor = new Visitor(
             firstName,
             lastName,
@@ -49,7 +52,9 @@ export async function VisitorSignupAction(body: z.infer<typeof bodySchema>): Pro
             gender,
             email,
             city,
-            person
+            person,
+            company
+
         );
 
         const signup = await visitor.signup();

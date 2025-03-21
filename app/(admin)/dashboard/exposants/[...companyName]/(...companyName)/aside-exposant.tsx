@@ -14,39 +14,14 @@ export default function AsideExposant({
 }) {    
     const router = useRouter();
 
-    const handleAccept = async () => {
-        const validation = await AcceptExposantAction({ id: id });
-        if (validation.status === "success") {
-            console.log("Exposant accepted successfully");
-            await fetch(`/api/send/${id}/exposant-validation`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ id }),
-            });
-            router.push('/admin/dashboard/exposants');
-        } else {
-            router.refresh();
-        }
+    const handleAccept = () => {
+        AcceptExposantAction({ id: id });
+        router.refresh();
     };
 
-    const handleRefuse = async () => {
-        const refus = await
-            AcceptExposantAction({ id: id });
-        if (refus.status === "success") {
-            console.log("Exposant refused successfully");
-            await fetch(`/api/send/${id}/exposant-validation`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ id }),
-            });
-            router.push('/admin/dashboard/exposants');
-        } else {
-            router.refresh();
-        }
+    const handleRefuse = () => {
+        RefuseExposantAction({ id: id });
+        router.refresh();
     };
 
     return (

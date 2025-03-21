@@ -35,5 +35,12 @@ export class Notification {
             .where(eq(notification.id, id))
             .execute();
     }
+
+    static async readAll() {
+        return db
+            .delete(notification)
+            .where(eq(notification.read, false))
+            .execute();
+    }
 }
 

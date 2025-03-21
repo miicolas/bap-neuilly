@@ -1,40 +1,63 @@
-import  EmailValidationExposant  from '@/components/emails/exposant-validation';
-import { Resend } from 'resend';
+import ExposantAcceptedEmail from "@/components/emails/exposant-accept";
+import { Resend } from "resend";
+import { GetEventDetailsAction } from "@/action/(visitor)/event-details/action";
+import { FormResponse } from "@/lib/type";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
-  try {
-    const { firstName, lastName, email, companyName, siret,  adresse, person, exposantId } = await req.json();
-    const { data, error } = await resend.emails.send({
-      from: "Salon des créateurs d'objects et artisans de Neuilly <bap-neuilly-contact@nicolas-becharat.com>",
-      replyTo: 'bap-neuilly-contact@nicolas-becharat.com',
-      headers: {
-        'Reply-To': 'bap-neuilly-contact@nicolas-becharat.com',
-        'Return-Path': 'bap-neuilly-contact@nicolas-becharat.com',
-      },
-      to: [`${email}`],
-      subject: `Salon des créateurs d'objects et artisans de Neuilly - Validation d'inscription`,
-      react: EmailValidationExposant({
-        firstName: firstName,
-        lastName: lastName,
-        companyName: companyName,
-        siret: siret,
-        adresse: adresse,
-        eventDate: '15 mars 2025',
-        eventName: "Salon des créateurs d'objects et artisans de Neuilly",
-        eventLocation: 'Paris Expo Porte de Versailles',
-        exposantId: exposantId,
-        pdfLink: 'https://salon-mariage.com/tickets/SALON-2025-1234.pdf',
-      }),
-    });
+    try {
+        const {
+            firstName,
+            lastName,
+            email,
+            companyName,
+            siret,
+            adresse,
+            city,
+            postalCode,
+            exposantId,
+        } = await req.json();
 
-    if (error) {
-      return Response.json({ error }, { status: 500 });
+        const eventDetails = (await GetEventDetailsAction()) as FormResponse<{
+            dayEvent: string[];
+            localisation: string[];
+        }>;
+
+        if (!eventDetails.content) {
+            throw new Error("Event details not found");
+        }
+        const { data, error } = await resend.emails.send({
+            from: "Salon des créateurs d'objects et artisans de Neuilly <bap-neuilly-contact@nicolas-becharat.com>",
+            replyTo: "bap-neuilly-contact@nicolas-becharat.com",
+            headers: {
+                "Reply-To": "bap-neuilly-contact@nicolas-becharat.com",
+                "Return-Path": "bap-neuilly-contact@nicolas-becharat.com",
+            },
+            to: [`${email}`],
+            subject: `Salon des créateurs d'objects et artisans de Neuilly - Validation d'inscription`,
+            react: ExposantAcceptedEmail({
+                firstName,
+                lastName,
+                companyName,
+                eventDate: eventDetails.content.dayEvent[0],
+                eventName:
+                    "Salon des créateurs d'objects et artisans de Neuilly",
+                eventLocation: eventDetails.content.localisation[0],
+                siret,
+                adresse,
+                city,
+                postalCode,
+                exposantId,
+            }),
+        });
+
+        if (error) {
+            return Response.json({ error }, { status: 500 });
+        }
+
+        return Response.json(data);
+    } catch (error) {
+        return Response.json({ error }, { status: 500 });
     }
-
-    return Response.json(data);
-  } catch (error) {
-    return Response.json({ error }, { status: 500 });
-  }
 }

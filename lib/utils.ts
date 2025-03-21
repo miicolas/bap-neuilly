@@ -1,4 +1,8 @@
+import { AcceptExposantAction } from "@/action/(admin)/(exposant)/accept/action";
+import { RefuseExposantAction } from "@/action/(admin)/(exposant)/refuse/action";
+import { Exposant as ExposantType } from "@/lib/type";
 import { clsx, type ClassValue } from "clsx";
+import { toast } from "sonner";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -40,3 +44,66 @@ export function limiteText(text: string, limit: number) {
     return text;
 }
 
+export function slugify(text: string) {
+    return text.toLowerCase().replace(/ /g, "-");
+}
+
+const MINIO_BASE_URL =
+    "https://minio-bap-neuilly.nicolas-becharat.com/bap-neuilly";
+
+export const getMinioUrl = (path: string | null) =>
+    path ? `${MINIO_BASE_URL}/${path}` : null;
+
+export const handleAccept = async (id: string, exposant: ExposantType) => {
+    const acceptExposant = await AcceptExposantAction({ id: id });
+    if (acceptExposant.status === "success") {
+        const sendEmail = await fetch("/api/send/exposant-validation", {
+            method: "POST",
+            body: JSON.stringify({
+                firstName: exposant.firstName,
+                lastName: exposant.lastName,
+                email: exposant.email,
+                companyName: exposant.companyName,
+                siret: exposant.siret,
+                adresse: exposant.adresse,
+                city: exposant.city,
+                postalCode: exposant.postalCode,
+                exposantId: exposant.id,
+            }),
+        });
+        if (sendEmail.status === 200) {
+            toast.success(acceptExposant.message);
+        } else {
+            toast.error(acceptExposant.message);
+        }
+    } else {
+        toast.error(acceptExposant.message);
+    }
+};
+
+export const handleRefuse = async (id: string, exposant: ExposantType) => {
+    const refuseExposant = await RefuseExposantAction({ id: id });
+    if (refuseExposant.status === "success") {
+        const sendEmail = await fetch("/api/send/exposant-refused", {
+            method: "POST",
+            body: JSON.stringify({
+                firstName: exposant.firstName,
+                lastName: exposant.lastName,
+                email: exposant.email,
+                companyName: exposant.companyName,
+                siret: exposant.siret,
+                adresse: exposant.adresse,
+                city: exposant.city,
+                postalCode: exposant.postalCode,
+                exposantId: exposant.id,
+            }),
+        });
+        if (sendEmail.status === 200) {
+            toast.success(refuseExposant.message);
+        } else {
+            toast.error(refuseExposant.message);
+        }
+    } else {
+        toast.error(refuseExposant.message);
+    }
+};

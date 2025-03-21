@@ -12,7 +12,7 @@ const bodySchema = z.object({
     description: z.string().min(2, {
         message: "La description doit contenir au moins 2 caractères",
     }),
-    type: z.enum(["exposant", "visitor"]),
+    type: z.enum(["exposant", "visiteur", "professionnel"]),
 });
 
 export async function CreateNotificationAction(body: z.infer<typeof bodySchema>): Promise<FormResponse> {

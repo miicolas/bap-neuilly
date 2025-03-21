@@ -1,5 +1,7 @@
 import ExposantAwaitingValidationEmail from "@/components/emails/exposant-awaiting-validation";
 import { Resend } from "resend";
+import { GetEventDetailsAction } from "@/action/(visitor)/event-details/action";
+import { FormResponse } from "@/lib/type";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -17,6 +19,14 @@ export async function POST(req: Request) {
             exposantId,
         } = await req.json();
 
+        const eventDetails = (await GetEventDetailsAction()) as FormResponse<{
+            dayEvent: string[];
+            localisation: string[];
+        }>;
+
+        if (!eventDetails.content) {
+            throw new Error("Event details not found");
+        }
         const { data, error } = await resend.emails.send({
             from: "Salon des créateurs d'objects et artisans de Neuilly <bap-neuilly-contact@nicolas-becharat.com>",
             replyTo: "bap-neuilly-contact@nicolas-becharat.com",
@@ -30,10 +40,10 @@ export async function POST(req: Request) {
                 firstName,
                 lastName,
                 companyName,
-                eventDate: "15 mars 2025",
+                eventDate: eventDetails.content.dayEvent[0],
                 eventName:
                     "Salon des créateurs d'objects et artisans de Neuilly",
-                eventLocation: "Paris Expo Porte de Versailles",
+                eventLocation: eventDetails.content.localisation[0],
                 siret,
                 adresse,
                 city,
