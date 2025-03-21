@@ -26,7 +26,7 @@ export default function ExposantSignupHeader() {
                 Inscription exposant
             </h1>
 
-            <p className="text-lg text-center text-muted-foreground mb-8 max-w-2xl">
+            <p className="text-lg text-center text-neutral-200 mb-8 max-w-2xl">
                 Rejoignez la communauté d'artisans et de créateurs pour la
                 prochaine édition du
                 <span className="font-semibold text-foreground">
