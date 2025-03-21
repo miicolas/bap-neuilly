@@ -6,12 +6,13 @@ import Link from "next/link";
 import Image from "next/image";
 import HtmlConvertorMdx from "@/components/ui/html-convertor-mdx";
 import { limiteText } from "@/lib/utils";
+
 export default async function ExposantsPage() {
     const data = await ListExposantsAction();
     const exposants = data.content as Exposant[];
 
     return (
-        <div className="min-h-screen py-12 px-4">
+        <div className="py-12 px-4">
             <div className="max-w-6xl mx-auto">
                 {/* En-tête */}
                 <div className="mb-8">

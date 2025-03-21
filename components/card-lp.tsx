@@ -38,10 +38,10 @@ export default function CardLp({ type }: { type: "exposant" | "visiteur" }) {
                     </div>
                     <div className="flex flex-col gap-4 p-8 text-neutral-800">
                         <div className="flex items-center gap-2">
-                            <h2 className="text-4xl font-bold group-hover:text-indigo-600 transition-colors duration-300">
+                            <h2 className="text-4xl font-bold group-hover:text-[#3E4B86] transition-colors duration-300">
                                 {typeCard[type].title}
                             </h2>
-                            <ArrowRight className="w-10 h-10 hidden group-hover:block transition-transform duration-300 group-hover:translate-x-1 text-indigo-600" />
+                            <ArrowRight className="w-10 h-10 hidden group-hover:block transition-transform duration-300 group-hover:translate-x-1 text-[#3E4B86]" />
                         </div>
                         <p className="text-lg leading-relaxed">
                             {typeCard[type].description}

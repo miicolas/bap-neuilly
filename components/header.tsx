@@ -15,6 +15,8 @@ import { GetYearEventAction } from "@/action/(visitor)/event-year/action";
 export default async function Header() {
     const links = [
         { label: "Nos créateurs", href: "/exposants" },
+        { label: "Devenir exposant", href: "/exposant" },
+        { label: "Visiter le salon", href: "/visiteur" },
         { label: "Contact", href: "/contact" },
     ];
 
