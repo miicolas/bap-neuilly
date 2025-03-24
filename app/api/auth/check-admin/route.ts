@@ -48,8 +48,9 @@ export async function GET(request: NextRequest) {
         if (isAdmin.length > 0) {
             const updateAdmin = await Admin.updateRoleAdmin(userEmail);
             if (!updateAdmin) {
-                console.error("Erreur lors de la mise à jour du rôle admin");
+                console.log("Erreur lors de la mise à jour du rôle admin");
             }
+            console.log("Admin mis à jour");
         }
 
         return NextResponse.redirect(new URL("/dashboard", request.url));

@@ -10,8 +10,7 @@ export class Visitor {
     public gender: "MALE" | "FEMALE" | "OTHER",
     public email: string,
     public city: string,
-    public person: number,
-    public company: string
+    public person: number
   ) {
     this.firstName = firstName;
     this.lastName = lastName;
@@ -20,7 +19,6 @@ export class Visitor {
     this.email = email;
     this.city = city;
     this.person = person;
-    this.company = company;
   }
 
   async signup() {
@@ -44,7 +42,6 @@ export class Visitor {
         email: this.email,
         city: this.city,
         person: this.person,
-        company: this.company,
       })
       .$returningId()
       .execute();

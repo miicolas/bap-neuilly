@@ -9,7 +9,6 @@ import { ArrowLeftIcon } from "lucide-react";
 import Link from "next/link";
 import { GetExposantSelectAction } from "@/action/(admin)/(exposant)/get-select/action";
 import { ListExposants } from "@/components/list-exposants";
-
 interface ExposantPageProps {
     params: Promise<{ slug?: string[] }>;
 }
@@ -55,36 +54,30 @@ export default async function ExposantPage({ params }: ExposantPageProps) {
     ].filter((img) => img.src !== null);
 
     return (
-        <div className="min-h-screen py-8 px-4">
-            <div className="max-w-4xl mx-auto">
-                {/* Bouton retour */}
-                <div className="mb-6">
-                    <Link href="/exposants" className="flex items-center gap-2 text-white hover:underline">
-                        <ArrowLeftIcon className="w-5 h-5" />
-                        <span>Retour</span>
-                    </Link>
-                </div>
+        <div className="py-12">
+            <div className="flex items-center gap-2 mb-4">
+                <Link href="/exposants" className="flex items-center gap-2">
+                    <ArrowLeftIcon className="w-6 h-6" />
+                    <span>Retour</span>
+                </Link>
+            </div>
+            <ExposantHeader
+                logo={getMinioUrl(exposant.images?.[0]?.picture || null)}
+                companyName={exposant.companyName}
+                types={types}
+            />
 
-                {/* En-tête de l'exposant */}
-                <ExposantHeader
-                    logo={getMinioUrl(exposant.images?.[0]?.picture || null)}
-                    companyName={exposant.companyName}
-                    types={types}
-                />
-
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-                    {/* Galerie d'images */}
+            <div className="max-w-7xl mx-auto py-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <ImageGallery images={images} priority />
 
-                    {/* Contenu et onglets */}
                     <ExposantContent
                         history={exposant.history}
                         products={exposant.products}
                     />
                 </div>
-
-                {/* Liste des autres exposants */}
-                <div className="mt-12">
+                <div className="mt-8">
+                    <h2 className="text-2xl font-bold">Autres exposants</h2>
                     <ListExposants
                         exposants={exposantSelect.content as Exposant[]}
                     />

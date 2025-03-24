@@ -12,15 +12,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-interface PageProps {
-    params: Promise<{ slug?: string[] }>;
-}
-
-export default async function DashboardExposantDetail({ params }: PageProps) {
+export default async function DashboardExposantDetail({
+    params,
+}: {
+    params: { slug: string[] };
+}) {
     let data;
     try {
-        const { slug } = await params;
-        if (!slug || slug.length < 1) {
+        const slug = params.slug;
+        if (slug.length < 1) {
             notFound();
         }
 
@@ -38,6 +38,8 @@ export default async function DashboardExposantDetail({ params }: PageProps) {
     }
 
     const exposant = data as Exposant;
+
+    console.log(exposant, "exposant")
 
     return (
         <div className="p-6 space-y-6">

@@ -28,8 +28,6 @@ export async function AcceptExposantAction(body: z.infer<typeof bodySchema>): Pr
 
         const acceptExposant = await Exposant.accept(id);
 
-        
-
         if (!acceptExposant) {
             return { status: "error", message: "Failed to accept exposant" };
         }

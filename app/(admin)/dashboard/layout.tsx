@@ -27,7 +27,7 @@ export default async function Layout({
     return (
         <SidebarProvider>
             <AppSidebar />
-            <main className="w-full bg-neutral-50 dark:bg-neutral-900">
+            <main className="w-full">
                 <HeaderDashboard />
                 <div className="block lg:hidden mt-2">
                     <SidebarTrigger />
