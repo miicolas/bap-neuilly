@@ -39,8 +39,6 @@ export default async function DashboardExposantDetail({ params }: PageProps) {
 
     const exposant = data as Exposant;
 
-    console.log(exposant, "exposant")
-
     return (
         <div className="p-6 space-y-6">
             <div className="flex flex-col md:flex-row justify-between gap-4 md:items-center">

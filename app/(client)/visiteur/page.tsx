@@ -1,6 +1,5 @@
-import { MapPin, Calendar, Link } from "lucide-react";
 import Image from "next/image";
-
+import Link from "next/link";
 import { ListExposants } from "@/components/list-exposants";
 import { Exposant as ExposantType } from "@/lib/type";
 import { GetExposantSelectAction } from "@/action/(admin)/(exposant)/get-select/action";
@@ -133,12 +132,11 @@ export default async function ExposantPage() {
                             Je vais visiter le salon
                         </h2>
 
-                        <Button
-                            className="bg-amber-100 h-[50px]  hover:bg-amber-200 text-slate-900 px-8 py-2 rounded-md text-sm font-medium transition-all border border-amber-200 shadow-sm"
-                            asChild
-                        >
-                            <Link href="/visitor-signup">Je m'inscris</Link>
-                        </Button>
+                        <Link href="/visitor-signup">
+                            <Button className="bg-amber-100 h-[50px] hover:bg-amber-200 text-slate-900 px-8 py-2 rounded-md text-sm font-medium transition-all border border-amber-200 shadow-sm">
+                                Je m'inscris
+                            </Button>
+                        </Link>
                     </div>
                 </div>
             </div>
