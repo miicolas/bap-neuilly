@@ -1,22 +1,22 @@
-import { mysqlTable, varchar, text, datetime, int, boolean, timestamp } from "drizzle-orm/mysql-core";
-import { sql } from "drizzle-orm";
+import { pgTable, varchar, text, boolean, timestamp, integer } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";  
 
-export const EventAttendee = mysqlTable("event_attendee", {
+export const EventAttendee = pgTable("event_attendee", {
     id: varchar("id", { length: 191 }).primaryKey().$defaultFn(() => sql`(uuid())`),
-    createdAt: datetime("createdAt").default(sql`CURRENT_TIMESTAMP`),
-    updatedAt: datetime("updatedAt").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+    createdAt: timestamp("createdAt").default(sql`CURRENT_TIMESTAMP`),
+    updatedAt: timestamp("updatedAt").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
     firstName: varchar("firstName", { length: 255 }).notNull(),
     lastName: varchar("lastName", { length: 255 }).notNull(),
     email: varchar("email", { length: 255 }).notNull().unique(),
-    person: int("person").default(1),
+    person: integer("person").default(1),
     gender: text("gender", { enum: ["MALE", "FEMALE", "OTHER"] }).notNull(),
-    age: int("age").notNull(),
+    age: integer("age").notNull(),
     city: varchar("city", { length: 255 }).notNull(),
     ticketNumber: varchar("ticketNumber", { length: 255 }),
     company: varchar("company", { length: 255 }),
 });
 
-export const user = mysqlTable("user", {
+export const user = pgTable("user", {
     id: varchar("id", { length: 36 }).primaryKey(),
     name: text('name').notNull(),
     email: varchar('email', { length: 255 }).notNull().unique(),
@@ -27,7 +27,7 @@ export const user = mysqlTable("user", {
     updatedAt: timestamp('updated_at').notNull()
 });
 
-export const session = mysqlTable("session", {
+export const session = pgTable("session", {
     id: varchar("id", { length: 36 }).primaryKey(),
     expiresAt: timestamp('expires_at').notNull(),
     token: varchar('token', { length: 255 }).notNull().unique(),
@@ -38,7 +38,7 @@ export const session = mysqlTable("session", {
     userId: varchar('user_id', { length: 36 }).notNull().references(() => user.id)
 });
 
-export const account = mysqlTable("account", {
+export const account = pgTable("account", {
     id: varchar("id", { length: 36 }).primaryKey(),
     accountId: text('account_id').notNull(),
     providerId: text('provider_id').notNull(),
@@ -54,7 +54,7 @@ export const account = mysqlTable("account", {
     updatedAt: timestamp('updated_at').notNull()
 });
 
-export const verification = mysqlTable("verification", {
+export const verification = pgTable("verification", {
     id: varchar("id", { length: 36 }).primaryKey(),
     identifier: text('identifier').notNull(),
     value: text('value').notNull(),
@@ -63,7 +63,7 @@ export const verification = mysqlTable("verification", {
     updatedAt: timestamp('updated_at')
 });
 
-export const notification = mysqlTable("notification", {
+export const notification = pgTable("notification", {
     id: varchar("id", { length: 36 }).primaryKey(),
     title: varchar('title', { length: 255 }).notNull(),
     description: text('description').notNull(),
@@ -73,18 +73,18 @@ export const notification = mysqlTable("notification", {
     type: varchar('type', { length: 255 }).notNull(),
 });
 
-export const ImageTable = mysqlTable("image", {
+export const ImageTable = pgTable("image", {
     id: varchar("id", { length: 191 }).primaryKey().$defaultFn(() => sql`(uuid())`),
-    createdAt: datetime("createdAt").default(sql`CURRENT_TIMESTAMP`),
-    updatedAt: datetime("updatedAt").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+    createdAt: timestamp("createdAt").default(sql`CURRENT_TIMESTAMP`),
+    updatedAt: timestamp("updatedAt").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
     exposantId: varchar("exposantId", { length: 191 }).notNull(),
     picture: varchar("picture", { length: 255 }).notNull()
 });
 
-export const ExposantTable = mysqlTable("exposant", {
+export const ExposantTable = pgTable("exposant", {
     id: varchar("id", { length: 191 }).primaryKey().$defaultFn(() => sql`(uuid())`),
-    createdAt: datetime("createdAt").default(sql`CURRENT_TIMESTAMP`),
-    updatedAt: datetime("updatedAt").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+    createdAt: timestamp("createdAt").default(sql`CURRENT_TIMESTAMP`),
+    updatedAt: timestamp("updatedAt").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
     slug: varchar("slug", { length: 255 }).notNull().unique(),
     firstName: varchar("firstName", { length: 255 }).notNull(),
     lastName: varchar("lastName", { length: 255 }).notNull(),
@@ -108,19 +108,19 @@ export const ExposantTable = mysqlTable("exposant", {
 });
 
 
-export const EventTable = mysqlTable("event", {
+export const EventTable = pgTable("event", {
     id: varchar("id", { length: 191 }).primaryKey().$defaultFn(() => sql`(uuid())`),
     eventName: varchar("eventName", { length: 255 }).notNull(),
-    eventDate: datetime("eventDate").notNull(),
-    eventDateEnd: datetime("eventDateEnd").notNull(),
+    eventDate: timestamp("eventDate").notNull(),
+    eventDateEnd: timestamp("eventDateEnd").notNull(),
     eventLocation: varchar("eventLocation", { length: 255 }).notNull(),
     eventDescription: text("eventDescription").notNull(),
 });
 
-export const AdminTable = mysqlTable("admin", {
+export const AdminTable = pgTable("admin", {
     id: varchar("id", { length: 191 }).primaryKey().$defaultFn(() => sql`(uuid())`),
-    createdAt: datetime("createdAt").default(sql`CURRENT_TIMESTAMP`),
-    updatedAt: datetime("updatedAt").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+    createdAt: timestamp("createdAt").default(sql`CURRENT_TIMESTAMP`),
+    updatedAt: timestamp("updatedAt").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
     name: varchar("name", { length: 255 }).notNull(),
     email: varchar("email", { length: 255 }).notNull().unique(),
 });
