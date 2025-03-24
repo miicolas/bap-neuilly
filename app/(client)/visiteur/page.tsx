@@ -6,12 +6,7 @@ import { GetExposantSelectAction } from "@/action/(admin)/(exposant)/get-select/
 import { notFound } from "next/navigation";
 import DateLocation from "@/components/date-location";
 import { Button } from "@/components/ui/button";
-interface Exposant {
-    name: string;
-    role: string;
-    image: string;
-    instagram?: string;
-}
+
 
 export default async function ExposantPage() {
     const exposants = await GetExposantSelectAction();

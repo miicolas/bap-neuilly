@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ImageIcon, CheckCircle2, AlertCircle } from "lucide-react";
+import { ImageIcon, CheckCircle2 } from "lucide-react";
 import { Exposant } from "@/models/exposant";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";

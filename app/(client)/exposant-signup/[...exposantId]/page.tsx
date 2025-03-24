@@ -101,8 +101,6 @@ export default async function ExposantWaitingValidationPage({
     const currentStatus =
         exposant.status === "pending" ? "waiting" : exposant.status;
 
-    console.log(exposant);
-
     return (
         <div className="min-h-screen w-full bg-gradient-to-b from-blue-50/50 to-violet-50/50 p-4 md:p-8">
             <div className="max-w-5xl mx-auto space-y-6">
@@ -150,7 +148,7 @@ export default async function ExposantWaitingValidationPage({
                                 <div className="relative">
                                     <div className="absolute left-8 top-4 bottom-4 w-1 bg-gradient-to-b from-violet-200 via-blue-200 to-violet-50" />
                                     <div className="space-y-10">
-                                        {steps.map((step, index) => {
+                                        {steps.map((step) => {
                                             const Icon = step.icon;
                                             return (
                                                 <div
