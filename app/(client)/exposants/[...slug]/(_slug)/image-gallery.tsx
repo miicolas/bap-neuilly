@@ -13,37 +13,37 @@ interface ImageGalleryProps {
 
 export const ImageGallery = ({ images, priority = false }: ImageGalleryProps) => {
     const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-    const thumbnailImages = images.slice(1);
+    const thumbnailImages = images.slice(0);
 
     const handleImageClick = (index: number) => {
         setSelectedImageIndex(index);
     };
 
-    return (
-        <div className="space-y-4">
-            {thumbnailImages[selectedImageIndex]?.src && (
-                <div className="relative aspect-square rounded-xl overflow-hidden bg-white shadow-sm">
-                    <Image
-                        src={thumbnailImages[selectedImageIndex].src}
-                        alt={thumbnailImages[selectedImageIndex].alt}
-                        fill
-                        className="object-cover p-4"
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                        priority={priority}
-                    />
-                </div>
-            )}
+    if (!thumbnailImages.length) return null;
 
-            <div className="grid grid-cols-4 gap-2">
-                {thumbnailImages.map(
+    return (
+        <div className="space-y-3">
+            <div className="relative aspect-square rounded-lg overflow-hidden bg-white">
+                <Image
+                    src={thumbnailImages[selectedImageIndex]?.src || ""}
+                    alt={thumbnailImages[selectedImageIndex]?.alt || "Image principale"}
+                    fill
+                    className="object-contain p-4"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    priority={priority}
+                />
+            </div>
+
+            <div className="grid grid-cols-3 gap-3">
+                {thumbnailImages.slice(0, 3).map(
                     (thumbnailImage, index) =>
                         thumbnailImage.src && (
                             <div
                                 key={index}
-                                className={`relative aspect-square rounded-lg overflow-hidden bg-white shadow-sm cursor-pointer transition-all ${
+                                className={`relative aspect-square rounded-lg overflow-hidden bg-white cursor-pointer border ${
                                     selectedImageIndex === index
-                                        ? "ring-2 ring-primary"
-                                        : "hover:ring-2 hover:ring-primary"
+                                        ? "border-[#474F9E] border-2"
+                                        : "border-gray-200"
                                 }`}
                                 onClick={() => handleImageClick(index)}
                                 role="button"
@@ -59,8 +59,8 @@ export const ImageGallery = ({ images, priority = false }: ImageGalleryProps) =>
                                     src={thumbnailImage.src}
                                     alt={thumbnailImage.alt}
                                     fill
-                                    className="object-cover p-4"
-                                    sizes="(max-width: 768px) 25vw, 12.5vw"
+                                    className="object-contain p-2"
+                                    sizes="(max-width: 768px) 33vw, 16vw"
                                 />
                             </div>
                         )

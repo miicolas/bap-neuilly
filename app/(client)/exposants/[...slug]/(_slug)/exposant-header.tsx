@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
+
 interface ExposantHeaderProps {
     logo: string | null;
     companyName: string;
@@ -7,11 +7,11 @@ interface ExposantHeaderProps {
 }
 
 export const ExposantHeader = ({ logo, companyName, types }: ExposantHeaderProps) => (
-    <div className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div className="bg-white shadow-sm rounded-lg">
+        <div className="px-6 py-4">
             <div className="flex items-center gap-4">
                 {logo && (
-                    <div className="relative w-16 h-16 rounded-lg overflow-hidden shadow-sm">
+                    <div className="relative w-16 h-16 rounded-lg overflow-hidden">
                         <Image
                             src={(logo) || ""}
                             alt={`Logo ${companyName}`}
@@ -25,15 +25,14 @@ export const ExposantHeader = ({ logo, companyName, types }: ExposantHeaderProps
                     <h1 className="text-2xl font-bold text-gray-900">
                         {companyName}
                     </h1>
-                    <div className="flex flex-wrap gap-2 mt-2">
+                    <div className="flex flex-wrap gap-2 mt-1">
                         {types.map((type) => (
-                            <Badge
+                            <span
                                 key={type}
-                                variant="secondary"
-                                className="text-xs"
+                                className="text-sm text-gray-500"
                             >
                                 {type}
-                            </Badge>
+                            </span>
                         ))}
                     </div>
                 </div>

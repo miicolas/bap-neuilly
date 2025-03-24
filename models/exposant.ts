@@ -215,7 +215,6 @@ export class Exposant {
             .where(eq(ExposantTable.slug, slug))
             .execute();
 
-        console.log(exposant);
 
         const images = await db
             .select()
