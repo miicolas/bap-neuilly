@@ -20,10 +20,7 @@ export default async function Page() {
                 <CardLp type="exposant" />
                 <CardLp type="visiteur" />
             </div>
-            <ListExposants
-                exposants={exposants.content as Exposant[]}
-                className="w-[85%] mx-auto"
-            />
+            <ListExposants exposants={exposants.content as Exposant[]} className="w-[85%] mx-auto" />
         </div>
     );
 }
