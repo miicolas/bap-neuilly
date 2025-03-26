@@ -13,6 +13,7 @@ export const EventAttendee = mysqlTable("event_attendee", {
     age: int("age").notNull(),
     city: varchar("city", { length: 255 }).notNull(),
     ticketNumber: varchar("ticketNumber", { length: 255 }),
+    company: varchar("company", { length: 255 }),
 });
 
 export const user = mysqlTable("user", {
@@ -84,6 +85,7 @@ export const ExposantTable = mysqlTable("exposant", {
     id: varchar("id", { length: 191 }).primaryKey().$defaultFn(() => sql`(uuid())`),
     createdAt: datetime("createdAt").default(sql`CURRENT_TIMESTAMP`),
     updatedAt: datetime("updatedAt").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+    slug: varchar("slug", { length: 255 }).notNull().unique(),
     firstName: varchar("firstName", { length: 255 }).notNull(),
     lastName: varchar("lastName", { length: 255 }).notNull(),
     email: varchar("email", { length: 255 }).notNull().unique(),
@@ -113,4 +115,12 @@ export const EventTable = mysqlTable("event", {
     eventDateEnd: datetime("eventDateEnd").notNull(),
     eventLocation: varchar("eventLocation", { length: 255 }).notNull(),
     eventDescription: text("eventDescription").notNull(),
+});
+
+export const AdminTable = mysqlTable("admin", {
+    id: varchar("id", { length: 191 }).primaryKey().$defaultFn(() => sql`(uuid())`),
+    createdAt: datetime("createdAt").default(sql`CURRENT_TIMESTAMP`),
+    updatedAt: datetime("updatedAt").default(sql`CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP`),
+    name: varchar("name", { length: 255 }).notNull(),
+    email: varchar("email", { length: 255 }).notNull().unique(),
 });

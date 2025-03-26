@@ -16,15 +16,15 @@ export default async function VisitorSignupHeader() {
     return (
         <div className="flex flex-col items-center justify-center max-w-3xl mx-auto">
 
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70 mb-6">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center bg-clip-text text-neutral-200 bg-gradient-to-r from-primary to-primary/70 mb-6">
                 Inscription visiteur
             </h1>
 
-            <p className="text-lg text-center text-muted-foreground mb-8 max-w-2xl">
+            <p className="text-lg text-center text-neutral-200 mb-8 max-w-2xl">
                 Réservez votre place pour découvrir les créations uniques lors
                 de la prochaine édition du
-                <span className="font-semibold text-foreground">
-               
+                <span className="font-semibold text-neutral-200">
+                    {" "}
                     Salon des créateurs d&apos;objets et artisans de Neuilly
                 </span>
             </p>
@@ -60,11 +60,11 @@ export default async function VisitorSignupHeader() {
             <div className="w-full max-w-2xl p-4 bg-primary/5 rounded-lg border border-primary/10 text-center mb-8">
                 <div className="flex items-center justify-center gap-2 mb-2">
                     <Ticket className="h-5 w-5 text-primary" />
-                    <p className="font-semibold">
+                    <p className="font-semibold text-neutral-200">
                         Entrée gratuite sur inscription
                     </p>
                 </div>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-neutral-300">
                     Réservez dès maintenant pour garantir votre accès
                     prioritaire et recevoir les dernières informations sur
                     l'événement.

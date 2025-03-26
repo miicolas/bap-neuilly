@@ -66,7 +66,7 @@ export const columns: ColumnDef<ExposantAwaiting>[] = [
                             Copie l'ID de l'exposant
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
-                            <Link href={`/dashboard/exposants/${exposant.companyName}`}>
+                            <Link href={`/dashboard/exposants/${exposant.slug}`}>
                                 Voir l'exposant
                             </Link>
                         </DropdownMenuItem>
